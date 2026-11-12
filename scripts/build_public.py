@@ -61,7 +61,7 @@ html{scroll-behavior:smooth}
 </style>'''
 
 cookie = ('<div role="region" aria-label="Уведомление о cookie" id="cookie-bar" style="position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 20px; max-width: 760px; padding: 16px 20px 16px 24px; border-radius: 22px; background: rgba(255,255,255,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 20px 50px rgba(75,58,158,0.25); font-family: Manrope, sans-serif; font-size: 14px; line-height: 1.5; color: #2A2340">'
-          '<span>Мы используем cookie и сервисы аналитики, чтобы сайт работал лучше. Подробнее в <a href="#cookies" style="color: #5B44BD">правилах использования cookie</a>.</span>'
+          '<span>Мы используем cookie и сервисы аналитики, чтобы сайт работал лучше. Подробнее в <a href="/privacy#cookies" style="color: #5B44BD">правилах использования cookie</a>.</span>'
           '<button type="button" id="cookie-ok" style="flex: 0 0 auto; min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; background: #2A2340; color: #FBF8F3; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer">Понятно</button></div>'
           '<script>(function(){var b=document.getElementById("cookie-bar");try{if(localStorage.getItem("cookie-ok")){b.remove();return;}}catch(e){}document.getElementById("cookie-ok").onclick=function(){try{localStorage.setItem("cookie-ok","1")}catch(e){}b.remove();};})();</script>')
 

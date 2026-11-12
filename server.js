@@ -59,6 +59,7 @@ app.post('/api/compatibility', (req, res) => {
   }
 });
 
+app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
 
 const PORT = Number(process.env.PORT || 3000);
