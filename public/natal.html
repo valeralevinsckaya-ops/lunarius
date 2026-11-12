@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Натальная карта онлайн бесплатно с расшифровкой: планеты, дома, аспекты | Lunarius</title>
+<meta name="description" content="Рассчитайте натальную карту по дате, времени и месту рождения: Асцендент, планеты в знаках и домах Плацидуса, аспекты с описанием и баланс стихий. Бесплатно, данные не сохраняются.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.6;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}
+a{color:#5B44BD}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:28px 0}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#2A2340}
+.logo b{font-family:'Oswald',sans-serif;font-size:26px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1;display:block}
+.logo span{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5B44BD;margin-top:4px;display:block}
+nav{display:flex;flex-wrap:wrap;gap:28px;font-size:15px;font-weight:600}
+nav a{color:#2A2340;text-decoration:none}
+h1{margin:24px 0 12px;font-family:'Oswald',sans-serif;font-weight:600;font-size:72px;line-height:1;text-transform:uppercase;text-align:center}
+h1 em{font-style:normal;background:linear-gradient(90deg,#6E56CF,#9A6BF0 60%,#F2768A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:0 auto 36px;max-width:720px;text-align:center;font-size:17px;color:#5E5675}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.52) 55%,rgba(255,255,255,.68) 100%);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);border:1.5px solid rgba(255,255,255,.98);box-shadow:inset 0 1px 0 #fff,inset 0 24px 48px rgba(255,255,255,.3),0 36px 80px rgba(62,44,143,.22),0 4px 10px rgba(62,44,143,.08);border-radius:36px}
+form.glass{padding:32px 36px;display:flex;flex-direction:column;gap:18px}
+.f-row{display:grid;grid-template-columns:150px repeat(4,minmax(0,1fr));gap:16px;align-items:end}
+.f-row>span{font-family:'Oswald',sans-serif;font-size:30px;font-weight:500;text-transform:uppercase;color:#6E56CF;line-height:50px}
+.f{display:flex;flex-direction:column;gap:6px;position:relative}
+label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#5E5675}
+input[type=text],input[type=date],input[type=time]{font-family:inherit;font-size:15px;color:#2A2340;padding:0 14px;height:50px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(91,68,189,.1);width:100%}
+.agree{align-self:center;display:flex;align-items:flex-start;gap:10px;max-width:720px;font-size:13px;line-height:1.5;color:#5E5675;cursor:pointer}
+.agree input{flex:0 0 auto;width:20px;height:20px;margin:0;accent-color:#6E56CF}
+.btn{align-self:center;margin-top:8px;min-height:58px;padding:0 48px;border:0;border-radius:999px;background:#2A2340;color:#FBF8F3;font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.btn:disabled{opacity:.6}
+#form-error{align-self:center;margin:0;padding:10px 16px;border-radius:12px;background:#FDE9DC;color:#A8461A;font-size:14px;font-weight:600}
+.city-list{position:absolute;left:0;right:0;top:100%;z-index:30;margin-top:4px;max-height:260px;overflow:auto;background:#fff;border:1px solid #D8CDEE;border-radius:14px;box-shadow:0 18px 40px rgba(75,58,158,.18)}
+.city-item{display:block;width:100%;min-height:44px;padding:10px 14px;border:0;background:none;text-align:left;font:inherit;font-size:14px;color:#2A2340;cursor:pointer}
+.city-item:hover,.city-item:focus{background:#F3ECFF;outline:none}
+.hint{margin:16px auto 0;max-width:720px;text-align:center;font-size:13px;color:#6B6380}
+/* результат */
+#result{display:flex;flex-direction:column;gap:28px;margin-top:48px;scroll-margin-top:24px}
+.r-h{margin:0;font-family:'Oswald',sans-serif;font-weight:600;font-size:52px;text-transform:uppercase}
+.r-sub{margin:8px 0 0;font-family:'Oswald',sans-serif;font-weight:500;font-size:28px;text-transform:uppercase}
+.card{padding:24px 26px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.66) 0%,rgba(255,255,255,.38) 50%,rgba(255,255,255,.54) 100%);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 60px rgba(91,68,189,.16)}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.who{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
+.big{font-family:'Oswald',sans-serif;font-size:40px;font-weight:600;line-height:1.05;text-transform:uppercase;margin:4px 0 8px}
+.big small{font-size:18px;font-weight:400;color:#6B6380;margin-left:8px;text-transform:none}
+.card p{margin:0;font-size:15px;color:#5E5675}
+.wheel-wrap{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:28px;align-items:start}
+.wheel{width:100%;height:auto;display:block}
+.plist{display:flex;flex-direction:column;gap:10px}
+.prow{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(110,86,207,.15)}
+.prow b{font-family:'Oswald',sans-serif;font-size:18px;font-weight:500;text-transform:uppercase}
+.prow .pos{font-size:15px;color:#2A2340}
+.prow .house{font-size:13px;color:#6B6380;white-space:nowrap}
+.retro{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:#EDE5FF;color:#5B44BD;font-size:11px;font-weight:700;vertical-align:middle}
+.ptext{font-size:14px;color:#5E5675;grid-column:1/-1;margin:0}
+.hcard .n{font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;text-transform:uppercase}
+.hcard .cs{font-size:13px;color:#5B44BD;font-weight:700}
+.hcard .pl{font-size:13px;color:#2A2340;margin-top:6px}
+.asp{display:flex;flex-direction:column;gap:6px}
+.asp strong{font-size:15px;color:#2A2340}
+.asp.is-h strong::before{content:'+ ';color:#5B44BD}
+.asp.is-t strong::before{content:'- ';color:#E8762E}
+.asp.is-c strong::before{content:'= ';color:#D9A93E}
+.asp .orb{font-size:12px;color:#6B6380;font-weight:400;margin-left:6px}
+.bal{display:flex;gap:14px;flex-wrap:wrap}
+.bal span{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.6);font-weight:600;font-size:14px}
+.bal i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.note{font-size:13px;color:#6B6380}
+.more{margin-top:12px}
+footer{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2);font-size:13px;color:#6B6380;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer a{color:#5B44BD}
+@media (max-width:1100px){h1{font-size:56px}.f-row{grid-template-columns:110px repeat(2,minmax(0,1fr))}.f-row>span{grid-row:span 2}.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.wheel-wrap{grid-template-columns:1fr}}
+@media (max-width:640px){h1{font-size:38px}form.glass{padding:22px 18px}.f-row{grid-template-columns:1fr;gap:12px}.f-row>span{grid-row:auto;line-height:1.2}.g2,.g3,.g4{grid-template-columns:1fr}.r-h{font-size:34px}.prow{grid-template-columns:1fr;gap:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="logo" href="/"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M3 19 A14 14 0 0 1 31 19" fill="none" stroke="#6E56CF" stroke-width="3" stroke-linecap="round"></path><line x1="17" y1="19" x2="25" y2="9" stroke="#2A2340" stroke-width="2.5" stroke-linecap="round"></line><circle cx="17" cy="19" r="2.5" fill="#2A2340"></circle></svg><span><b>Lunarius</b><span>Спидометр совместимости</span></span></a>
+<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/#articles">Статьи</a><a href="/#faq">Вопросы</a></nav>
+</header>
+
+<h1>Натальная <em>карта</em></h1>
+<p class="lead">Планеты в знаках и домах, Асцендент, аспекты с описанием. Введите дату, время и город рождения. Если времени не знаете, оставьте поле пустым: планеты посчитаются, дома и Асцендент нет.</p>
+
+<form class="glass" id="natal-form" onsubmit="return false">
+<div class="f-row"><span>Вы</span>
+<div class="f"><label for="n1">Имя</label><input id="n1" type="text" placeholder="Имя" autocomplete="given-name"></div>
+<div class="f"><label for="d1">Дата рождения</label><input id="d1" type="date"></div>
+<div class="f"><label for="t1">Время рождения</label><input id="t1" type="time"></div>
+<div class="f"><label for="c1">Место рождения</label><input id="c1" type="text" placeholder="Город" autocomplete="off"></div>
+</div>
+<label class="agree" for="agree"><input id="agree" type="checkbox"><span>Я соглашаюсь с <a href="/privacy#policy" target="_blank">Политикой конфиденциальности</a> и даю <a href="/privacy#consent" target="_blank">согласие на обработку персональных данных</a></span></label>
+<p id="form-error" role="alert" hidden></p>
+<button id="run" type="button" class="btn">Построить карту</button>
+</form>
+<p class="hint">Расчет по астрономическим эфемеридам, дома по системе Плацидуса, часовые пояса с учетом исторических изменений. Данные не сохраняются.</p>
+
+<section id="result" hidden aria-live="polite"></section>
+
+<section class="more" id="about">
+<h2 class="r-sub" style="margin-top:64px">Как читать натальную карту</h2>
+<div class="g3" style="margin-top:16px">
+<div class="card"><span class="who">Шаг 1</span><p><b>Солнце, Луна, Асцендент.</b> Солнце - кто вы, Луна - что вам нужно, Асцендент - как вы выглядите и входите в новое. Если три знака из разных стихий, противоречивость объяснима.</p></div>
+<div class="card"><span class="who">Шаг 2</span><p><b>Планеты в домах.</b> Дом показывает, в какой сфере жизни звучит тема планеты. Самые заполненные дома - главные сюжеты жизни.</p></div>
+<div class="card"><span class="who">Шаг 3</span><p><b>Точные аспекты.</b> Связи с орбисом меньше двух градусов работают сильнее всего. Напряженные аспекты - двигатель, гармоничные - опора.</p></div>
+</div>
+<p class="note" style="margin-top:16px">Подробнее: <a href="/#articles">статьи о натальной карте, домах и аспектах</a>. Чтобы сравнить две карты, откройте <a href="/">спидометр совместимости</a>.</p>
+</section>
+
+<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста · Данные о городах: <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0)</span></footer>
+</div>
+<script src="/natal.js" defer></script>
+</body>
+</html>

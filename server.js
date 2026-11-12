@@ -4,6 +4,7 @@
 const path = require('path');
 const express = require('express');
 const { compatibility } = require('./lib/report');
+const { natalReport } = require('./lib/natal');
 const cities = require('./data/cities.json');
 
 const app = express();
@@ -59,6 +60,17 @@ app.post('/api/compatibility', (req, res) => {
   }
 });
 
+app.post('/api/natal', (req, res) => {
+  if (limited(req.ip)) return res.status(429).json({ error: 'Слишком много расчетов, попробуйте через минуту' });
+  if (req.body?.consent !== true) return res.status(400).json({ error: 'Нужно согласие на обработку персональных данных' });
+  try {
+    res.json(natalReport(readPerson(req.body.person)));
+  } catch (e) {
+    res.status(400).json({ error: e.message || 'Ошибка расчета' });
+  }
+});
+
+app.get('/natal', (req, res) => res.sendFile(path.join(__dirname, 'public', 'natal.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
 
