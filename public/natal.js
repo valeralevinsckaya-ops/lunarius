@@ -107,7 +107,7 @@
     var lonOf = {}; r.planets.forEach(function (p) { lonOf[p.name] = p.lon; });
     if (r.big3.asc) { lonOf['Асцендент'] = r.wheel.asc; lonOf['Середина неба'] = r.wheel.mc; }
     var aspLines = r.aspects.filter(function (a) { return a.orb <= 4; }).map(function (a) { return { la: lonOf[a.a], lb: lonOf[a.b], nature: a.nature }; });
-    html += '<div class="wheel-wrap"><div class="card" style="padding:16px">' + wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines }) + '</div>';
+    html += '<div class="wheel-wrap"><div class="card wheel-card" style="padding:16px 16px 12px">' + (r.svg || wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines })) + '<p class="wheel-cap" id="wheel-cap">Наведите на знак, чтобы увидеть планеты в нем</p></div>';
     html += '<div class="card"><span class="who">Планеты</span><div class="plist">' + r.planets.map(function (p) {
       return '<div class="prow"><b style="color:' + PCOLOR[p.key] + '">' + esc(p.name) + '</b><span class="pos">' + esc(p.signName) + ' ' + esc(p.degree) + (p.retro ? '<span class="retro">R</span>' : '') + '</span><span class="house">' + (p.house ? p.house + ' дом' : '') + '</span><p class="ptext">' + esc(p.signText) + (p.houseText ? ' ' + esc(p.houseText) : '') + '</p></div>';
     }).join('') + '<div class="prow"><b>Сев. узел</b><span class="pos">' + esc(r.node.signName) + ' ' + esc(r.node.degree) + '</span><span class="house">' + (r.node.house ? r.node.house + ' дом' : '') + '</span><p class="ptext">Направление развития: качества этого знака и дома нужно осваивать в течение жизни.</p></div></div></div></div>';
@@ -127,6 +127,15 @@
     html += '<p class="note">' + esc(r.note) + ' Орбисы: соединение 8°, трин и оппозиция 7°, квадрат 6°, секстиль 5°, для Солнца и Луны на 1,5° шире. Чем меньше орбис, тем сильнее аспект.</p>';
     var box = $('result'); box.innerHTML = html; box.hidden = false;
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // наведение на знак: увеличение сектора и подпись
+    var cap = $('wheel-cap'), groups = box.querySelectorAll('.sg');
+    function on(g) { groups.forEach(function (x) { x.classList.remove('on'); }); g.parentNode.appendChild(g); g.classList.add('on'); if (cap) cap.textContent = g.getAttribute('data-title'); }
+    function off(g) { g.classList.remove('on'); }
+    groups.forEach(function (g) {
+      g.addEventListener('mouseenter', function () { on(g); });
+      g.addEventListener('mouseleave', function () { off(g); });
+      g.addEventListener('click', function (e) { e.stopPropagation(); if (g.classList.contains('on')) off(g); else on(g); });
+    });
   }
 
   var btn = $('run'), err = $('form-error');
