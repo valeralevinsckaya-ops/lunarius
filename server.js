@@ -72,7 +72,7 @@ app.post('/api/natal', (req, res) => {
 
 app.get('/natal', (req, res) => res.sendFile(path.join(__dirname, 'public', 'natal.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h', extensions: ['html'] }));
 
 const PORT = Number(process.env.PORT || 3000);
 app.listen(PORT, '0.0.0.0', () => console.log(`Спидометр совместимости запущен на порту ${PORT}`));

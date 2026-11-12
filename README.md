@@ -51,6 +51,7 @@ npm start
 
 - Тексты разбора: `lib/texts.js`, без буквы «ё» и без длинных тире.
 - Веса планет и аспектов: `lib/synastry.js`. После изменения весов обязательно пересчитать шкалу: `npm run calibrate`.
+- Статьи блога: правки в Google Doc, затем выгрузка в `docs/blog-articles-edited.html` и `python3 scripts/build_blog.py` (собирает `public/blog/`).
 - Дизайн: правится в `design/Main.dc.html`, затем `npm run build:design` (нужен Python 3) пересобирает `public/index.html`.
 
 ## Что сделать до запуска
