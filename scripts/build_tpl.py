@@ -42,7 +42,7 @@ def gauge_svg(x, y, w, v=0.72, color='#5B44BD'):
 <circle cx="{r}" cy="{cy - y}" r="14" fill="#2A2340"/></svg>'''
 
 def deco(w, h):
-    return f'<img src="https://lunarius.ru/tpl/bg-{"post" if h == w else "story"}.png" style="position:absolute;left:0;top:0;width:{w}px;height:{h}px">'
+    return ''
 
 def deco_css(w, h):
     return (f'<div class="bg"></div><div class="ring" style="width:{int(w*.9)}px;height:{int(w*.9)}px;right:-{int(w*.35)}px;top:-{int(w*.25)}px"></div>'
@@ -128,7 +128,7 @@ stories.append(('Призыв', deco(SW, SH) + head(SW) +
 def build(name, pages, w, h):
     html = '<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>%s</title>%s</head><body>' % (name, CSS)
     for label, body in pages:
-        html += f'<div class="page" data-document-role="page" data-label="{label}" style="width:{w}px;height:{h}px">{body}</div>\n'
+        html += f'<div class="page" data-document-role="page" data-label="{label}" style="width:{w}px;height:{h}px;background:#FBF8F3 url(https://lunarius.ru/tpl/bg-{"post" if h == w else "story"}.png) center/cover no-repeat">{body}</div>\n'
     html += '</body></html>'
     assert 'ё' not in html and '—' not in html
     open(os.path.join(OUT, name + '.html'), 'w', encoding='utf-8').write(html)
