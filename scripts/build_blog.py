@@ -1,6 +1,7 @@
 # Собирает страницы блога из docs/blog-articles-edited.html (выгрузка Google Doc) в public/blog/
 import re, os, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 src = open(os.path.join(ROOT, 'docs/blog-articles-edited.html'), encoding='utf-8').read()
 out_dir = os.path.join(ROOT, 'public/blog'); os.makedirs(out_dir, exist_ok=True)
 
@@ -74,6 +75,7 @@ footer{{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2
 @media (max-width:1100px){{.grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}
 @media (max-width:640px){{article{{padding:28px 20px;border-radius:24px}}article h1{{font-size:32px}}article h2{{font-size:24px}}h1.list{{font-size:40px}}.grid{{grid-template-columns:1fr}}}}
 </style>
+{metrika}
 </head>
 <body>
 <div class="wrap">
@@ -97,7 +99,7 @@ for i, a in enumerate(articles):
     others = [x for x in articles if x['slug'] != a['slug']]
     rel = others[i % len(others):][:3] if len(others) >= 3 else others
     if len(rel) < 3: rel = (rel + others)[:3]
-    page = HEAD.format(title=html.escape(a['title']), desc=html.escape(a['desc']), path='/blog/' + a['slug'])
+    page = HEAD.format(metrika=METRIKA, title=html.escape(a['title']), desc=html.escape(a['desc']), path='/blog/' + a['slug'])
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/blog">Статьи</a></p>'
     page += f'<article class="glass"><span class="tag">{TAGS.get(a["slug"], "Статья")}</span><h1>{a["h1"]}</h1>\n{a["body"]}\n{cta}</article>'
     page += '<section class="rel"><h2>Читайте также</h2><div class="grid">' + ''.join(card(x, articles.index(x)) for x in rel) + '</div></section>'
@@ -105,7 +107,7 @@ for i, a in enumerate(articles):
     assert 'ё' not in page and '—' not in page, a['slug']
     open(os.path.join(out_dir, a['slug'] + '.html'), 'w', encoding='utf-8').write(page)
 
-idx = HEAD.format(title='Статьи об астрологии отношений: натальная карта, синастрия, совместимость | Lunarius', desc='Статьи Lunarius простым языком: как читать натальную карту, что такое асцендент и дома, совместимость знаков зодиака, синастрия, Луна и Венера в отношениях.', path='/blog')
+idx = HEAD.format(metrika=METRIKA, title='Статьи об астрологии отношений: натальная карта, синастрия, совместимость | Lunarius', desc='Статьи Lunarius простым языком: как читать натальную карту, что такое асцендент и дома, совместимость знаков зодиака, синастрия, Луна и Венера в отношениях.', path='/blog')
 idx += '<h1 class="list">Статьи</h1><p class="lead">Астрология отношений простым языком: от основ синастрии до отдельных планет. Все статьи заканчиваются тем, что можно проверить на себе.</p>'
 idx += '<div class="grid">' + ''.join(card(a, i) for i, a in enumerate(articles)) + '</div>' + FOOT
 open(os.path.join(out_dir, 'index.html'), 'w', encoding='utf-8').write(idx)

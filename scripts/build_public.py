@@ -1,6 +1,7 @@
 # Собирает public/index.html из макета design/Main.dc.html
 import re, math, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 s = open(os.path.join(ROOT, 'design/Main.dc.html'), encoding='utf-8').read()
 helmet = re.search(r'<helmet>(.*?)</helmet>', s, re.S).group(1)
 body = re.search(r'</helmet>(.*?)</x-dc>', s, re.S).group(1)
@@ -68,6 +69,6 @@ cookie = ('<div role="region" aria-label="Уведомление о cookie" id="
 html = ('<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<title>Lunarius: спидометр совместимости по натальным картам</title>\n'
         '<meta name="description" content="Узнайте совместимость пары по натальным картам: введите даты, время и место рождения, и спидометр покажет, где между вами гармония, а где напряжение.">\n'
-        + helmet + css + '\n</head>\n<body>\n' + body + cookie + '\n<script src="/app.js" defer></script>\n</body>\n</html>\n')
+        + helmet + css + METRIKA + '\n</head>\n<body>\n' + body + cookie + '\n<script src="/app.js" defer></script>\n</body>\n</html>\n')
 open(os.path.join(ROOT, 'public/index.html'), 'w', encoding='utf-8').write(html)
 print('public/index.html', len(html) // 1024, 'KB')
