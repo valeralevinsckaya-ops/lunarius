@@ -89,7 +89,7 @@
   var err = $('form-error');
   function showError(t) { if (err) { err.textContent = t; err.hidden = !t; } }
   if (btn) btn.addEventListener('click', function () {
-    showError('');
+    showError(''); try { ym(114224190, 'reachGoal', 'compat_click'); } catch (e) {}
     var a = person(1), b = person(2);
     if (!a.date || !b.date) return showError('Укажите даты рождения обоих партнеров');
     if (a.cityId == null || b.cityId == null) return showError('Выберите города рождения из списка подсказок');
@@ -97,8 +97,9 @@
     btn.disabled = true; var old = btn.textContent; btn.textContent = 'Считаем...';
     fetch('/api/compatibility', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ a: a, b: b, consent: true }) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Ошибка'); return j; }); })
+      .then(function (j) { try { ym(114224190, 'reachGoal', 'compat_done'); } catch (e) {} return j; })
       .then(render)
-      .catch(function (e) { showError(e.message); })
+      .catch(function (e) { showError(e.message); try { ym(114224190, 'reachGoal', 'compat_error'); } catch (x) {} })
       .finally(function () { btn.disabled = false; btn.textContent = old; });
   });
 })();

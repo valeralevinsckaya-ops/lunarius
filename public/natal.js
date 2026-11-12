@@ -132,7 +132,7 @@
   var btn = $('run'), err = $('form-error');
   function showError(t) { err.textContent = t; err.hidden = !t; }
   btn.addEventListener('click', function () {
-    showError('');
+    showError(''); try { ym(114224190, 'reachGoal', 'natal_click'); } catch (e) {}
     var p = { name: $('n1').value.trim(), date: $('d1').value, time: $('t1').value || null, cityId: cityId };
     if (!p.date) return showError('Укажите дату рождения');
     if (p.cityId == null) return showError('Выберите город рождения из списка подсказок');
@@ -140,6 +140,7 @@
     btn.disabled = true; var old = btn.textContent; btn.textContent = 'Считаем...';
     fetch('/api/natal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ person: p, consent: true }) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Ошибка'); return j; }); })
+      .then(function (j) { try { ym(114224190, 'reachGoal', 'natal_done'); } catch (e) {} return j; })
       .then(render)
       .catch(function (e) { showError(e.message); })
       .finally(function () { btn.disabled = false; btn.textContent = old; });
