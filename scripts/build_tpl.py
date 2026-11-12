@@ -28,6 +28,9 @@ body{margin:0;background:#ddd}
 </style>'''
 
 def gauge(x, y, w, v=0.72, color='#5B44BD'):
+    return f'<img src="https://lunarius.ru/tpl/gauge-{w}.png" style="position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{w // 2 + 20}px">'
+
+def gauge_svg(x, y, w, v=0.72, color='#5B44BD'):
     # полукруг спидометра, v от 0 до 1 задает угол стрелки
     import math
     r = w / 2; cx = x + r; cy = y + r
@@ -39,6 +42,9 @@ def gauge(x, y, w, v=0.72, color='#5B44BD'):
 <circle cx="{r}" cy="{cy - y}" r="14" fill="#2A2340"/></svg>'''
 
 def deco(w, h):
+    return f'<img src="https://lunarius.ru/tpl/bg-{"post" if h == w else "story"}.png" style="position:absolute;left:0;top:0;width:{w}px;height:{h}px">'
+
+def deco_css(w, h):
     return (f'<div class="bg"></div><div class="ring" style="width:{int(w*.9)}px;height:{int(w*.9)}px;right:-{int(w*.35)}px;top:-{int(w*.25)}px"></div>'
             f'<div class="ring" style="width:{int(w*.6)}px;height:{int(w*.6)}px;left:-{int(w*.25)}px;bottom:-{int(w*.15)}px;border-color:rgba(242,118,138,.25)"></div>'
             f'<span class="star" style="left:{int(w*.82)}px;top:{int(h*.18)}px">✦</span><span class="star" style="left:{int(w*.12)}px;top:{int(h*.72)}px;font-size:28px">✦</span><span class="star" style="left:{int(w*.9)}px;top:{int(h*.6)}px;font-size:24px;color:#6E56CF">✦</span>')
@@ -74,7 +80,7 @@ posts.append(('Пара знаков', deco(W, H) + head(W) +
 posts.append(('Результат спидометра', deco(W, H) + head(W) +
     '<div class="glass" style="left:72px;top:190px;width:936px;height:800px"></div>'
     '<span class="tag" style="left:128px;top:250px">Спидометр совместимости</span>'
-    + gauge(300, 320, 480, 0.78) +
+    + gauge(240, 300, 600, 0.78) +
     '<div class="num" style="left:0;top:600px;width:1080px;text-align:center;font-size:130px">+2.07</div>'
     '<h1 class="h" style="left:0;top:760px;width:1080px;text-align:center;font-size:52px">Сильная связь</h1>'
     '<p class="p" style="left:0;top:850px;width:1080px;text-align:center;font-size:28px">Расчет по двум натальным картам: бесплатно, за минуту</p>'))
