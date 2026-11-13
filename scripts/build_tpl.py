@@ -106,7 +106,7 @@ stories.append(('Результат', deco(SW, SH) + head(SW) +
     + gauge(240, 500, 600, 0.78) +
     '<div class="num" style="left:0;top:860px;width:1080px;text-align:center;font-size:170px">+2.07</div>'
     '<h1 class="h" style="left:0;top:1060px;width:1080px;text-align:center;font-size:64px">Сильная связь</h1>'
-    '<p class="p" style="left:128px;top:1180px;width:824px;text-align:center;font-size:32px">Лера + Иван. Притяжение +4,1, эмоции +1,8, общение +0,6</p>'
+    '<p class="p" style="left:128px;top:1180px;width:824px;text-align:center;font-size:32px">Вы + партнер. Притяжение +4,1, эмоции +1,8, общение +0,6</p>'
     '<span class="btn" style="left:270px;top:1600px">Проверить свою пару</span>'))
 stories.append(('Факт дня', deco(SW, SH) + head(SW) +
     '<span class="tag" style="left:72px;top:420px">Факт дня</span>'
