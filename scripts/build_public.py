@@ -1,7 +1,7 @@
 # Собирает public/index.html из макета design/Main.dc.html
 import re, math, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FAVICON = '''<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+FAVICON = '''<link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
