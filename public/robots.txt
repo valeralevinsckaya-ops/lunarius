@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /tpl/
+Sitemap: https://lunarius.ru/sitemap.xml

@@ -10,7 +10,8 @@
     "build:design": "python3 scripts/build_public.py",
     "build:blog": "python3 scripts/build_blog.py",
     "build:signs": "python3 scripts/build_signs.py",
-    "build:pairs": "python3 scripts/build_pairs.py"
+    "build:pairs": "python3 scripts/build_pairs.py",
+    "build:sitemap": "python3 scripts/build_sitemap.py"
   },
   "keywords": [],
   "author": "",
