@@ -74,6 +74,8 @@ html{scroll-behavior:smooth}
 .r-summary{margin-top:10px!important;padding-top:10px;border-top:1px solid rgba(110,86,207,.18);color:#2A2340!important}
 .r-cmp{font-size:15px!important;color:#2A2340!important}
 .r-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+@media (max-width:640px){.scl{display:none}}
+.r-chip{text-align:left;border-radius:16px!important}
 .t-wrap{position:relative}
 .t-unk{position:absolute;left:12px;top:calc(100% + 8px);display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#5E5675;white-space:nowrap;cursor:pointer}
 .t-unk input{width:16px;height:16px;margin:0;accent-color:#5B44BD}
@@ -85,7 +87,7 @@ input[type=time]:disabled{opacity:.45}
 .r-aspect{scroll-margin:120px}.r-aspect.is-flash{animation:aspflash 1.8s ease}
 @keyframes aspflash{0%,40%{box-shadow:0 0 0 3px #5B44BD,0 24px 60px rgba(91,68,189,.3)}100%{}}
 .r-chip.is-h{box-shadow:inset 0 0 0 1px #5B44BD55}.r-chip.is-t{box-shadow:inset 0 0 0 1px #E8762E66}
-.r-orb{font-size:12px;color:#6B6380;font-weight:400;margin-left:8px}
+.r-orb{font-size:12px;color:#6B6380;font-weight:400;margin-left:8px;white-space:nowrap}
 .r-aspect .r-lead{color:#2A2340;font-weight:600}
 .r-aspect p+p{margin-top:8px}
 .r-det summary{cursor:pointer;font-size:13px;font-weight:700;color:#5B44BD;margin-top:4px}

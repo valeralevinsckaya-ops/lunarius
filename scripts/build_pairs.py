@@ -98,15 +98,15 @@ for i, A in enumerate(SIGNS):
 # индекс: таблица 12x12
 idx = HEAD.format(title='Совместимость знаков зодиака: все пары с описанием | Lunarius', desc='Таблица совместимости 12 знаков зодиака: выберите пару и читайте разбор - притяжение, любовь, трение, быт, совет паре. Затем проверьте пару по натальным картам.', path='/compat').replace('<!--METRIKA-->', METRIKA)
 idx += '<h1 class="list">Совместимость знаков</h1><p class="lead">Выберите два знака. У каждой пары своя страница: что притягивает, где трение, как вы любите и живете вместе.</p>'
-idx += '<div class="glass" style="padding:24px;overflow:auto"><table style="border-collapse:collapse;width:100%;font-size:13px"><tr><th></th>' + ''.join(f'<th style="padding:8px 4px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{s[1]}</th>' for s in SIGNS) + '</tr>'
+idx += '<div class="glass" style="padding:24px"><div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:13px"><tr><th style="position:sticky;left:0;z-index:1;background:#F6F1FB"></th>' + ''.join(f'<th style="padding:8px 4px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{s[1]}</th>' for s in SIGNS) + '</tr>'
 STAR_COLOR = {5: '#5B44BD', 4: '#6E56CF', 3: '#9A8CC4', 2: '#E8762E', 1: '#E8762E'}
 for A in SIGNS:
-    idx += f'<tr><th style="text-align:left;padding:8px 6px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{A[1]}</th>'
+    idx += f'<tr><th style="position:sticky;left:0;z-index:1;background:#F6F1FB;text-align:left;padding:8px 6px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{A[1]}</th>'
     for B in SIGNS:
         a, b = sorted([A[0], B[0]], key=lambda k: IDX[k]); st = RELATION[rel_index(a, b)]['stars']
         idx += f'<td style="text-align:center;padding:4px"><a href="/compat/{a}-{b}" title="{A[1]} и {B[1]}" style="display:block;padding:8px 2px;border-radius:10px;background:rgba(255,255,255,.55);text-decoration:none;color:{STAR_COLOR[st]};font-weight:700">{st}★</a></td>'
     idx += '</tr>'
-idx += '</table><p style="margin:14px 0 0;font-size:13px;color:#6B6380">5★ одна стихия, 4★ дружественные стихии или один знак, 3★ соседи и противоположности, 2★ квадрат и квинконс. Это оценка по знакам Солнца; настоящую совместимость считает спидометр по полным натальным картам.</p></div>'
+idx += '</table></div><p style="margin:14px 0 0;font-size:13px;color:#6B6380">На телефоне таблицу можно листать вбок. 5★ одна стихия, 4★ дружественные стихии или один знак, 3★ соседи и противоположности, 2★ квадрат и квинконс. Это оценка по знакам Солнца; настоящую совместимость считает спидометр по полным натальным картам.</p></div>'
 idx += CTA + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
 print('pairs:', n)
