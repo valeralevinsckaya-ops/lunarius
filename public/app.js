@@ -74,7 +74,7 @@
       }).join('') +
       '<div class="r-card r-trend"><span class="r-who">Общая тенденция</span><span class="r-score" style="color:' + color(r.trend.score) + '">' + fmt(r.trend.score) + '</span><strong class="r-zone">' + esc(r.trend.zone) + '</strong><p class="r-text">' + esc(r.trend.text) + '</p>' + (r.summary ? '<p class="r-text r-summary">' + esc(r.summary) + '</p>' : '') + '</div></div>' +
       shareBar() +
-      (r.compare ? '<h3 class="r-sub">Знаки рядом</h3><div class="r-spheres">' + r.compare.map(function (c) {
+      (r.compare ? '<h3 class="r-sub">Ваши знаки и знаки партнера</h3><div class="r-spheres">' + r.compare.map(function (c) {
         var col = c.relation === 'hard' ? '#E8762E' : '#5B44BD';
         return '<div class="r-sphere"><div class="r-sphere-top" style="font-size:18px"><span>' + esc(c.title) + '</span></div><p class="r-cmp">У вас <b style="color:' + col + '">' + esc(c.a) + '</b>, у партнера <b style="color:' + col + '">' + esc(c.b) + '</b></p><p>' + esc(c.text) + '</p></div>';
       }).join('') + '</div>' : '') +
@@ -115,7 +115,7 @@
   function goal(ch) { try { ym(114224190, 'reachGoal', 'share_click', { channel: ch }); } catch (e) {} }
   function shareBar() {
     return '<div class="r-share" id="r-share"><div class="r-share-txt"><h3 class="r-sub" style="margin:0">Поделитесь результатом</h3>' +
-      '<p class="r-text">Отправьте картинку партнеру или подругам: пусть тоже проверят свои пары.</p>' +
+      '<p class="r-text">Отправьте картинку партнеру или друзьям: пусть тоже проверят свои пары.</p>' +
       '<div class="r-share-btns">' +
       '<button type="button" class="sh-main" data-sh="native">Поделиться картинкой</button>' +
       '<button type="button" data-sh="download">Скачать картинку</button>' +

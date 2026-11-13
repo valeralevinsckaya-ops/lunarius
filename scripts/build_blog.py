@@ -1,5 +1,15 @@
 # Собирает страницы блога из docs/blog-articles-edited.html (выгрузка Google Doc) в public/blog/
 import re, os, html
+
+def make_lead(t, n=170):
+    t = t.strip()
+    if len(t) <= n: return t
+    cut = t[:n]
+    # конец предложения внутри лимита
+    m = max(cut.rfind('. '), cut.rfind('! '), cut.rfind('? '))
+    if m > 80: return cut[:m + 1]
+    cut = cut.rsplit(' ', 1)[0].rstrip(',;:-')
+    return cut + '...'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 src = open(os.path.join(ROOT, 'docs/blog-articles-edited.html'), encoding='utf-8').read()
@@ -28,7 +38,7 @@ for part in parts:
     body = re.sub(r'<table><tr>(.*?)</tr>', lambda m: '<table><tr>' + m.group(1).replace('<td>', '<th>').replace('</td>', '</th>') + '</tr>', body, count=1, flags=re.S)
     first_p = re.search(r'<p>(.*?)</p>', body, re.S)
     articles.append({'slug': m_url.group(1), 'title': html.unescape(m_title.group(1)), 'desc': html.unescape(m_desc.group(1)), 'h1': m_h1.group(1), 'body': body.strip(),
-                     'lead': re.sub(r'<[^>]+>', '', first_p.group(1))[:180].rsplit(' ', 1)[0] + '...' if first_p else ''})
+                     'lead': make_lead(re.sub(r'<[^>]+>', '', first_p.group(1))) if first_p else ''})
 
 HEAD = '''<!doctype html>
 <html lang="ru">

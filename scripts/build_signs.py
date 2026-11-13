@@ -11,6 +11,8 @@ FAVICON = '''<link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/p
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#FBF8F3">
 '''
+from pairs_content import SIGNS as PSIGNS
+GEN = {x[0]: x[2] for x in PSIGNS}
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
 NAME2SLUG = {s['name']: s['slug'] for s in SIGNS}
 ORDER = [s['slug'] for s in SIGNS]
@@ -102,7 +104,7 @@ def person_block(label, p):
             f'<div><h3>Совет партнеру</h3><p>{p["advice"]}</p></div></div>')
 
 for i, s in enumerate(SIGNS):
-    title = f'{s["name"]}: характеристика знака, женщина и мужчина {s["name"]} в любви, совместимость | Lunarius'
+    title = f'{s["name"]}: характеристика знака, женщина-{s["name"]} и мужчина-{s["name"]} в любви, совместимость | Lunarius'
     desc = f'{s["name"]} ({s["dates"]}): характер, женщина-{s["name"]} и мужчина-{s["name"]} в любви, быту и семье, что привлекает и отталкивает, совместимость с другими знаками. Проверьте пару по натальным картам.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path='/signs/' + s['slug']).replace('<!--METRIKA-->', METRIKA)
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
@@ -112,8 +114,8 @@ for i, s in enumerate(SIGNS):
              f'<p class="intro">{s["intro"]}</p></div></section>')
     page += f'<h2>Женщина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['woman'])
     page += f'<h2>Мужчина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['man'])
-    page += f'<h2>Совместимость <em>{s["name"]}</em> с другими знаками</h2><div class="compat">'
-    page += f'<div class="cc"><div class="k">Легко</div><div class="v">{pair_links(s["slug"], s["easy"])}</div><p>Та же и дружественная стихии: понимание без усилий, общий темп.</p></div>'
+    page += f'<h2>Совместимость <em>{GEN[s["slug"]]}</em> с другими знаками</h2><div class="compat">'
+    page += f'<div class="cc"><div class="k">Легко</div><div class="v">{pair_links(s["slug"], s["easy"])}</div><p>Та же или дружественная стихия: понимание без усилий, общий темп.</p></div>'
     page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{pair_links(s["slug"], s["hard"])}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'
     page += f'<div class="cc"><div class="k">Противоположность</div><div class="v">{pair_links(s["slug"], s["opposite"])}</div><p>Оппозиция: сильное притяжение и такая же сильная тяга переделать друг друга.</p></div></div>'
     page += f'<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Нажмите на знак, чтобы открыть разбор пары. <a href="/compat">Таблица всех пар</a>.</p>'
