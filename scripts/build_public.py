@@ -74,6 +74,12 @@ html{scroll-behavior:smooth}
 .r-summary{margin-top:10px!important;padding-top:10px;border-top:1px solid rgba(110,86,207,.18);color:#2A2340!important}
 .r-cmp{font-size:15px!important;color:#2A2340!important}
 .r-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.t-wrap{position:relative}
+.t-unk{position:absolute;left:12px;top:calc(100% + 8px);display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#5E5675;white-space:nowrap;cursor:pointer}
+.t-unk input{width:16px;height:16px;margin:0;accent-color:#5B44BD}
+.f-row{padding-bottom:26px}
+input[type=time]:disabled{opacity:.45}
+@media (max-width:640px){.t-unk{position:static;margin-top:4px}.f-row{padding-bottom:0}}
 .r-chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.7);color:#2A2340;border:0;font-family:inherit;cursor:pointer;transition:transform .15s,background .15s}
 .r-chip:hover{background:#fff;transform:translateY(-1px)}.r-chip::after{content:' ↓';opacity:.5}
 .r-aspect{scroll-margin:120px}.r-aspect.is-flash{animation:aspflash 1.8s ease}

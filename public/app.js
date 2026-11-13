@@ -47,7 +47,7 @@
   }
 
   function person(k) {
-    return { name: '', date: $('d' + k).value, time: $('t' + k).value || null, cityId: cityIds[k] };
+    return { name: '', date: $('d' + k).value, time: ($('tu' + k) && $('tu' + k).checked) ? null : ($('t' + k).value || null), cityId: cityIds[k] };
   }
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -103,7 +103,7 @@
         if (!card) return;
         var d = card.parentNode; while (d && d !== box) { if (d.tagName === 'DETAILS') d.open = true; d = d.parentNode; }
         var det = card.querySelector('.r-det'); if (det) det.open = true;
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var rc = card.getBoundingClientRect(); window.scrollTo({ top: Math.max(0, window.pageYOffset + rc.top - Math.max(80, (window.innerHeight - rc.height) / 2)), behavior: 'smooth' });
         card.classList.remove('is-flash'); void card.offsetWidth; card.classList.add('is-flash');
         try { ym(114224190, 'reachGoal', 'aspect_chip'); } catch (e) {}
       });
@@ -268,4 +268,10 @@
     }, { passive: false });
     apply(); requestAnimationFrame(tick);
   })();
+
+  // галочка «Не знаю точного времени»
+  ['1', '2'].forEach(function (k) {
+    var cb = $('tu' + k), t = $('t' + k); if (!cb || !t) return;
+    cb.addEventListener('change', function () { t.disabled = cb.checked; if (cb.checked) t.value = ''; });
+  });
 })();

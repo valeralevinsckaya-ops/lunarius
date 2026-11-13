@@ -89,6 +89,13 @@ footer{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2)
 footer a{color:#5B44BD}
 @media (max-width:1100px){h1{font-size:56px}.f-row{grid-template-columns:110px repeat(2,minmax(0,1fr))}.f-row>span{grid-row:span 2}.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.wheel-wrap{grid-template-columns:1fr}.wheel-card{position:static;max-width:760px;margin:0 auto;width:100%}}
 @media (max-width:640px){h1{font-size:38px}form.glass{padding:22px 18px}.f-row{grid-template-columns:1fr;gap:12px}.f-row>span{grid-row:auto;line-height:1.2}.g2,.g3,.g4{grid-template-columns:1fr}.r-h{font-size:34px}.prow{grid-template-columns:1fr;gap:4px}}
+.agree{text-transform:none;letter-spacing:0;font-weight:500}
+.t-wrap{position:relative}
+.t-unk{position:absolute;left:12px;top:calc(100% + 8px);display:flex!important;flex-direction:row!important;align-items:center;gap:6px;font-size:12.5px!important;font-weight:600;color:#5E5675;white-space:nowrap;cursor:pointer;text-transform:none!important;letter-spacing:0!important}
+.t-unk input{width:16px;height:16px;margin:0;padding:0;accent-color:#5B44BD}
+.f-row{padding-bottom:26px}
+input[type=time]:disabled{opacity:.45}
+@media (max-width:640px){.t-unk{position:static;margin-top:4px}.f-row{padding-bottom:0}}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -117,7 +124,7 @@ footer a{color:#5B44BD}
 <form class="glass" id="natal-form" onsubmit="return false">
 <div class="f-row"><span>Вы</span>
 <div class="f"><label for="d1">Дата рождения</label><input id="d1" type="date"></div>
-<div class="f"><label for="t1">Время рождения</label><input id="t1" type="time"></div>
+<div class="f t-wrap"><label for="t1">Время рождения</label><input id="t1" type="time"><label class="t-unk"><input type="checkbox" id="tu1"> Не знаю точного времени</label></div>
 <div class="f"><label for="c1">Место рождения</label><input id="c1" type="text" placeholder="Город" autocomplete="off"></div>
 </div>
 <label class="agree" for="agree"><input id="agree" type="checkbox"><span>Я соглашаюсь с <a href="/privacy#policy" target="_blank">Политикой конфиденциальности</a> и даю <a href="/privacy#consent" target="_blank">согласие на обработку персональных данных</a></span></label>

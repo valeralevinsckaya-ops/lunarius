@@ -142,7 +142,7 @@
   function showError(t) { err.textContent = t; err.hidden = !t; }
   btn.addEventListener('click', function () {
     showError(''); try { ym(114224190, 'reachGoal', 'natal_click'); } catch (e) {}
-    var p = { name: '', date: $('d1').value, time: $('t1').value || null, cityId: cityId };
+    var p = { name: '', date: $('d1').value, time: ($('tu1') && $('tu1').checked) ? null : ($('t1').value || null), cityId: cityId };
     if (!p.date) return showError('Укажите дату рождения');
     if (p.cityId == null) return showError('Выберите город рождения из списка подсказок');
     if (!$('agree').checked) return showError('Отметьте согласие на обработку персональных данных');
@@ -154,4 +154,5 @@
       .catch(function (e) { showError(e.message); })
       .finally(function () { btn.disabled = false; btn.textContent = old; });
   });
+  (function () { var cb = $('tu1'), t = $('t1'); if (cb && t) cb.addEventListener('change', function () { t.disabled = cb.checked; if (cb.checked) t.value = ''; }); })();
 })();
