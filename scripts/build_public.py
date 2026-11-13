@@ -1,6 +1,12 @@
 # Собирает public/index.html из макета design/Main.dc.html
 import re, math, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FAVICON = '''<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#6E56CF">
+'''
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 s = open(os.path.join(ROOT, 'design/Main.dc.html'), encoding='utf-8').read()
 helmet = re.search(r'<helmet>(.*?)</helmet>', s, re.S).group(1)
@@ -74,7 +80,7 @@ cookie = ('<div role="region" aria-label="Уведомление о cookie" id="
           '<script>(function(){var b=document.getElementById("cookie-bar");try{if(localStorage.getItem("cookie-ok")){b.remove();return;}}catch(e){}document.getElementById("cookie-ok").onclick=function(){try{localStorage.setItem("cookie-ok","1")}catch(e){}b.remove();};})();</script>')
 
 html = ('<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        '<title>Lunarius: спидометр совместимости по натальным картам</title>\n'
+        '<title>Lunarius: спидометр совместимости по натальным картам</title>\n' + FAVICON +
         '<meta name="description" content="Узнайте совместимость пары по натальным картам: введите даты, время и место рождения, и спидометр покажет, где между вами гармония, а где напряжение.">\n'
         + helmet + css + METRIKA + '\n</head>\n<body>\n' + body + cookie + '\n<script src="/app.js" defer></script>\n</body>\n</html>\n')
 open(os.path.join(ROOT, 'public/index.html'), 'w', encoding='utf-8').write(html)
