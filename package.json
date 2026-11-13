@@ -9,7 +9,8 @@
     "calibrate": "node scripts/calibrate.js 1200 20000",
     "build:design": "python3 scripts/build_public.py",
     "build:blog": "python3 scripts/build_blog.py",
-    "build:signs": "python3 scripts/build_signs.py"
+    "build:signs": "python3 scripts/build_signs.py",
+    "build:pairs": "python3 scripts/build_pairs.py"
   },
   "keywords": [],
   "author": "",

@@ -12,6 +12,14 @@ FAVICON = '''<link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/p
 <meta name="theme-color" content="#FBF8F3">
 '''
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
+NAME2SLUG = {s['name']: s['slug'] for s in SIGNS}
+ORDER = [s['slug'] for s in SIGNS]
+def pair_links(me, names):
+    out = []
+    for n in [x.strip() for x in names.split(',')]:
+        a, b = sorted([me, NAME2SLUG[n]], key=ORDER.index)
+        out.append(f'<a href="/compat/{a}-{b}" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(91,68,189,.4)">{n}</a>')
+    return ', '.join(out)
 
 HEAD = '''<!doctype html>
 <html lang="ru">
@@ -105,9 +113,10 @@ for i, s in enumerate(SIGNS):
     page += f'<h2>Женщина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['woman'])
     page += f'<h2>Мужчина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['man'])
     page += f'<h2>Совместимость <em>{s["name"]}</em> с другими знаками</h2><div class="compat">'
-    page += f'<div class="cc"><div class="k">Легко</div><div class="v">{s["easy"]}</div><p>Та же и дружественная стихии: понимание без усилий, общий темп.</p></div>'
-    page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{s["hard"]}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'
-    page += f'<div class="cc"><div class="k">Противоположность</div><div class="v">{s["opposite"]}</div><p>Оппозиция: сильное притяжение и такая же сильная тяга переделать друг друга.</p></div></div>'
+    page += f'<div class="cc"><div class="k">Легко</div><div class="v">{pair_links(s["slug"], s["easy"])}</div><p>Та же и дружественная стихии: понимание без усилий, общий темп.</p></div>'
+    page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{pair_links(s["slug"], s["hard"])}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'
+    page += f'<div class="cc"><div class="k">Противоположность</div><div class="v">{pair_links(s["slug"], s["opposite"])}</div><p>Оппозиция: сильное притяжение и такая же сильная тяга переделать друг друга.</p></div></div>'
+    page += f'<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Нажмите на знак, чтобы открыть разбор пары. <a href="/compat">Таблица всех пар</a>.</p>'
     page += '<div class="cta"><b>Знака Солнца мало: Луна, Венера и Марс решают больше.<br>Проверьте пару по натальным картам</b><a href="/">Запустить спидометр</a></div>'
     others = [x for j, x in enumerate(SIGNS) if j != i]
     page += '<h2>Другие знаки</h2><div class="grid">' + ''.join(card(x) for x in others[:4]) + '</div>'
