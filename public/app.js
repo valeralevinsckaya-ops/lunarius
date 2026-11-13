@@ -220,4 +220,52 @@
       .catch(function (e) { showError(e.message); try { ym(114224190, 'reachGoal', 'compat_error'); } catch (x) {} })
       .finally(function () { btn.disabled = false; btn.textContent = old; });
   });
+
+  // ---------- карусель знаков: крутится сама, тянется мышкой и пальцем
+  (function () {
+    var ring = document.querySelector('.zring'); if (!ring) return;
+    var stage = ring.closest('.zring-stage') || ring.parentNode;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ring.style.animation = 'none';
+    stage.style.cursor = 'grab'; stage.style.touchAction = 'pan-y'; stage.style.userSelect = 'none';
+    stage.querySelectorAll('a, img').forEach(function (el) { el.setAttribute('draggable', 'false'); });
+    var angle = 0, vel = 0, hover = false, drag = null, moved = false, last = performance.now();
+    var AUTO = -360 / 48; // градусов в секунду, как было в CSS
+    function apply() { ring.style.transform = 'rotateX(-8deg) rotateY(' + angle.toFixed(2) + 'deg)'; }
+    function tick(t) {
+      var dt = Math.min(0.05, (t - last) / 1000); last = t;
+      if (!drag) {
+        if (Math.abs(vel) > 0.5) { angle += vel * dt; vel *= Math.pow(0.04, dt); }
+        else if (!hover && !reduce) { vel = 0; angle += AUTO * dt; }
+        apply();
+      }
+      requestAnimationFrame(tick);
+    }
+    stage.addEventListener('pointerenter', function () { hover = true; });
+    stage.addEventListener('pointerleave', function () { hover = false; });
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, a: angle, lx: e.clientX, lt: performance.now(), id: e.pointerId, locked: e.pointerType !== 'touch' };
+      moved = false; vel = 0;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.locked) { if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 8) { drag = null; return; } if (Math.abs(dx) > 8) drag.locked = true; else return; }
+      if (Math.abs(dx) > 5 && !moved) { moved = true; stage.style.cursor = 'grabbing'; try { stage.setPointerCapture(e.pointerId); } catch (x) {} }
+      angle = drag.a + dx * 0.25;
+      var now = performance.now(), dtm = Math.max(1, now - drag.lt);
+      vel = (e.clientX - drag.lx) * 0.25 / dtm * 1000; drag.lx = e.clientX; drag.lt = now;
+      apply();
+    });
+    function end() { if (!drag) return; if (performance.now() - drag.lt > 120) vel = 0; drag = null; stage.style.cursor = 'grab'; }
+    window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
+    stage.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    stage.addEventListener('wheel', function (e) {
+      var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (!d) return;
+      e.preventDefault(); vel = 0; angle -= d * 0.15; apply();
+    }, { passive: false });
+    apply(); requestAnimationFrame(tick);
+  })();
 })();
