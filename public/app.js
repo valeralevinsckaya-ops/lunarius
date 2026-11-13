@@ -82,10 +82,10 @@
         return '<div class="r-sphere"><div class="r-sphere-top"><span>' + esc(s.title) + '</span><b style="color:' + color(s.value) + '">' + fmt(s.value) + '</b></div>' + bar(s.value) + '<p>' + esc(s.text) + '</p>' + (rel ? '<div class="r-chips">' + rel + '</div>' : '') + '</div>';
       }).join('') + '</div>' +
       '<h3 class="r-sub">Главные связи между картами</h3><div class="r-aspects">' + r.aspects.map(function (a) {
-        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + (a.kind === 'conj' ? '<span class="r-orb">соединение</span>' : '') + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p>' + esc(a.text) + '</p></div>';
+        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</div>';
       }).join('') + '</div>' +
       (r.moreAspects && r.moreAspects.length ? '<details class="r-more"><summary>Остальные связи: еще ' + r.moreAspects.length + '</summary><div class="r-aspects">' + r.moreAspects.map(function (a) {
-        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p>' + esc(a.text) + '</p></div>';
+        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p><details class="r-det"><summary>Подробнее</summary>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</details></div>';
       }).join('') + '</div></details>' : '') +
       (r.overlays && r.overlays.length ? '<h3 class="r-sub">Планеты партнера в ваших домах</h3><div class="r-aspects">' + r.overlays.map(function (o) {
         return '<div class="r-card"><span class="r-who">' + esc(o.title) + '</span>' + o.items.map(function (i) { return '<p class="r-text"><b>' + esc(i.planet) + ' в ' + i.house + ' доме.</b> ' + esc(i.text) + '</p>'; }).join('') + '</div>';
