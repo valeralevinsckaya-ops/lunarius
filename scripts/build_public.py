@@ -5,7 +5,7 @@ FAVICON = '''<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#6E56CF">
+<meta name="theme-color" content="#FBF8F3">
 '''
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 s = open(os.path.join(ROOT, 'design/Main.dc.html'), encoding='utf-8').read()
