@@ -1,7 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E2D5FA"/><stop offset=".5" stop-color="#FBF1DC"/><stop offset="1" stop-color="#F7D98A"/></linearGradient><linearGradient id="arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E8BF2"/><stop offset=".32" stop-color="#9A6BF0"/><stop offset=".5" stop-color="#C3A6F5"/><stop offset=".72" stop-color="#F2768A"/><stop offset="1" stop-color="#F7B731"/></linearGradient></defs>
-<rect width="64" height="64" rx="16" fill="url(#bg)"/>
-<path d="M11 44 A21 21 0 0 1 53 44" fill="none" stroke="url(#arc)" stroke-width="6" stroke-linecap="round"/>
-<polygon points="47,24 29.5,41.5 34.5,46.5" fill="#2A2340" stroke="#2A2340" stroke-width="1.5" stroke-linejoin="round"/>
-<circle cx="32" cy="44" r="5" fill="#2A2340"/>
+<defs>
+<radialGradient id="b1" cx="1" cy="0" r="1"><stop offset="0" stop-color="#F2B478" stop-opacity=".9"/><stop offset="1" stop-color="#F2B478" stop-opacity="0"/></radialGradient>
+<radialGradient id="b2" cx="0" cy=".3" r="1"><stop offset="0" stop-color="#C5B2F7"/><stop offset="1" stop-color="#C5B2F7" stop-opacity="0"/></radialGradient>
+<radialGradient id="b3" cx=".7" cy="1" r=".8"><stop offset="0" stop-color="#F2768A" stop-opacity=".55"/><stop offset="1" stop-color="#F2768A" stop-opacity="0"/></radialGradient>
+<linearGradient id="arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6E56CF"/><stop offset=".5" stop-color="#F2768A"/><stop offset="1" stop-color="#F2B478"/></linearGradient>
+<clipPath id="r"><rect width="64" height="64" rx="16"/></clipPath>
+</defs>
+<g clip-path="url(#r)">
+<rect width="64" height="64" fill="#FBF8F3"/>
+<rect width="64" height="64" fill="url(#b2)"/>
+<rect width="64" height="64" fill="url(#b1)"/>
+<rect width="64" height="64" fill="url(#b3)"/>
+</g>
+<path d="M11 45 A21 21 0 0 1 53 45" fill="none" stroke="url(#arc)" stroke-width="6.5" stroke-linecap="round"/>
+<line x1="32" y1="45" x2="45" y2="27" stroke="#2A2340" stroke-width="4" stroke-linecap="round"/>
+<circle cx="32" cy="45" r="4.5" fill="#2A2340"/>
 </svg>
