@@ -73,6 +73,7 @@
           '<p class="r-signs">' + signs(x.signs) + '</p></div>';
       }).join('') +
       '<div class="r-card r-trend"><span class="r-who">Общая тенденция</span><span class="r-score" style="color:' + color(r.trend.score) + '">' + fmt(r.trend.score) + '</span><strong class="r-zone">' + esc(r.trend.zone) + '</strong><p class="r-text">' + esc(r.trend.text) + '</p>' + (r.summary ? '<p class="r-text r-summary">' + esc(r.summary) + '</p>' : '') + '</div></div>' +
+      shareBar() +
       (r.compare ? '<h3 class="r-sub">Знаки рядом</h3><div class="r-spheres">' + r.compare.map(function (c) {
         var col = c.relation === 'hard' ? '#E8762E' : '#5B44BD';
         return '<div class="r-sphere"><div class="r-sphere-top" style="font-size:18px"><span>' + esc(c.title) + '</span></div><p class="r-cmp"><b style="color:' + col + '">' + esc(c.a) + '</b> и <b style="color:' + col + '">' + esc(c.b) + '</b></p><p>' + esc(c.text) + '</p></div>';
@@ -94,6 +95,103 @@
     var box = $('result');
     box.innerHTML = html; box.hidden = false;
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setupShare(r);
+  }
+
+  // ---------- поделиться результатом
+  var SITE = 'https://lunarius.ru/';
+  function goal(ch) { try { ym(114224190, 'reachGoal', 'share_click', { channel: ch }); } catch (e) {} }
+  function shareBar() {
+    return '<div class="r-share" id="r-share"><div class="r-share-txt"><h3 class="r-sub" style="margin:0">Поделитесь результатом</h3>' +
+      '<p class="r-text">Отправьте картинку партнеру или подругам: пусть тоже проверят свои пары.</p>' +
+      '<div class="r-share-btns">' +
+      '<button type="button" class="sh-main" data-sh="native">Поделиться картинкой</button>' +
+      '<button type="button" data-sh="download">Скачать картинку</button>' +
+      '<a data-sh="tg" target="_blank" rel="noopener">Telegram</a>' +
+      '<a data-sh="vk" target="_blank" rel="noopener">ВКонтакте</a>' +
+      '<a data-sh="wa" target="_blank" rel="noopener">WhatsApp</a>' +
+      '<button type="button" data-sh="copy">Скопировать ссылку</button>' +
+      '</div><p class="r-share-msg" id="r-share-msg" hidden></p></div>' +
+      '<div class="r-share-pic"><img id="r-share-img" alt="Картинка с результатом совместимости"></div></div>';
+  }
+  function shareText(r) {
+    var n = r.partners.map(function (x) { return x.name; }).filter(Boolean);
+    var who = n.length === 2 ? n[0] + ' и ' + n[1] : 'Наша пара';
+    return who + ': совместимость по натальным картам ' + fmt(r.trend.score) + ', «' + r.trend.zone + '». Проверь свою пару на спидометре совместимости:';
+  }
+  function roundRect(c, x, y, w, h, rad) { c.beginPath(); c.moveTo(x + rad, y); c.arcTo(x + w, y, x + w, y + h, rad); c.arcTo(x + w, y + h, x, y + h, rad); c.arcTo(x, y + h, x, y, rad); c.arcTo(x, y, x + w, y, rad); c.closePath(); }
+  function blob(c, x, y, rad, col) { var g = c.createRadialGradient(x, y, 0, x, y, rad); g.addColorStop(0, col); g.addColorStop(1, 'rgba(251,248,243,0)'); c.fillStyle = g; c.fillRect(0, 0, 1080, 1350); }
+  function drawCard(r) {
+    var W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var c = cv.getContext('2d');
+    c.fillStyle = '#FBF8F3'; c.fillRect(0, 0, W, H);
+    blob(c, 1080, 0, 800, 'rgba(242,180,120,0.75)'); blob(c, 0, 380, 850, 'rgba(197,178,247,0.85)'); blob(c, 760, 1350, 700, 'rgba(242,118,138,0.45)'); blob(c, 60, 1350, 600, 'rgba(94,139,242,0.3)');
+    c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    c.fillStyle = '#2A2340'; c.font = '600 46px Oswald, sans-serif'; c.fillText('L U N A R I U S', W / 2, 110);
+    c.fillStyle = '#5B44BD'; c.font = '700 22px Manrope, sans-serif'; c.fillText('С П И Д О М Е Т Р   С О В М Е С Т И М О С Т И', W / 2, 150);
+    var n = r.partners.map(function (x) { return (x.name || '').toUpperCase(); });
+    var title = n[0] && n[1] ? n[0] + ' + ' + n[1] : 'НАША ПАРА';
+    var fs = 92; c.font = '600 ' + fs + 'px Oswald, sans-serif'; while (c.measureText(title).width > 940 && fs > 40) { fs -= 4; c.font = '600 ' + fs + 'px Oswald, sans-serif'; }
+    c.fillStyle = '#2A2340'; c.fillText(title, W / 2, 290);
+    // стеклянная карточка
+    roundRect(c, 70, 350, 940, 830, 56); c.fillStyle = 'rgba(255,255,255,0.62)'; c.fill(); c.lineWidth = 3; c.strokeStyle = 'rgba(255,255,255,0.95)'; c.stroke();
+    // дуга спидометра
+    var cx = W / 2, cy = 800, R = 330;
+    var g = c.createLinearGradient(cx - R, 0, cx + R, 0);
+    g.addColorStop(0, '#5E8BF2'); g.addColorStop(0.32, '#9A6BF0'); g.addColorStop(0.5, '#C3A6F5'); g.addColorStop(0.72, '#F2768A'); g.addColorStop(1, '#F7B731');
+    c.beginPath(); c.arc(cx, cy, R, Math.PI, 2 * Math.PI); c.lineWidth = 48; c.lineCap = 'round'; c.strokeStyle = g; c.stroke();
+    c.lineCap = 'butt'; c.strokeStyle = 'rgba(42,35,64,0.35)'; c.lineWidth = 3;
+    for (var i = 0; i <= 10; i++) { var a = Math.PI + i * Math.PI / 10; c.beginPath(); c.moveTo(cx + Math.cos(a) * (R - 44), cy + Math.sin(a) * (R - 44)); c.lineTo(cx + Math.cos(a) * (R - 62), cy + Math.sin(a) * (R - 62)); c.stroke(); }
+    // стрелка
+    var ang = Math.PI + needleAngle(r.trend.score) * Math.PI / 180, L = R - 70;
+    var tx = cx + Math.cos(ang) * L, ty = cy + Math.sin(ang) * L, px = Math.cos(ang + Math.PI / 2) * 14, py = Math.sin(ang + Math.PI / 2) * 14;
+    c.beginPath(); c.moveTo(tx, ty); c.lineTo(cx + px, cy + py); c.lineTo(cx - px, cy - py); c.closePath(); c.fillStyle = '#2A2340'; c.fill();
+    c.beginPath(); c.arc(cx, cy, 26, 0, 2 * Math.PI); c.fill();
+    c.fillStyle = '#6B6380'; c.font = '700 26px Manrope, sans-serif'; c.fillText('-10', cx - R, cy + 50); c.fillText('+10', cx + R, cy + 50); c.fillText('0', cx, cy - R - 40);
+    // число и зона
+    c.fillStyle = color(r.trend.score); c.font = '600 180px Oswald, sans-serif'; c.fillText(fmt(r.trend.score), cx, 1010);
+    c.fillStyle = '#2A2340'; c.font = '500 56px Oswald, sans-serif'; c.fillText(String(r.trend.zone).toUpperCase(), cx, 1085);
+    var pp = r.partners.map(function (x, i) { return (x.name || ('Партнер ' + (i + 1))) + ': ' + fmt(x.score); }).join('   ·   ');
+    c.fillStyle = '#5E5675'; c.font = '600 30px Manrope, sans-serif'; c.fillText(pp, cx, 1140);
+    // призыв
+    roundRect(c, 190, 1215, 700, 92, 46); c.fillStyle = '#2A2340'; c.fill();
+    c.fillStyle = '#FBF8F3'; c.font = '600 38px Oswald, sans-serif'; c.fillText('ПРОВЕРЬ СВОЮ ПАРУ: LUNARIUS.RU', cx, 1275);
+    return cv;
+  }
+  function setupShare(r) {
+    var wrap = $('r-share'); if (!wrap) return;
+    var img = $('r-share-img'), msg = $('r-share-msg'), text = shareText(r), cardBlob = null;
+    function say(t) { msg.textContent = t; msg.hidden = false; setTimeout(function () { msg.hidden = true; }, 4000); }
+    var ready = (document.fonts && document.fonts.load ? Promise.all([document.fonts.load('600 80px Oswald'), document.fonts.load('500 56px Oswald'), document.fonts.load('700 26px Manrope')]) : Promise.resolve())
+      .catch(function () {}).then(function () {
+        var cv = drawCard(r); img.src = cv.toDataURL('image/png');
+        return new Promise(function (res) { cv.toBlob(function (b) { cardBlob = b; res(b); }, 'image/png'); });
+      });
+    var link = function (ch) { return SITE + '?utm_source=share&utm_medium=' + ch; };
+    var enc = encodeURIComponent;
+    wrap.querySelector('[data-sh="tg"]').href = 'https://t.me/share/url?url=' + enc(link('telegram')) + '&text=' + enc(text);
+    wrap.querySelector('[data-sh="vk"]').href = 'https://vk.com/share.php?url=' + enc(link('vk')) + '&title=' + enc(text);
+    wrap.querySelector('[data-sh="wa"]').href = 'https://wa.me/?text=' + enc(text + ' ' + link('whatsapp'));
+    function download() {
+      ready.then(function (b) { var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'lunarius-sovmestimost.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000); });
+    }
+    wrap.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-sh]'); if (!t) return;
+      var ch = t.getAttribute('data-sh'); goal(ch);
+      if (ch === 'download') { download(); say('Картинка сохранена'); }
+      else if (ch === 'copy') {
+        var u = link('copy');
+        (navigator.clipboard ? navigator.clipboard.writeText(text + ' ' + u) : Promise.reject()).then(function () { say('Ссылка скопирована'); }, function () { window.prompt('Скопируйте ссылку', u); });
+      } else if (ch === 'native') {
+        ready.then(function (b) {
+          var file = typeof File === 'function' ? new File([b], 'lunarius-sovmestimost.png', { type: 'image/png' }) : null;
+          if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], text: text + ' ' + link('native') }).catch(function () {});
+          } else if (navigator.share) {
+            navigator.share({ text: text, url: link('native') }).catch(function () {});
+          } else { download(); say('На компьютере картинка сохраняется: отправьте ее из папки загрузок'); }
+        });
+      }
+    });
   }
 
   var btn = $('run');
