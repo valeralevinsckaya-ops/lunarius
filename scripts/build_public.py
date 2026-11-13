@@ -23,7 +23,8 @@ ids = {'88a35e110baae4cce69a4be534440a02': 'aries', '21e35c77482bff69ddbb969f4b8
 body = re.sub(r'src="/_blob/([0-9a-f]{32})"', lambda m: f'src="/img/{ids[m.group(1)]}.webp" loading="lazy"', body)
 
 # точки привязки для скрипта
-body = body.replace('stroke="#2A2340" stroke-width="5" stroke-linecap="round" transform="rotate(', 'id="needle" stroke="#2A2340" stroke-width="5" stroke-linecap="round" transform="rotate(', 1)
+body = body.replace('<line x1="160" y1="160" x2="82" y2="160" stroke="#2A2340" stroke-width="5" stroke-linecap="round" transform="rotate(', '<path id="needle" d="M70 160 L92 149 L90 155.5 L160 154 L160 166 L90 164.5 L92 171 Z" fill="#2A2340" stroke="#2A2340" stroke-width="1.5" stroke-linejoin="round" transform="rotate(', 1)
+body = re.sub(r'(<path id="needle"[^>]*>)</line>', r'\1</path>', body, count=1)
 body = re.sub(r'(<p )(style="margin: 0; font-family: \'Oswald\', sans-serif; font-size: 72px;[^"]*">0\.00</p>)', r'\1id="score" \2', body, count=1)
 body = body.replace('<p style="margin: 0; font-size: 15px; font-weight: 600; color: #5B44BD">Введите данные', '<p id="verdict" style="margin: 0; font-size: 15px; font-weight: 600; color: #5B44BD">Введите данные', 1)
 body = body.replace('<button type="button" style="align-self: center; margin-top: 8px; min-height: 58px;', '<p id="form-error" role="alert" hidden style="align-self: center; margin: 0; padding: 10px 16px; border-radius: 12px; background: #FDE9DC; color: #A8461A; font-size: 14px; font-weight: 600"></p><button id="run" type="button" style="align-self: center; margin-top: 8px; min-height: 58px;', 1)

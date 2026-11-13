@@ -47,7 +47,7 @@
   }
 
   function person(k) {
-    return { name: $('n' + k).value.trim(), date: $('d' + k).value, time: $('t' + k).value || null, cityId: cityIds[k] };
+    return { name: '', date: $('d' + k).value, time: $('t' + k).value || null, cityId: cityIds[k] };
   }
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -60,7 +60,7 @@
   function render(r) {
     setGauge(r.trend.score, r.trend.zone);
     var p = r.partners;
-    var who = function (x, i) { return esc(x.name || ('Партнер ' + (i + 1))); };
+    var who = function (x, i) { return i === 0 ? 'Вы' : 'Партнер'; };
     var signs = function (s) {
       return 'Солнце: ' + esc(s.sun) + ' · Луна: ' + esc(s.moon) + ' · Венера: ' + esc(s.venus) + (s.asc ? ' · Асцендент: ' + esc(s.asc) : '');
     };
@@ -69,14 +69,14 @@
         return '<div class="r-card"><span class="r-who">' + who(x, i) + '</span>' +
           '<span class="r-score" style="color:' + color(x.score) + '">' + fmt(x.score) + '</span>' +
           '<strong class="r-zone">' + esc(x.zone) + '</strong>' +
-          '<p class="r-text">Как карта партнера влияет на этого человека. ' + esc(x.text) + '</p>' +
+          '<p class="r-text">' + (i === 0 ? 'Как карта партнера влияет на вас. ' : 'Как ваша карта влияет на партнера. ') + esc(x.text) + '</p>' +
           '<p class="r-signs">' + signs(x.signs) + '</p></div>';
       }).join('') +
       '<div class="r-card r-trend"><span class="r-who">Общая тенденция</span><span class="r-score" style="color:' + color(r.trend.score) + '">' + fmt(r.trend.score) + '</span><strong class="r-zone">' + esc(r.trend.zone) + '</strong><p class="r-text">' + esc(r.trend.text) + '</p>' + (r.summary ? '<p class="r-text r-summary">' + esc(r.summary) + '</p>' : '') + '</div></div>' +
       shareBar() +
       (r.compare ? '<h3 class="r-sub">Знаки рядом</h3><div class="r-spheres">' + r.compare.map(function (c) {
         var col = c.relation === 'hard' ? '#E8762E' : '#5B44BD';
-        return '<div class="r-sphere"><div class="r-sphere-top" style="font-size:18px"><span>' + esc(c.title) + '</span></div><p class="r-cmp"><b style="color:' + col + '">' + esc(c.a) + '</b> и <b style="color:' + col + '">' + esc(c.b) + '</b></p><p>' + esc(c.text) + '</p></div>';
+        return '<div class="r-sphere"><div class="r-sphere-top" style="font-size:18px"><span>' + esc(c.title) + '</span></div><p class="r-cmp">У вас <b style="color:' + col + '">' + esc(c.a) + '</b>, у партнера <b style="color:' + col + '">' + esc(c.b) + '</b></p><p>' + esc(c.text) + '</p></div>';
       }).join('') + '</div>' : '') +
       '<h3 class="r-sub">По сферам</h3><div class="r-spheres">' + r.spheres.map(function (s) {
         var rel = (s.related || []).map(function (x) { return '<button type="button" class="r-chip ' + (x.nature === 'harmony' ? 'is-h' : 'is-t') + '" data-asp="' + esc(x.title) + '" title="Читать описание связи">' + esc(x.title) + '</button>'; }).join('');
@@ -88,7 +88,7 @@
       (r.moreAspects && r.moreAspects.length ? '<details class="r-more"><summary>Остальные связи: еще ' + r.moreAspects.length + '</summary><div class="r-aspects">' + r.moreAspects.map(function (a) {
         return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '" data-asp="' + esc(a.title) + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p><details class="r-det"><summary>Подробнее</summary>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</details></div>';
       }).join('') + '</div></details>' : '') +
-      (r.overlays && r.overlays.length ? '<h3 class="r-sub">Планеты партнера в ваших домах</h3><div class="r-aspects">' + r.overlays.map(function (o) {
+      (r.overlays && r.overlays.length ? '<h3 class="r-sub">Планеты в домах друг друга</h3><div class="r-aspects">' + r.overlays.map(function (o) {
         return '<div class="r-card"><span class="r-who">' + esc(o.title) + '</span>' + o.items.map(function (i) { return '<p class="r-text"><b>' + esc(i.planet) + ' в ' + i.house + ' доме.</b> ' + esc(i.text) + '</p>'; }).join('') + '</div>';
       }).join('') + '</div>' : '') +
       (r.note ? '<p class="r-note">' + esc(r.note) + '</p>' : '');
@@ -127,9 +127,7 @@
       '<div class="r-share-pic"><img id="r-share-img" alt="Картинка с результатом совместимости"></div></div>';
   }
   function shareText(r) {
-    var n = r.partners.map(function (x) { return x.name; }).filter(Boolean);
-    var who = n.length === 2 ? n[0] + ' и ' + n[1] : 'Наша пара';
-    return who + ': совместимость по натальным картам ' + fmt(r.trend.score) + ', «' + r.trend.zone + '». Проверь свою пару на спидометре совместимости:';
+    return 'Наша совместимость по натальным картам: ' + fmt(r.trend.score) + ', «' + r.trend.zone + '». Проверь свою пару на спидометре совместимости:';
   }
   function roundRect(c, x, y, w, h, rad) { c.beginPath(); c.moveTo(x + rad, y); c.arcTo(x + w, y, x + w, y + h, rad); c.arcTo(x + w, y + h, x, y + h, rad); c.arcTo(x, y + h, x, y, rad); c.arcTo(x, y, x + w, y, rad); c.closePath(); }
   function blob(c, x, y, rad, col) { var g = c.createRadialGradient(x, y, 0, x, y, rad); g.addColorStop(0, col); g.addColorStop(1, 'rgba(251,248,243,0)'); c.fillStyle = g; c.fillRect(0, 0, 1080, 1350); }
@@ -140,8 +138,7 @@
     c.textAlign = 'center'; c.textBaseline = 'alphabetic';
     c.fillStyle = '#2A2340'; c.font = '600 46px Oswald, sans-serif'; c.fillText('L U N A R I U S', W / 2, 110);
     c.fillStyle = '#5B44BD'; c.font = '700 22px Manrope, sans-serif'; c.fillText('С П И Д О М Е Т Р   С О В М Е С Т И М О С Т И', W / 2, 150);
-    var n = r.partners.map(function (x) { return (x.name || '').toUpperCase(); });
-    var title = n[0] && n[1] ? n[0] + ' + ' + n[1] : 'НАША ПАРА';
+    var title = 'ВЫ + ПАРТНЕР';
     var fs = 92; c.font = '600 ' + fs + 'px Oswald, sans-serif'; while (c.measureText(title).width > 940 && fs > 40) { fs -= 4; c.font = '600 ' + fs + 'px Oswald, sans-serif'; }
     c.fillStyle = '#2A2340'; c.fillText(title, W / 2, 290);
     // стеклянная карточка
@@ -156,13 +153,13 @@
     // стрелка
     var ang = Math.PI + needleAngle(r.trend.score) * Math.PI / 180, L = R - 70;
     var tx = cx + Math.cos(ang) * L, ty = cy + Math.sin(ang) * L, px = Math.cos(ang + Math.PI / 2) * 14, py = Math.sin(ang + Math.PI / 2) * 14;
-    c.beginPath(); c.moveTo(tx, ty); c.lineTo(cx + px, cy + py); c.lineTo(cx - px, cy - py); c.closePath(); c.fillStyle = '#2A2340'; c.fill();
-    c.beginPath(); c.arc(cx, cy, 26, 0, 2 * Math.PI); c.fill();
+    c.save(); c.translate(cx, cy); c.rotate(ang); c.beginPath(); c.moveTo(L, 0); c.lineTo(L - 70, -34); c.lineTo(L - 62, -14); c.lineTo(0, -14); c.lineTo(0, 14); c.lineTo(L - 62, 14); c.lineTo(L - 70, 34); c.closePath(); c.fillStyle = '#2A2340'; c.lineJoin = 'round'; c.lineWidth = 6; c.strokeStyle = '#2A2340'; c.fill(); c.stroke(); c.restore();
+    c.fillStyle = '#2A2340'; c.beginPath(); c.arc(cx, cy, 30, 0, 2 * Math.PI); c.fill(); c.fillStyle = '#FBF8F3'; c.beginPath(); c.arc(cx, cy, 10, 0, 2 * Math.PI); c.fill();
     c.fillStyle = '#6B6380'; c.font = '700 26px Manrope, sans-serif'; c.fillText('-10', cx - R, cy + 50); c.fillText('+10', cx + R, cy + 50); c.fillText('0', cx, cy - R - 40);
     // число и зона
     c.fillStyle = color(r.trend.score); c.font = '600 180px Oswald, sans-serif'; c.fillText(fmt(r.trend.score), cx, 1010);
     c.fillStyle = '#2A2340'; c.font = '500 56px Oswald, sans-serif'; c.fillText(String(r.trend.zone).toUpperCase(), cx, 1085);
-    var pp = r.partners.map(function (x, i) { return (x.name || ('Партнер ' + (i + 1))) + ': ' + fmt(x.score); }).join('   ·   ');
+    var pp = 'для вас: ' + fmt(r.partners[0].score) + '   ·   для партнера: ' + fmt(r.partners[1].score);
     c.fillStyle = '#5E5675'; c.font = '600 30px Manrope, sans-serif'; c.fillText(pp, cx, 1140);
     // призыв
     roundRect(c, 190, 1215, 700, 92, 46); c.fillStyle = '#2A2340'; c.fill();

@@ -91,7 +91,7 @@
   }
 
   function render(r) {
-    var html = '<h2 class="r-h">' + (r.name ? 'Натальная карта: ' + esc(r.name) : 'Ваша натальная карта') + '</h2>';
+    var html = '<h2 class="r-h">' + 'Ваша натальная карта' + '</h2>';
     // большая тройка
     html += '<div class="g4">';
     html += '<div class="card"><span class="who">Солнце</span><div class="big">' + esc(r.big3.sun.sign) + '</div><p>' + esc(r.big3.sun.text) + '</p></div>';
@@ -142,7 +142,7 @@
   function showError(t) { err.textContent = t; err.hidden = !t; }
   btn.addEventListener('click', function () {
     showError(''); try { ym(114224190, 'reachGoal', 'natal_click'); } catch (e) {}
-    var p = { name: $('n1').value.trim(), date: $('d1').value, time: $('t1').value || null, cityId: cityId };
+    var p = { name: '', date: $('d1').value, time: $('t1').value || null, cityId: cityId };
     if (!p.date) return showError('Укажите дату рождения');
     if (p.cityId == null) return showError('Выберите город рождения из списка подсказок');
     if (!$('agree').checked) return showError('Отметьте согласие на обработку персональных данных');
