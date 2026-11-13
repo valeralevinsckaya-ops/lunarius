@@ -79,14 +79,14 @@
         return '<div class="r-sphere"><div class="r-sphere-top" style="font-size:18px"><span>' + esc(c.title) + '</span></div><p class="r-cmp"><b style="color:' + col + '">' + esc(c.a) + '</b> и <b style="color:' + col + '">' + esc(c.b) + '</b></p><p>' + esc(c.text) + '</p></div>';
       }).join('') + '</div>' : '') +
       '<h3 class="r-sub">По сферам</h3><div class="r-spheres">' + r.spheres.map(function (s) {
-        var rel = (s.related || []).map(function (x) { return '<span class="r-chip ' + (x.nature === 'harmony' ? 'is-h' : 'is-t') + '">' + esc(x.title) + '</span>'; }).join('');
+        var rel = (s.related || []).map(function (x) { return '<button type="button" class="r-chip ' + (x.nature === 'harmony' ? 'is-h' : 'is-t') + '" data-asp="' + esc(x.title) + '" title="Читать описание связи">' + esc(x.title) + '</button>'; }).join('');
         return '<div class="r-sphere"><div class="r-sphere-top"><span>' + esc(s.title) + '</span><b style="color:' + color(s.value) + '">' + fmt(s.value) + '</b></div>' + bar(s.value) + '<p>' + esc(s.text) + '</p>' + (rel ? '<div class="r-chips">' + rel + '</div>' : '') + '</div>';
       }).join('') + '</div>' +
       '<h3 class="r-sub">Главные связи между картами</h3><div class="r-aspects">' + r.aspects.map(function (a) {
-        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</div>';
+        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '" data-asp="' + esc(a.title) + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</div>';
       }).join('') + '</div>' +
       (r.moreAspects && r.moreAspects.length ? '<details class="r-more"><summary>Остальные связи: еще ' + r.moreAspects.length + '</summary><div class="r-aspects">' + r.moreAspects.map(function (a) {
-        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p><details class="r-det"><summary>Подробнее</summary>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</details></div>';
+        return '<div class="r-aspect ' + (a.nature === 'harmony' ? 'is-h' : 'is-t') + '" data-asp="' + esc(a.title) + '"><strong>' + esc(a.title) + '<span class="r-orb">орбис ' + a.orb.toFixed(1) + '°</span></strong><p class="r-lead">' + esc(a.text) + '</p><details class="r-det"><summary>Подробнее</summary>' + (a.details || []).map(function (d) { return '<p>' + esc(d) + '</p>'; }).join('') + '</details></div>';
       }).join('') + '</div></details>' : '') +
       (r.overlays && r.overlays.length ? '<h3 class="r-sub">Планеты партнера в ваших домах</h3><div class="r-aspects">' + r.overlays.map(function (o) {
         return '<div class="r-card"><span class="r-who">' + esc(o.title) + '</span>' + o.items.map(function (i) { return '<p class="r-text"><b>' + esc(i.planet) + ' в ' + i.house + ' доме.</b> ' + esc(i.text) + '</p>'; }).join('') + '</div>';
@@ -96,6 +96,18 @@
     box.innerHTML = html; box.hidden = false;
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setupShare(r);
+    box.querySelectorAll('.r-chip[data-asp]').forEach(function (ch) {
+      ch.addEventListener('click', function () {
+        var key = ch.getAttribute('data-asp'), card = null;
+        box.querySelectorAll('.r-aspect[data-asp]').forEach(function (c) { if (!card && c.getAttribute('data-asp') === key) card = c; });
+        if (!card) return;
+        var d = card.parentNode; while (d && d !== box) { if (d.tagName === 'DETAILS') d.open = true; d = d.parentNode; }
+        var det = card.querySelector('.r-det'); if (det) det.open = true;
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.remove('is-flash'); void card.offsetWidth; card.classList.add('is-flash');
+        try { ym(114224190, 'reachGoal', 'aspect_chip'); } catch (e) {}
+      });
+    });
   }
 
   // ---------- поделиться результатом
