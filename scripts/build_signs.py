@@ -12,6 +12,7 @@ FAVICON = '''<link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/p
 <meta name="theme-color" content="#FBF8F3">
 '''
 from pairs_content import SIGNS as PSIGNS
+from signs_extra import EXTRA
 GEN = {x[0]: x[2] for x in PSIGNS}
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
 NAME2SLUG = {s['name']: s['slug'] for s in SIGNS}
@@ -59,6 +60,13 @@ h2 em{{font-style:normal;color:#6E56CF}}
 .sec h3{{margin:0 0 8px;font-family:'Oswald',sans-serif;font-weight:500;font-size:22px;text-transform:uppercase;letter-spacing:.02em;color:#5B44BD}}
 .sec p{{margin:0;font-size:15.5px}}
 .sec .wide{{grid-column:1/-1}}
+.dec{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+.dec .glass{{padding:24px 26px}}
+.dec .k{{font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase;color:#5B44BD}}
+.dec .d{{margin:4px 0 10px;font-size:13px;font-weight:700;color:#6B6380}}
+.dec p{{margin:0;font-size:15px}}
+.sec ul{{margin:0;padding:0 0 0 20px;font-size:15.5px;line-height:1.7}}
+@media (max-width:640px){{.dec{{grid-template-columns:1fr}}}}
 .compat{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
 .cc{{padding:24px 26px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.4));border:1px solid rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(91,68,189,.14)}}
 .cc .k{{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}}
@@ -96,24 +104,32 @@ FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru"
 def card(s):
     return f'<a class="card glass" href="/signs/{s["slug"]}"><img src="/img/{s["img"]}.webp" alt="{s["name"]}" loading="lazy"><div><h3>{s["name"]}</h3><p>{s["dates"]} · {s["element"]}</p></div></a>'
 
-def person_block(label, p):
+def person_block(label, p, inlove_title='', inlove=''):
     return (f'<div class="sec glass"><div class="wide"><h3 style="font-size:16px">{label}</h3><p>{p["character"]}</p></div>'
             f'<div><h3>В любви и отношениях</h3><p>{p["love"]}</p></div>'
             f'<div><h3>В быту и семье</h3><p>{p["home"]}</p></div>'
             f'<div><h3>Что привлекает и что отталкивает</h3><p>{p["likes"]}</p></div>'
-            f'<div><h3>Совет партнеру</h3><p>{p["advice"]}</p></div></div>')
+            f'<div><h3>Совет партнеру</h3><p>{p["advice"]}</p></div>'
+            + (f'<div class="wide"><h3>{inlove_title}</h3><p>{inlove}</p></div>' if inlove else '') + '</div>')
 
 for i, s in enumerate(SIGNS):
     title = f'{s["name"]}: характеристика знака, женщина-{s["name"]} и мужчина-{s["name"]} в любви, совместимость | Lunarius'
-    desc = f'{s["name"]} ({s["dates"]}): характер, женщина-{s["name"]} и мужчина-{s["name"]} в любви, быту и семье, что привлекает и отталкивает, совместимость с другими знаками. Проверьте пару по натальным картам.'
+    desc = f'{s["name"]} ({s["dates"]}): характер, три декады, сильные и слабые стороны, женщина-{s["name"]} и мужчина-{s["name"]} в любви, как понять, что влюблены, работа и деньги, совместимость. Проверьте пару по натальным картам.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path='/signs/' + s['slug']).replace('<!--METRIKA-->', METRIKA)
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
     page += (f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{s["name"]}"><div>'
              f'<div class="sym" style="color:{ELEM_COLOR[s["element"]]}">{s["symbol"]}</div><h1>{s["name"]}</h1>'
              f'<div class="meta"><span>{s["dates"]}</span><span>Стихия: <b style="color:{ELEM_COLOR[s["element"]]}">{s["element"]}</b></span><span>Крест: <b>{s["mode"]}</b></span><span>Управитель: <b>{s["ruler"]}</b></span></div>'
              f'<p class="intro">{s["intro"]}</p></div></section>')
-    page += f'<h2>Женщина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['woman'])
-    page += f'<h2>Мужчина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['man'])
+    x = EXTRA[s['slug']]
+    page += f'<h2>Символ и <em>управитель</em></h2><div class="sec glass"><div class="wide"><p>{x["symbolism"]}</p></div></div>'
+    page += f'<h2>Три декады <em>{GEN[s["slug"]]}</em></h2><p class="lead" style="margin:-6px 0 18px">Знак делится на три части по десять градусов. У каждой декады свой дополнительный управитель, и он меняет характер знака. Даты примерные: в разные годы граница сдвигается на день.</p><div class="dec">' + ''.join(
+        f'<div class="glass"><div class="k">{n} декада</div><div class="d">{d} · управитель {r}</div><p>{t}</p></div>' for n, (d, r, t) in zip(['Первая', 'Вторая', 'Третья'], x['decans'])) + '</div>'
+    page += (f'<h2>Сильные и <em>слабые</em> стороны</h2><div class="sec glass"><div><h3>Сильные стороны</h3><ul>' + ''.join(f'<li>{t}</li>' for t in x['strengths']) + '</ul></div>'
+             f'<div><h3>Слабые стороны</h3><ul>' + ''.join(f'<li>{t}</li>' for t in x['weaknesses']) + '</ul></div></div>')
+    page += f'<h2>Женщина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['woman'], f'Как понять, что женщина-{s["name"]} влюблена', x['woman_inlove'])
+    page += f'<h2>Мужчина-<em>{s["name"]}</em></h2>' + person_block('Характер', s['man'], f'Как понять, что мужчина-{s["name"]} влюблен', x['man_inlove'])
+    page += f'<h2>Работа, деньги и <em>дружба</em></h2><div class="sec glass"><div class="wide"><h3>Работа и деньги</h3><p>{x["work"]}</p></div><div class="wide"><h3>В дружбе</h3><p>{x["friendship"]}</p></div></div>'
     page += f'<h2>Совместимость <em>{GEN[s["slug"]]}</em> с другими знаками</h2><div class="compat">'
     page += f'<div class="cc"><div class="k">Легко</div><div class="v">{pair_links(s["slug"], s["easy"])}</div><p>Та же или дружественная стихия: понимание без усилий, общий темп.</p></div>'
     page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{pair_links(s["slug"], s["hard"])}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'

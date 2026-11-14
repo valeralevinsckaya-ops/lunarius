@@ -39,6 +39,13 @@ h2 em{font-style:normal;color:#6E56CF}
 .sec h3{margin:0 0 8px;font-family:'Oswald',sans-serif;font-weight:500;font-size:22px;text-transform:uppercase;letter-spacing:.02em;color:#5B44BD}
 .sec p{margin:0;font-size:15.5px}
 .sec .wide{grid-column:1/-1}
+.dec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.dec .glass{padding:24px 26px}
+.dec .k{font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase;color:#5B44BD}
+.dec .d{margin:4px 0 10px;font-size:13px;font-weight:700;color:#6B6380}
+.dec p{margin:0;font-size:15px}
+.sec ul{margin:0;padding:0 0 0 20px;font-size:15.5px;line-height:1.7}
+@media (max-width:640px){.dec{grid-template-columns:1fr}}
 .compat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .cc{padding:24px 26px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.4));border:1px solid rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(91,68,189,.14)}
 .cc .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
