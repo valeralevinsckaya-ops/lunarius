@@ -58,6 +58,7 @@ def page_for(a, b):
     desc = f'{nameA} и {nameB}: подходят ли друг другу в любви и браке, что притягивает, где трение, как ссорятся и живут вместе. Проверьте пару по натальным картам на спидометре совместимости.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path=f'/compat/{a}-{b}').replace('<!--METRIKA-->', METRIKA)
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/compat">Совместимость знаков</a></p>'
+    page += f'<h1 class="list" style="margin-bottom:18px">Совместимость <em>{A[2]} и {B[2]}</em></h1>'
     page += (f'<section class="pair glass"><div><img src="/img/{A[5]}.webp" alt="{nameA}"><div class="pname">{nameA}</div><div class="pel" style="color:{ELEM_COLOR[A[4]]}">{A[4]}</div></div>'
              f'<div class="plus">+</div><div><img src="/img/{B[5]}.webp" alt="{nameB}"><div class="pname">{nameB}</div><div class="pel" style="color:{ELEM_COLOR[B[4]]}">{B[4]}</div></div></section>')
     page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"]}</p></div></section>'
@@ -113,3 +114,7 @@ idx += '</table></div><p style="margin:14px 0 0;font-size:13px;color:#6B6380">Н
 idx += CTA + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
 print('pairs:', n)
+
+# OG, canonical, JSON-LD
+import runpy as _rp, os as _os
+_rp.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'add_meta.py'))

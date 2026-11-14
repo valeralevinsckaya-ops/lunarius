@@ -111,3 +111,7 @@ html = ('<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<met
         + helmet + css + METRIKA + '\n</head>\n<body>\n' + body + cookie + '\n<script src="/app.js" defer></script>\n</body>\n</html>\n')
 open(os.path.join(ROOT, 'public/index.html'), 'w', encoding='utf-8').write(html)
 print('public/index.html', len(html) // 1024, 'KB')
+
+# OG, canonical, JSON-LD
+import runpy as _rp, os as _os
+_rp.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'add_meta.py'))

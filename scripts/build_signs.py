@@ -113,7 +113,7 @@ def person_block(label, p, inlove_title='', inlove=''):
             + (f'<div class="wide"><h3>{inlove_title}</h3><p>{inlove}</p></div>' if inlove else '') + '</div>')
 
 for i, s in enumerate(SIGNS):
-    title = f'{s["name"]}: характеристика знака, женщина-{s["name"]} и мужчина-{s["name"]} в любви, совместимость | Lunarius'
+    title = f'{s["name"]}: характеристика знака, женщина и мужчина в любви, совместимость | Lunarius'
     desc = f'{s["name"]} ({s["dates"]}): характер, три декады, сильные и слабые стороны, женщина-{s["name"]} и мужчина-{s["name"]} в любви, как понять, что влюблены, работа и деньги, совместимость. Проверьте пару по натальным картам.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path='/signs/' + s['slug']).replace('<!--METRIKA-->', METRIKA)
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
@@ -148,3 +148,7 @@ idx += '<div class="grid">' + ''.join(card(s) for s in SIGNS) + '</div>' + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
 words = sum(len(re.sub(r'<[^>]+>', ' ', open(os.path.join(OUT, s['slug'] + '.html'), encoding='utf-8').read()).split()) for s in SIGNS)
 print('signs:', len(SIGNS), 'pages, words total ~', words)
+
+# OG, canonical, JSON-LD
+import runpy as _rp, os as _os
+_rp.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'add_meta.py'))

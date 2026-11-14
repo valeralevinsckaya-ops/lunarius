@@ -128,3 +128,7 @@ idx += '<h1 class="list">Статьи</h1><p class="lead">Астрология �
 idx += '<div class="grid">' + ''.join(card(a, i) for i, a in enumerate(articles)) + '</div>' + FOOT
 open(os.path.join(out_dir, 'index.html'), 'w', encoding='utf-8').write(idx)
 print('blog:', len(articles), 'статей ->', [a['slug'] for a in articles])
+
+# OG, canonical, JSON-LD
+import runpy as _rp, os as _os
+_rp.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'add_meta.py'))
