@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Асцендент: рассчитать онлайн по дате и времени рождения бесплатно | Lunarius</title>
+<meta name="description" content="Рассчитайте Асцендент онлайн бесплатно: введите дату, время и город рождения и узнайте свой восходящий знак с расшифровкой. Что такое Асцендент, как он влияет на внешность и характер, Асцендент во всех 12 знаках.">
+<link rel="canonical" href="https://lunarius.ru/ascendant">
+<meta property="og:title" content="Асцендент: рассчитать онлайн по дате и времени рождения">
+<meta property="og:description" content="Рассчитайте Асцендент онлайн бесплатно: введите дату, время и город рождения и узнайте свой восходящий знак с расшифровкой. Что такое Асцендент, как он влияет на внешность и характер, Асцендент во всех 12 знаках.">
+<meta property="og:url" content="https://lunarius.ru/ascendant">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://lunarius.ru/"}, {"@type": "ListItem", "position": 2, "name": "Асцендент", "item": "https://lunarius.ru/ascendant"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно ли узнать Асцендент без времени рождения?", "acceptedAnswer": {"@type": "Answer", "text": "Точно нельзя. Если вы знаете время примерно, например утро или около полуночи, рассчитайте Асцендент для границ этого промежутка: если знак получается один, он ваш. Если знаки разные, прочитайте описания обоих и сравните с тем, каким вас видят другие."}}, {"@type": "Question", "name": "Асцендент и восходящий знак - это одно и то же?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Асцендент - это градус, восходивший на востоке в момент рождения, а восходящий знак - знак зодиака, в котором этот градус находится."}}, {"@type": "Question", "name": "Что важнее: знак Солнца или Асцендент?", "acceptedAnswer": {"@type": "Answer", "text": "Они отвечают на разные вопросы. Солнце описывает характер и цели, Луна - эмоции и привычки, Асцендент - внешний образ и первое впечатление. Вместе их называют большой тройкой натальной карты."}}, {"@type": "Question", "name": "Меняется ли Асцендент в течение жизни?", "acceptedAnswer": {"@type": "Answer", "text": "Нет, в натальной карте он остается тем же всю жизнь. В астрологии принято считать, что с возрастом черты Асцендента сглаживаются и человек все больше проявляет свой знак Солнца."}}, {"@type": "Question", "name": "Как считается Асцендент на этом сайте?", "acceptedAnswer": {"@type": "Answer", "text": "По дате, времени и координатам города рождения с учетом часового пояса и исторических переходов на летнее время. Дома строятся по системе Плацидуса."}}]}</script>
+<style>
+.calc{padding:32px 36px;display:flex;flex-direction:column;gap:18px}
+.calc .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.calc .f{display:flex;flex-direction:column;gap:6px;position:relative}
+.calc label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#5E5675}
+.calc input[type=text],.calc input[type=date],.calc input[type=time]{font-family:inherit;font-size:15px;color:#2A2340;padding:0 14px;height:50px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(91,68,189,.1);width:100%;-webkit-appearance:none;appearance:none;min-width:0;text-align:left}
+.calc .agree{display:flex;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px}
+.calc .agree input{flex:0 0 auto;width:20px;height:20px;margin:0;accent-color:#6E56CF}
+.btn{align-self:center;margin-top:8px;min-height:58px;padding:0 48px;border:0;border-radius:999px;background:#2A2340;color:#FBF8F3;font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.btn:disabled{opacity:.6}
+#form-error{align-self:center;margin:0;padding:10px 16px;border-radius:12px;background:#FDE9DC;color:#A8461A;font-size:14px;font-weight:600}
+.city-list{position:absolute;left:0;right:0;top:100%;z-index:30;margin-top:4px;max-height:260px;overflow:auto;background:#fff;border:1px solid #D8CDEE;border-radius:14px;box-shadow:0 18px 40px rgba(75,58,158,.18)}
+.city-item{display:block;width:100%;min-height:44px;padding:10px 14px;border:0;background:none;text-align:left;font:inherit;font-size:14px;color:#2A2340;cursor:pointer}
+.city-item:hover,.city-item:focus{background:#F3ECFF;outline:none}
+.res{margin-top:24px;padding:32px 36px}
+.res .who{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
+.res .big{font-family:'Oswald',sans-serif;font-size:56px;font-weight:600;line-height:1.05;text-transform:uppercase;margin:4px 0 10px}
+.res .big small{font-size:20px;font-weight:400;color:#6B6380;margin-left:10px;text-transform:none}
+.res p{margin:0 0 12px;font-size:16px}
+.res .more{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.res .more a{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:999px;background:#2A2340;color:#FBF8F3;text-decoration:none;font-weight:700;font-size:14px}
+.res .more a.alt{background:rgba(255,255,255,.7);color:#2A2340}
+.faq{padding:12px 44px}
+.faq details{padding:18px 0;border-bottom:1px solid rgba(110,86,207,.18)}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase}
+.faq p{margin:10px 0 0;font-size:15.5px}
+@media (max-width:640px){.calc,.res{padding:22px 18px}.calc .row{grid-template-columns:1fr}.res .big{font-size:40px}.faq{padding:6px 20px}}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#FBF8F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Symbols&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.65;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}
+a{color:#5B44BD}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:28px 0}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#2A2340}
+.logo b{font-family:'Oswald',sans-serif;font-size:26px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1;display:block}
+.logo span{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5B44BD;margin-top:4px;display:block}
+nav{display:flex;flex-wrap:wrap;gap:28px;font-size:15px;font-weight:600}nav a{color:#2A2340;text-decoration:none}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.52) 55%,rgba(255,255,255,.68) 100%);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);border:1.5px solid rgba(255,255,255,.98);box-shadow:inset 0 1px 0 #fff,inset 0 24px 48px rgba(255,255,255,.3),0 36px 80px rgba(62,44,143,.2),0 4px 10px rgba(62,44,143,.08);border-radius:36px}
+.crumbs{font-size:13px;color:#6B6380;margin:8px 0 20px}.crumbs a{color:#5B44BD;text-decoration:none}
+.hero{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:40px;align-items:center;padding:36px 44px}
+.hero img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:32px;display:block}
+.hero .trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hero .trio img{aspect-ratio:3/4;border-radius:20px}
+.sym{font-family:'Noto Sans Symbols','Segoe UI Symbol',sans-serif;font-size:64px;line-height:1}
+h1{margin:8px 0 10px;font-family:'Oswald',sans-serif;font-weight:600;font-size:72px;line-height:1;text-transform:uppercase}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+.meta span{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.65);font-size:13px;font-weight:700}
+.meta b{color:#5B44BD}
+.intro{font-size:17px;margin:0}
+h2{margin:48px 0 16px;font-family:'Oswald',sans-serif;font-weight:600;font-size:40px;line-height:1.05;text-transform:uppercase}
+h2 em{font-style:normal;color:#6E56CF}
+.sec{padding:36px 44px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}
+.sec h3{margin:0 0 8px;font-family:'Oswald',sans-serif;font-weight:500;font-size:22px;text-transform:uppercase;letter-spacing:.02em;color:#5B44BD}
+.sec p{margin:0;font-size:15.5px}
+.sec .wide{grid-column:1/-1}
+.sec ul{margin:0;padding:0 0 0 20px;font-size:15.5px;line-height:1.7}
+.dec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.dec .glass{padding:24px 26px}
+.dec .k{font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase;color:#5B44BD}
+.dec .d{margin:4px 0 10px;font-size:13px;font-weight:700;color:#6B6380}
+.dec p{margin:0;font-size:15px}
+@media (max-width:640px){.dec{grid-template-columns:1fr}}
+.compat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.cc{padding:24px 26px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.4));border:1px solid rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(91,68,189,.14)}
+.cc .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
+.cc .v{font-family:'Oswald',sans-serif;font-size:24px;font-weight:500;text-transform:uppercase;margin:6px 0 8px}
+.cc .v a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(91,68,189,.4)}
+.cc p{margin:0;font-size:14px;color:#5E5675}
+.cta{margin:28px 0 0;padding:28px 32px;border-radius:28px;background:linear-gradient(135deg,#6E56CF,#9A6BF0 60%,#F2768A);color:#fff;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.cta b{font-family:'Oswald',sans-serif;font-size:26px;font-weight:500;text-transform:uppercase;line-height:1.1}
+.cta a{display:inline-flex;align-items:center;min-height:52px;padding:0 28px;border-radius:999px;background:#2A2340;color:#FBF8F3;text-decoration:none;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{display:flex;flex-direction:column;border-radius:28px;overflow:hidden;text-decoration:none;color:#2A2340}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;object-position:50% 20%;display:block}
+.card div{padding:16px 20px 20px}
+.card h3{margin:0;font-family:'Oswald',sans-serif;font-size:24px;font-weight:500;text-transform:uppercase}
+.card p{margin:4px 0 0;font-size:13px;color:#6B6380}
+.ecard{padding:28px 30px;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:#2A2340}
+.ecard .sym{font-size:44px}
+.ecard h3{margin:0;font-family:'Oswald',sans-serif;font-size:28px;font-weight:500;text-transform:uppercase}
+.ecard p{margin:0;font-size:14px;color:#5E5675}
+.ecard .s{font-size:13px;font-weight:700;color:#6B6380}
+h1.list{margin:24px 0 8px;font-family:'Oswald',sans-serif;font-weight:600;font-size:64px;line-height:1;text-transform:uppercase}
+.lead{margin:0 0 36px;max-width:720px;font-size:17px;color:#5E5675}
+footer{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2);font-size:13px;color:#6B6380;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+@media (max-width:1100px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.compat{grid-template-columns:1fr}h1{font-size:56px}}
+@media (max-width:640px){.hero,.sec{padding:24px 20px;border-radius:24px}.sec{grid-template-columns:1fr}h1{font-size:42px}h2{font-size:30px}.grid{grid-template-columns:1fr 1fr;gap:12px}h1.list{font-size:40px}}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lunarius">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://lunarius.ru/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){
+m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114224190', 'ym');
+
+ym(114224190, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114224190" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="logo" href="/"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M3 19 A14 14 0 0 1 31 19" fill="none" stroke="#6E56CF" stroke-width="3" stroke-linecap="round"></path><line x1="17" y1="19" x2="25" y2="9" stroke="#2A2340" stroke-width="2.5" stroke-linecap="round"></line><circle cx="17" cy="19" r="2.5" fill="#2A2340"></circle></svg><span><b>Lunarius</b><span>Спидометр совместимости</span></span></a>
+<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/signs">Знаки</a><a href="/blog">Статьи</a></nav>
+</header>
+<p class="crumbs"><a href="/">Главная</a> · Асцендент</p><h1 class="list">Рассчитать <em style="font-style:normal;color:#6E56CF">Асцендент</em> по дате рождения</h1><p class="lead" style="max-width:820px">Асцендент, или восходящий знак, - это знак зодиака, который поднимался над горизонтом в минуту вашего рождения. Он меняется примерно каждые два часа, поэтому для расчета нужны дата, точное время и город. Введите данные, и мы покажем ваш Асцендент с расшифровкой.</p><form class="calc glass" id="asc-form" onsubmit="return false"><div class="row"><div class="f"><label for="d1">Дата рождения</label><input id="d1" type="date"></div><div class="f"><label for="t1">Время рождения</label><input id="t1" type="time"></div><div class="f"><label for="c1">Город рождения</label><input id="c1" type="text" placeholder="Начните вводить город" autocomplete="off"></div></div><label class="agree" for="agree"><input id="agree" type="checkbox"><span>Я соглашаюсь с <a href="/privacy#policy" target="_blank">Политикой конфиденциальности</a> и даю <a href="/privacy#consent" target="_blank">согласие на обработку персональных данных</a></span></label><p id="form-error" role="alert" hidden></p><button id="run" type="button" class="btn">Рассчитать Асцендент</button></form><div class="res glass" id="result" hidden></div><h2>Что такое <em>Асцендент</em></h2><div class="sec glass"><div><h3>Что такое Асцендент</h3><p>Асцендент - точка эклиптики, восходившая на востоке в момент рождения. С нее начинается первый дом натальной карты, а знак, в который она попала, называют восходящим. Если Солнце показывает, кто вы по сути, то Асцендент показывает, как вы входите в мир: манеру держаться, первое впечатление, привычный способ начинать новое.</p></div><div><h3>На что он влияет</h3><p>Асцендент описывает внешний образ, темперамент и то, каким вас видят незнакомые люди. Он задает сетку домов, поэтому от него зависит, в какие сферы жизни попадают планеты. Планета-управитель восходящего знака считается управителем всей карты, а противоположная точка, Десцендент, показывает, какие партнеры вас притягивают.</p></div><div><h3>Почему важно время рождения</h3><p>Все 12 знаков проходят через восточный горизонт за сутки, в среднем по два часа на знак. Ошибка во времени на час может сдвинуть Асцендент в соседний знак. Точное время обычно записано на бирке из роддома и в медицинских документах; в свидетельстве о рождении его нет. Если бирка не сохранилась, спросите родных или запросите справку в архиве роддома.</p></div><div><h3>Асцендент и знак зодиака</h3><p>Знак зодиака по дате рождения - это знак Солнца, он один у всех, кто родился в тот же день. Асцендент у них разный: он зависит от часа и города. Поэтому два Скорпиона могут выглядеть и вести себя совсем по-разному. Асцендент совпадает со знаком Солнца обычно у тех, кто родился около восхода.</p></div></div><h2>Асцендент <em>в знаках</em></h2><div class="grid"><a class="card glass" href="/ascendant/oven"><img src="/img/aries.webp" alt="Асцендент в Овне" loading="lazy"><div><h3>В Овне</h3><p>Управитель: Марс</p></div></a><a class="card glass" href="/ascendant/telec"><img src="/img/taurus.webp" alt="Асцендент в Тельце" loading="lazy"><div><h3>В Тельце</h3><p>Управитель: Венера</p></div></a><a class="card glass" href="/ascendant/bliznecy"><img src="/img/gemini.webp" alt="Асцендент в Близнецах" loading="lazy"><div><h3>В Близнецах</h3><p>Управитель: Меркурий</p></div></a><a class="card glass" href="/ascendant/rak"><img src="/img/cancer.webp" alt="Асцендент в Раке" loading="lazy"><div><h3>В Раке</h3><p>Управитель: Луна</p></div></a><a class="card glass" href="/ascendant/lev"><img src="/img/leo.webp" alt="Асцендент во Льве" loading="lazy"><div><h3>Во Льве</h3><p>Управитель: Солнце</p></div></a><a class="card glass" href="/ascendant/deva"><img src="/img/virgo.webp" alt="Асцендент в Деве" loading="lazy"><div><h3>В Деве</h3><p>Управитель: Меркурий</p></div></a><a class="card glass" href="/ascendant/vesy"><img src="/img/libra.webp" alt="Асцендент в Весах" loading="lazy"><div><h3>В Весах</h3><p>Управитель: Венера</p></div></a><a class="card glass" href="/ascendant/skorpion"><img src="/img/scorpio.webp" alt="Асцендент в Скорпионе" loading="lazy"><div><h3>В Скорпионе</h3><p>Управитель: Плутон</p></div></a><a class="card glass" href="/ascendant/strelec"><img src="/img/sagittarius.webp" alt="Асцендент в Стрельце" loading="lazy"><div><h3>В Стрельце</h3><p>Управитель: Юпитер</p></div></a><a class="card glass" href="/ascendant/kozerog"><img src="/img/capricorn.webp" alt="Асцендент в Козероге" loading="lazy"><div><h3>В Козероге</h3><p>Управитель: Сатурн</p></div></a><a class="card glass" href="/ascendant/vodoley"><img src="/img/aquarius.webp" alt="Асцендент в Водолее" loading="lazy"><div><h3>В Водолее</h3><p>Управитель: Уран</p></div></a><a class="card glass" href="/ascendant/ryby"><img src="/img/pisces.webp" alt="Асцендент в Рыбах" loading="lazy"><div><h3>В Рыбах</h3><p>Управитель: Нептун</p></div></a></div><div class="cta"><b>Асцендент - только начало.<br>Постройте всю натальную карту</b><a href="/natal">Натальная карта</a></div><h2>Частые <em>вопросы</em></h2><div class="faq glass"><details><summary>Можно ли узнать Асцендент без времени рождения?</summary><p>Точно нельзя. Если вы знаете время примерно, например утро или около полуночи, рассчитайте Асцендент для границ этого промежутка: если знак получается один, он ваш. Если знаки разные, прочитайте описания обоих и сравните с тем, каким вас видят другие.</p></details><details><summary>Асцендент и восходящий знак - это одно и то же?</summary><p>Да. Асцендент - это градус, восходивший на востоке в момент рождения, а восходящий знак - знак зодиака, в котором этот градус находится.</p></details><details><summary>Что важнее: знак Солнца или Асцендент?</summary><p>Они отвечают на разные вопросы. Солнце описывает характер и цели, Луна - эмоции и привычки, Асцендент - внешний образ и первое впечатление. Вместе их называют большой тройкой натальной карты.</p></details><details><summary>Меняется ли Асцендент в течение жизни?</summary><p>Нет, в натальной карте он остается тем же всю жизнь. В астрологии принято считать, что с возрастом черты Асцендента сглаживаются и человек все больше проявляет свой знак Солнца.</p></details><details><summary>Как считается Асцендент на этом сайте?</summary><p>По дате, времени и координатам города рождения с учетом часового пояса и исторических переходов на летнее время. Дома строятся по системе Плацидуса.</p></details></div><footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var cityId=null;
+var SLUG={'Овен':'oven','Телец':'telec','Близнецы':'bliznecy','Рак':'rak','Лев':'lev','Дева':'deva','Весы':'vesy','Скорпион':'skorpion','Стрелец':'strelec','Козерог':'kozerog','Водолей':'vodoley','Рыбы':'ryby'};
+var LOC={'Овен':'в Овне','Телец':'в Тельце','Близнецы':'в Близнецах','Рак':'в Раке','Лев':'во Льве','Дева':'в Деве','Весы':'в Весах','Скорпион':'в Скорпионе','Стрелец':'в Стрельце','Козерог':'в Козероге','Водолей':'в Водолее','Рыбы':'в Рыбах'};
+var input=$('c1'),box=document.createElement('div'),timer;
+box.className='city-list';box.setAttribute('role','listbox');box.hidden=true;input.parentNode.appendChild(box);
+input.addEventListener('input',function(){
+cityId=null;clearTimeout(timer);
+var q=input.value.trim();
+if(q.length<2){box.hidden=true;return;}
+timer=setTimeout(function(){
+fetch('/api/cities?q='+encodeURIComponent(q)).then(function(r){return r.json();}).then(function(list){
+box.innerHTML='';
+list.forEach(function(c){
+var b=document.createElement('button');
+b.type='button';b.className='city-item';b.textContent=c.label;
+b.addEventListener('click',function(){input.value=c.name;cityId=c.id;box.hidden=true;});
+box.appendChild(b);
+});
+box.hidden=list.length===0;
+}).catch(function(){box.hidden=true;});
+},200);
+});
+document.addEventListener('click',function(e){if(!box.contains(e.target)&&e.target!==input)box.hidden=true;});
+function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML;}
+var btn=$('run'),err=$('form-error'),res=$('result');
+function showError(t){err.textContent=t;err.hidden=!t;}
+function render(r){
+var a=r.big3&&r.big3.asc;
+if(!a){showError('Не удалось определить Асцендент: проверьте время рождения');return;}
+var h='<span class="who">Ваш Асцендент</span><div class="big">'+esc(a.sign)+'<small>'+esc(a.degree)+'</small></div><p>'+esc(a.text)+'</p>';
+h+='<p>Большая тройка вашей карты: Солнце - '+esc(r.big3.sun.sign)+', Луна - '+esc(r.big3.moon.sign)+', Асцендент - '+esc(a.sign)+'.</p><div class="more">';
+if(SLUG[a.sign])h+='<a href="/ascendant/'+SLUG[a.sign]+'">Подробнее: Асцендент '+esc(LOC[a.sign])+'</a>';
+h+='<a class="alt" href="/natal">Построить всю натальную карту</a></div>';
+res.innerHTML=h;res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+btn.addEventListener('click',function(){
+showError('');try{ym(114224190,'reachGoal','asc_click');}catch(e){}
+var p={name:'',date:$('d1').value,time:$('t1').value||null,cityId:cityId};
+if(!p.date)return showError('Укажите дату рождения');
+if(!p.time)return showError('Укажите время рождения: без него Асцендент не рассчитать');
+if(p.cityId==null)return showError('Выберите город рождения из списка подсказок');
+if(!$('agree').checked)return showError('Отметьте согласие на обработку персональных данных');
+btn.disabled=true;var old=btn.textContent;btn.textContent='Считаем...';
+fetch('/api/natal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({person:p,consent:true})})
+.then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Ошибка');return j;});})
+.then(function(j){try{ym(114224190,'reachGoal','asc_done');}catch(e){}render(j);})
+.catch(function(e){showError(e.message);})
+.finally(function(){btn.disabled=false;btn.textContent=old;});
+});
+})();
+</script>
+</div>
+</body>
+</html>
