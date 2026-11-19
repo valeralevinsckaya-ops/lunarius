@@ -11,6 +11,13 @@ const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '10kb' }));
 
+// Адрес с www: один основной адрес сайта без www, все остальное 301 на него.
+app.use((req, res, next) => {
+  const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim().toLowerCase().replace(/:\d+$/, '');
+  if (host === 'www.lunarius.ru') return res.redirect(301, 'https://lunarius.ru' + req.originalUrl);
+  next();
+});
+
 // --- поиск городов
 const normq = (s) => String(s || '').toLowerCase().replace(/ё/g, 'е').trim();
 const index = cities.map((c, i) => ({ i, n: normq(c.n), e: normq(c.e) }));
