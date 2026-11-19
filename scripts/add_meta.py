@@ -59,13 +59,6 @@ def process(path):
     if u == '/':
         ld.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Lunarius', 'alternateName': 'Спидометр совместимости', 'url': SITE + '/', 'inLanguage': 'ru'})
         ld.append({'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Lunarius', 'url': SITE + '/', 'logo': SITE + '/icon-512.png', 'email': 'info@lunarius.ru'})
-        faq = re.search(r'<section id="faq".*?</section>', s, re.S)
-        if faq:
-            clean = lambda x: re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', x))).strip()
-            qa = re.findall(r'<h3[^>]*>(.*?)</h3>\s*<p[^>]*>(.*?)</p>', faq.group(0), re.S)
-            if qa:
-                ld.append({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
-                    {'@type': 'Question', 'name': clean(a), 'acceptedAnswer': {'@type': 'Answer', 'text': clean(b)}} for a, b in qa]})
     else:
         crumbs = [('Главная', '/')]
         if parts[0] in SECTIONS and len(parts) > 1:
@@ -75,6 +68,13 @@ def process(path):
         crumbs.append((re.sub(r'\s+', ' ', name), u))
         ld.append({'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': SITE + h} for i, (n, h) in enumerate(crumbs)]})
+    faq = re.search(r'<section id="faq".*?</section>', s, re.S)
+    if faq:
+        clean = lambda x: re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', x))).strip()
+        qa = re.findall(r'<h3[^>]*>(.*?)</h3>\s*<p[^>]*>(.*?)</p>', faq.group(0), re.S)
+        if qa:
+            ld.append({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+                {'@type': 'Question', 'name': clean(a), 'acceptedAnswer': {'@type': 'Answer', 'text': clean(b)}} for a, b in qa]})
     if is_article:
         ld.append({'@context': 'https://schema.org', '@type': 'Article', 'headline': t_short[:110], 'description': desc,
                    'image': IMG, 'inLanguage': 'ru', 'dateModified': TODAY, 'mainEntityOfPage': full,

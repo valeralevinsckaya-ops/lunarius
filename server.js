@@ -70,6 +70,7 @@ app.post('/api/natal', (req, res) => {
   }
 });
 
+app.get('/api/indexnow-status', (req, res) => res.json(lastIndexNow || { status: 'еще не отправлялось' }));
 app.use(stripSlash); // до маршрутов /natal и /privacy, чтобы /natal/ тоже уходил на /natal
 app.get('/natal', (req, res) => res.sendFile(path.join(__dirname, 'public', 'natal.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
@@ -90,5 +91,32 @@ function sectionIndex(req, res, next) {
 app.use(sectionIndex);
 app.use(express.static(PUBLIC, { maxAge: '1h', extensions: ['html'], redirect: false }));
 
+// --- IndexNow: при запуске на хостинге сообщаем Яндексу адреса из sitemap.
+// Запуск происходит после каждого деплоя, то есть когда страницы могли измениться.
+// Ключ лежит в public/<ключ>.txt. Отключить: переменная окружения INDEXNOW=off.
+const INDEXNOW_KEY = '9952f21193d82752bb1c4449964a4d67';
+async function pingIndexNow() {
+  if (!process.env.PORT || process.env.INDEXNOW === 'off') return; // локальный запуск не трогаем
+  try {
+    const xml = require('fs').readFileSync(path.join(PUBLIC, 'sitemap.xml'), 'utf8');
+    const urlList = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    if (!urlList.length) return;
+    const r = await fetch('https://yandex.com/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ host: 'lunarius.ru', key: INDEXNOW_KEY, keyLocation: `https://lunarius.ru/${INDEXNOW_KEY}.txt`, urlList }),
+    });
+    lastIndexNow = { at: new Date().toISOString(), status: r.status, urls: urlList.length };
+    console.log(`IndexNow: отправлено ${urlList.length} адресов, ответ ${r.status}`);
+  } catch (e) {
+    lastIndexNow = { at: new Date().toISOString(), error: String(e.message || e) };
+    console.log('IndexNow: не удалось отправить', e.message || e);
+  }
+}
+let lastIndexNow = null;
+
 const PORT = Number(process.env.PORT || 3000);
-app.listen(PORT, '0.0.0.0', () => console.log(`Спидометр совместимости запущен на порту ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Спидометр совместимости запущен на порту ${PORT}`);
+  setTimeout(pingIndexNow, 30_000).unref(); // даем хостингу переключить трафик на новую версию
+});
