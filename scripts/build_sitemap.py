@@ -3,7 +3,7 @@ import os, glob, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 P = os.path.join(ROOT, 'public')
 today = datetime.date.today().isoformat()
-urls = [('/', '1.0', 'weekly'), ('/natal', '0.9', 'monthly'), ('/ascendant', '0.9', 'monthly'), ('/signs', '0.8', 'monthly'), ('/elements', '0.8', 'monthly'), ('/compat', '0.8', 'monthly'), ('/blog', '0.7', 'weekly'), ('/privacy', '0.2', 'yearly')]
+urls = [('/', '1.0', 'weekly'), ('/natal', '0.9', 'monthly'), ('/ascendant', '0.9', 'monthly'), ('/signs', '0.8', 'monthly'), ('/elements', '0.8', 'monthly'), ('/compat', '0.8', 'monthly'), ('/blog', '0.7', 'weekly')]
 for d, pr in (('signs', '0.8'), ('elements', '0.8'), ('ascendant', '0.8'), ('compat', '0.7'), ('blog', '0.7')):
     for f in sorted(glob.glob(os.path.join(P, d, '*.html'))):
         n = os.path.basename(f)[:-5]

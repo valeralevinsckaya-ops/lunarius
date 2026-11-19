@@ -70,9 +70,25 @@ app.post('/api/natal', (req, res) => {
   }
 });
 
+app.use(stripSlash); // до маршрутов /natal и /privacy, чтобы /natal/ тоже уходил на /natal
 app.get('/natal', (req, res) => res.sendFile(path.join(__dirname, 'public', 'natal.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h', extensions: ['html'] }));
+
+// --- один адрес на страницу: без слэша на конце.
+// Адрес со слэшем (/blog/, /natal/) отдает 301 на адрес без слэша,
+// а разделы (/blog, /compat, /signs ...) открываются сразу, без редиректа.
+const PUBLIC = path.join(__dirname, 'public');
+function stripSlash(req, res, next) {
+  if ((req.method !== 'GET' && req.method !== 'HEAD') || req.path === '/' || !req.path.endsWith('/')) return next();
+  const q = req.originalUrl.indexOf('?');
+  res.redirect(301, '/' + req.path.replace(/^\/+|\/+$/g, '') + (q === -1 ? '' : req.originalUrl.slice(q)));
+}
+function sectionIndex(req, res, next) {
+  if ((req.method !== 'GET' && req.method !== 'HEAD') || !/^\/[a-z0-9-]+$/.test(req.path)) return next();
+  res.sendFile(path.join(PUBLIC, req.path.slice(1), 'index.html'), { maxAge: '1h' }, (err) => { if (err) next(); });
+}
+app.use(sectionIndex);
+app.use(express.static(PUBLIC, { maxAge: '1h', extensions: ['html'], redirect: false }));
 
 const PORT = Number(process.env.PORT || 3000);
 app.listen(PORT, '0.0.0.0', () => console.log(`Спидометр совместимости запущен на порту ${PORT}`));
