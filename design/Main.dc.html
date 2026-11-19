@@ -8,8 +8,9 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/manrope.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/fonts/oswald.woff" as="font" type="font/woff" crossorigin>
+<style>@font-face{font-family:'Manrope';src:url(/fonts/manrope.woff) format('woff');font-weight:200 800;font-style:normal;font-display:swap}@font-face{font-family:'Oswald';src:url(/fonts/oswald.woff) format('woff');font-weight:200 700;font-style:normal;font-display:swap}</style>
 <style>
 body{margin:0;background:#FBF8F3}
 a{color:#5B44BD}a:hover{color:#3E2C8F}

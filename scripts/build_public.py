@@ -106,8 +106,8 @@ cookie = ('<div role="region" aria-label="Уведомление о cookie" id="
           '<script>(function(){var b=document.getElementById("cookie-bar");try{if(localStorage.getItem("cookie-ok")){b.remove();return;}}catch(e){}document.getElementById("cookie-ok").onclick=function(){try{localStorage.setItem("cookie-ok","1")}catch(e){}b.remove();};})();</script>')
 
 html = ('<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        '<title>Совместимость по дате рождения онлайн: синастрия двух натальных карт | Lunarius</title>\n' + FAVICON +
-        '<meta name="description" content="Бесплатный расчет совместимости по дате рождения онлайн: синастрия двух натальных карт без регистрации. Спидометр покажет, где между вами гармония, а где напряжение.">\n'
+        '<title>Совместимость по дате рождения онлайн, синастрия | Lunarius</title>\n' + FAVICON +
+        '<meta name="description" content="Рассчитайте совместимость по дате рождения онлайн бесплатно: синастрия двух натальных карт без регистрации. Спидометр покажет гармонию и напряжение.">\n'
         + helmet + css + METRIKA + '\n</head>\n<body>\n' + body + cookie + '\n<script src="/app.js" defer></script>\n</body>\n</html>\n')
 open(os.path.join(ROOT, 'public/index.html'), 'w', encoding='utf-8').write(html)
 print('public/index.html', len(html) // 1024, 'KB')

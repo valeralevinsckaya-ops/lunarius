@@ -36,9 +36,9 @@ def ul(items): return '<ul>' + ''.join(f'<li>{x}</li>' for x in items) + '</ul>'
 for s in SIGNS:
     x = TEXTS[s['slug']]
     col = ELEM_COLOR[s['element']]; d = BY[s['desc']]; name = 'Асцендент ' + s['loc']
-    title = f"{name}: внешность, характер, любовь, у женщины и мужчины | Lunarius"
+    title = f"{name}: внешность, характер и любовь | Lunarius"
     og = f"{name}: внешность, характер, любовь"
-    desc = f"{name}: первое впечатление и внешность, характер, поведение в любви и работе, особенности у женщин и мужчин, сочетание со знаком Солнца, Десцендент {d['loc']}. Рассчитайте свой Асцендент онлайн."
+    desc = f"Узнайте, что дает {name}: внешность, характер, любовь, у женщин и мужчин, сочетание с Солнцем. Рассчитайте свой Асцендент онлайн бесплатно."
     others = ', '.join(f'<a href="/ascendant/{o["slug"]}">{o["loc"]}</a>' for o in SIGNS if o is not s)
     b = f'<p class="crumbs"><a href="/">Главная</a> · <a href="/ascendant">Асцендент</a></p>'
     b += f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{name}"><div><div class="sym" style="color:{col}">{s["symbol"]}</div><h1 style="font-size:56px">{name}</h1>'

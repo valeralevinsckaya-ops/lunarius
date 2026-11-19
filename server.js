@@ -90,6 +90,7 @@ function sectionIndex(req, res, next) {
   res.sendFile(path.join(PUBLIC, req.path.slice(1), 'index.html'), { maxAge: '1h' }, (err) => { if (err) next(); });
 }
 app.use(sectionIndex);
+app.use('/fonts', express.static(path.join(PUBLIC, 'fonts'), { maxAge: '365d', immutable: true })); // свои шрифты Oswald и Manrope
 app.use('/img', express.static(path.join(PUBLIC, 'img'), { maxAge: '30d' })); // картинки знаков меняются редко
 app.use(express.static(PUBLIC, { maxAge: '1h', extensions: ['html'], redirect: false }));
 

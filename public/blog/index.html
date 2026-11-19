@@ -12,8 +12,9 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#FBF8F3">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/manrope.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/fonts/oswald.woff" as="font" type="font/woff" crossorigin>
+<style>@font-face{font-family:'Manrope';src:url(/fonts/manrope.woff) format('woff');font-weight:200 800;font-style:normal;font-display:swap}@font-face{font-family:'Oswald';src:url(/fonts/oswald.woff) format('woff');font-weight:200 700;font-style:normal;font-display:swap}</style>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.65;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}

@@ -34,8 +34,9 @@ HEAD = '''<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="https://lunarius.ru{path}">
-''' + FAVICON + '''<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Symbols&display=swap" rel="stylesheet">
+''' + FAVICON + '''<link rel="preload" href="/fonts/manrope.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/fonts/oswald.woff" as="font" type="font/woff" crossorigin>
+<style>@font-face{{font-family:'Manrope';src:url(/fonts/manrope.woff) format('woff');font-weight:200 800;font-style:normal;font-display:swap}}@font-face{{font-family:'Oswald';src:url(/fonts/oswald.woff) format('woff');font-weight:200 700;font-style:normal;font-display:swap}}</style>
 <style>
 *{{box-sizing:border-box}}
 body{{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.65;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}}
@@ -115,8 +116,8 @@ def person_block(label, p, inlove_title='', inlove=''):
             + (f'<div class="wide"><h3>{inlove_title}</h3><p>{inlove}</p></div>' if inlove else '') + '</div>')
 
 for i, s in enumerate(SIGNS):
-    title = f'{s["name"]}: характеристика знака, женщина и мужчина в любви, совместимость | Lunarius'
-    desc = f'{s["name"]} ({s["dates"]}): характер, три декады, сильные и слабые стороны, женщина-{s["name"]} и мужчина-{s["name"]} в любви, как понять, что влюблены, работа и деньги, совместимость. Проверьте пару по натальным картам.'
+    title = f'{s["name"]}: характеристика знака, женщина и мужчина | Lunarius'
+    desc = f'Читайте характеристику знака {s["name"]} ({s["dates"]}): характер, женщина и мужчина в любви, работа, совместимость. Проверьте свою пару по датам.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path='/signs/' + s['slug']).replace('<!--METRIKA-->', METRIKA)
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
     page += (f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{s["name"]}"><div>'

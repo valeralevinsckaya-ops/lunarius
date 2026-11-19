@@ -58,8 +58,8 @@ def page_for(a, b):
     r = RELATION[rel_index(a, b)]
     same = a == b
     nameA, nameB = A[1], B[1]
-    title = f'Совместимость {A[2]} и {B[2]}: любовь, быт, конфликты и совет паре | Lunarius'
-    desc = f'{nameA} и {nameB}: подходят ли друг другу в любви и браке, что притягивает, где трение, как ссорятся и живут вместе. Проверьте пару по натальным картам на спидометре совместимости.'
+    title = f'Совместимость {A[2]} и {B[2]} в любви и браке | Lunarius'
+    desc = f'Узнайте, подходят ли друг другу {nameA} и {nameB}: любовь, брак, быт, ссоры и совет паре. Проверьте свою пару по датам рождения бесплатно.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path=f'/compat/{a}-{b}').replace('<!--METRIKA-->', METRIKA)
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/compat">Совместимость знаков</a></p>'
     page += f'<h1 class="list" style="margin-bottom:18px">Совместимость <em>{A[2]} и {B[2]}</em></h1>'
