@@ -26,7 +26,7 @@ def esc(t):
 
 def process(path):
     rel = os.path.relpath(path, PUB)
-    if rel.startswith('tpl') or rel.startswith('yandex_') or rel.startswith('google'):
+    if rel.startswith('tpl') or rel.startswith('yandex_') or rel.startswith('google') or rel == '404.html':
         return False
     s = open(path, encoding='utf-8').read()
     if '<title>' not in s or '</head>' not in s:

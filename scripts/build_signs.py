@@ -17,6 +17,8 @@ GEN = {x[0]: x[2] for x in PSIGNS}
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
 NAME2SLUG = {s['name']: s['slug'] for s in SIGNS}
 ORDER = [s['slug'] for s in SIGNS]
+EL_SLUG = {'Огонь': 'fire', 'Земля': 'earth', 'Воздух': 'air', 'Вода': 'water'}
+LINK = 'style="color:inherit;border-bottom:1px solid rgba(91,68,189,.4);text-decoration:none"'
 def pair_links(me, names):
     out = []
     for n in [x.strip() for x in names.split(',')]:
@@ -92,7 +94,7 @@ footer{{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2
 <div class="wrap">
 <header>
 <a class="logo" href="/"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M3 19 A14 14 0 0 1 31 19" fill="none" stroke="#6E56CF" stroke-width="3" stroke-linecap="round"></path><line x1="17" y1="19" x2="25" y2="9" stroke="#2A2340" stroke-width="2.5" stroke-linecap="round"></line><circle cx="17" cy="19" r="2.5" fill="#2A2340"></circle></svg><span><b>Lunarius</b><span>Спидометр совместимости</span></span></a>
-<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/signs">Знаки</a><a href="/blog">Статьи</a></nav>
+<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/ascendant">Асцендент</a><a href="/signs">Знаки</a><a href="/blog">Статьи</a></nav>
 </header>
 '''
 FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
@@ -119,7 +121,7 @@ for i, s in enumerate(SIGNS):
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
     page += (f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{s["name"]}"><div>'
              f'<div class="sym" style="color:{ELEM_COLOR[s["element"]]}">{s["symbol"]}</div><h1>{s["name"]}</h1>'
-             f'<div class="meta"><span>{s["dates"]}</span><span>Стихия: <b style="color:{ELEM_COLOR[s["element"]]}">{s["element"]}</b></span><span>Крест: <b>{s["mode"]}</b></span><span>Управитель: <b>{s["ruler"]}</b></span></div>'
+             f'<div class="meta"><span>{s["dates"]}</span><span>Стихия: <a href="/elements/{EL_SLUG[s["element"]]}" style="color:{ELEM_COLOR[s["element"]]};font-weight:700;text-decoration:none">{s["element"]}</a></span><span>Крест: <b>{s["mode"]}</b></span><span>Управитель: <b>{s["ruler"]}</b></span></div>'
              f'<p class="intro">{s["intro"]}</p></div></section>')
     x = EXTRA[s['slug']]
     page += f'<h2>Символ и <em>управитель</em></h2><div class="sec glass"><div class="wide"><p>{x["symbolism"]}</p></div></div>'
@@ -135,9 +137,16 @@ for i, s in enumerate(SIGNS):
     page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{pair_links(s["slug"], s["hard"])}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'
     page += f'<div class="cc"><div class="k">Противоположность</div><div class="v">{pair_links(s["slug"], s["opposite"])}</div><p>Оппозиция: сильное притяжение и такая же сильная тяга переделать друг друга.</p></div></div>'
     page += f'<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Нажмите на знак, чтобы открыть разбор пары. <a href="/compat">Таблица всех пар</a>.</p>'
+    all_pairs = ', '.join('<a href="/compat/{}-{}" {}>{} + {}</a>'.format(*sorted([s['slug'], o['slug']], key=ORDER.index), LINK, s['name'], o['name']) for o in SIGNS)
+    page += f'<p style="margin:12px 0 0;font-size:15px;line-height:1.9">Все пары {GEN[s["slug"]]}: {all_pairs}.</p>'
+    page += (f'<p style="margin:12px 0 0;font-size:15px">Если {s["name"]} - ваш восходящий знак, а не знак Солнца, читайте страницу <a href="/ascendant/{s["slug"]}" {LINK}>Асцендент: {s["name"]}</a>. '
+             f'О стихии знака: <a href="/elements/{EL_SLUG[s["element"]]}" {LINK}>{s["element"]}</a>.</p>')
     page += '<div class="cta"><b>Знака Солнца мало: Луна, Венера и Марс решают больше.<br>Проверьте пару по натальным картам</b><a href="/">Запустить спидометр</a></div>'
     others = [x for j, x in enumerate(SIGNS) if j != i]
+    page += (f'<p style="margin:12px 0 0;font-size:15px;line-height:1.9">Читайте также: <a href="/blog/natalnaya-karta" {LINK}>как читать натальную карту</a>, '
+             f'<a href="/blog/sovmestimost-znakov-zodiaka" {LINK}>как читать совместимость знаков зодиака</a>, <a href="/blog/ascendent" {LINK}>что такое Асцендент</a>.</p>')
     page += '<h2>Другие знаки</h2><div class="grid">' + ''.join(card(x) for x in others[:4]) + '</div>'
+    page += '<p style="margin:16px 0 0;font-size:15px;line-height:1.9">Все знаки: ' + ', '.join(f'<a href="/signs/{o["slug"]}" {LINK}>{o["name"]}</a>' for o in others) + '.</p>'
     page += FOOT
     assert 'ё' not in page and '—' not in page, s['slug']
     open(os.path.join(OUT, s['slug'] + '.html'), 'w', encoding='utf-8').write(page)
@@ -146,6 +155,17 @@ idx = HEAD.format(title='Знаки зодиака: характеристика
 idx += '<h1 class="list">Знаки зодиака</h1><p class="lead">Характер, любовь, быт и совместимость: отдельно о женщине и о мужчине каждого знака. Нажмите на карточку.</p>'
 idx += '<div class="grid">' + ''.join(card(s) for s in SIGNS) + '</div>' + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
+# страница 404: то же оформление, без canonical, закрыта от индексации
+p404 = HEAD.format(title='Страница не найдена | Lunarius', desc='Такой страницы нет. Перейдите к расчету совместимости, натальной карте или знакам зодиака.', path='/404').replace('<!--METRIKA-->', METRIKA)
+p404 = p404.replace('<link rel="canonical" href="https://lunarius.ru/404">\n', '<meta name="robots" content="noindex">\n')
+p404 += ('<h1 class="list">Страница не найдена</h1><p class="lead">Такого адреса на сайте нет: возможно, ссылка устарела или в ней опечатка. Вот что есть на Lunarius.</p>'
+         '<div class="compat">'
+         '<div class="cc"><div class="k">Расчеты</div><div class="v"><a href="/">Совместимость</a>, <a href="/natal">Натальная карта</a>, <a href="/ascendant">Асцендент</a></div><p>Три калькулятора по дате, времени и месту рождения.</p></div>'
+         '<div class="cc"><div class="k">Знаки</div><div class="v"><a href="/signs">Знаки зодиака</a>, <a href="/compat">Совместимость знаков</a>, <a href="/elements">Стихии</a></div><p>Характер каждого знака и разбор всех 78 пар.</p></div>'
+         '<div class="cc"><div class="k">Статьи</div><div class="v"><a href="/blog">Блог</a></div><p>Синастрия, дома, аспекты и Асцендент простым языком.</p></div>'
+         '</div>' + FOOT)
+assert 'ё' not in p404 and '—' not in p404
+open(os.path.join(os.path.dirname(OUT), '404.html'), 'w', encoding='utf-8').write(p404)
 words = sum(len(re.sub(r'<[^>]+>', ' ', open(os.path.join(OUT, s['slug'] + '.html'), encoding='utf-8').read()).split()) for s in SIGNS)
 print('signs:', len(SIGNS), 'pages, words total ~', words)
 

@@ -72,6 +72,7 @@ app.post('/api/natal', (req, res) => {
 
 app.get('/api/indexnow-status', (req, res) => res.json(lastIndexNow || { status: 'еще не отправлялось' }));
 app.use(stripSlash); // до маршрутов /natal и /privacy, чтобы /natal/ тоже уходил на /natal
+app.use(require('./lib/static-gzip')(path.join(__dirname, 'public'), { maxAge: 3600 })); // сжатые HTML, JS, XML
 app.get('/natal', (req, res) => res.sendFile(path.join(__dirname, 'public', 'natal.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
 
@@ -89,7 +90,20 @@ function sectionIndex(req, res, next) {
   res.sendFile(path.join(PUBLIC, req.path.slice(1), 'index.html'), { maxAge: '1h' }, (err) => { if (err) next(); });
 }
 app.use(sectionIndex);
+app.use('/img', express.static(path.join(PUBLIC, 'img'), { maxAge: '30d' })); // картинки знаков меняются редко
 app.use(express.static(PUBLIC, { maxAge: '1h', extensions: ['html'], redirect: false }));
+
+// --- пара в обратном порядке: /compat/lev-oven -> /compat/oven-lev
+app.get(/^\/compat\/([a-z]+)-([a-z]+)$/, (req, res, next) => {
+  const [, a, b] = req.path.match(/^\/compat\/([a-z]+)-([a-z]+)$/);
+  require('fs').access(path.join(PUBLIC, 'compat', `${b}-${a}.html`), (err) => (err ? next() : res.redirect(301, `/compat/${b}-${a}`)));
+});
+
+// --- все остальное: страница 404 с меню и ссылками на разделы
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Не найдено' });
+  res.status(404).sendFile(path.join(PUBLIC, '404.html'), (err) => { if (err && !res.headersSent) res.type('text').send('Страница не найдена'); });
+});
 
 // --- IndexNow: при запуске на хостинге сообщаем Яндексу адреса из sitemap.
 // Запуск происходит после каждого деплоя, то есть когда страницы могли измениться.

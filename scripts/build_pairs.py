@@ -9,6 +9,10 @@ METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read
 EASY = {s['slug']: s['easy'] for s in SIGN_PAGES}
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
 IDX = {s[0]: i for i, s in enumerate(SIGNS)}
+EL_SLUG = {'Огонь': 'fire', 'Земля': 'earth', 'Воздух': 'air', 'Вода': 'water'}
+LINK = 'style="color:inherit;border-bottom:1px solid rgba(91,68,189,.4);text-decoration:none"'
+def pair_url(x, y):
+    x, y = sorted([x, y], key=lambda k: IDX[k]); return f'/compat/{x}-{y}'
 
 HEAD = open(os.path.join(ROOT, 'scripts/build_signs.py'), encoding='utf-8').read()
 HEAD = re.search(r"HEAD = '''(.*?)'''\nFOOT", HEAD, re.S).group(1)
@@ -89,6 +93,22 @@ def page_for(a, b):
     others = [s for s in SIGNS if s[0] not in (a, b)][:4]
     page += f'<h2>{nameA} с другими знаками</h2><div class="grid">' + ''.join(
         f'<a class="card glass" href="/compat/{min(a, s[0], key=lambda k: IDX[k])}-{max(a, s[0], key=lambda k: IDX[k])}"><img src="/img/{s[5]}.webp" alt="" loading="lazy"><div><h3>{nameA} + {s[1]}</h3><p>{RELATION[rel_index(a, s[0])]["title"]}</p></div></a>' for s in others) + '</div>'
+    def all_pairs(me, name, gen):
+        return f'<p style="margin:16px 0 0;font-size:15px;line-height:1.9">Все пары {gen}: ' + ', '.join(
+            f'<a href="{pair_url(me, s[0])}" {LINK}>{name} + {s[1]}</a>' for s in SIGNS if not (me == a and s[0] == b) and not (me == b and s[0] == a)) + '.</p>'
+    page += all_pairs(a, nameA, A[2])
+    if not same: page += all_pairs(b, nameB, B[2])
+    def sign_card(S):
+        return f'<a class="card glass" href="/signs/{S[0]}"><img src="/img/{S[5]}.webp" alt="" loading="lazy"><div><h3>{S[1]}</h3><p>Характер, женщина и мужчина знака</p></div></a>'
+    def asc_card(S):
+        return f'<a class="card glass" href="/ascendant/{S[0]}"><img src="/img/{S[5]}.webp" alt="" loading="lazy"><div><h3>Асцендент: {S[1]}</h3><p>Если это ваш восходящий знак</p></div></a>'
+    cards = [sign_card(A)] + ([] if same else [sign_card(B)]) + [asc_card(A)] + ([] if same else [asc_card(B)])
+    page += '<h2>Подробнее о <em>знаках</em></h2><div class="grid">' + ''.join(cards) + '</div>'
+    els = list(dict.fromkeys([A[4], B[4]]))
+    page += '<p style="margin:16px 0 0;font-size:15px">Стихии пары: ' + ', '.join(f'<a href="/elements/{EL_SLUG[e]}" {LINK}>{e}</a>' for e in els) + '. Свою карту можно построить на странице <a href="/natal" ' + LINK + '>«Натальная карта»</a>.</p>'
+    page += ('<p style="margin:12px 0 0;font-size:15px;line-height:1.9">Читайте также: <a href="/blog/sovmestimost-znakov-zodiaka" ' + LINK + '>как читать совместимость знаков зодиака</a>, '
+             '<a href="/blog/sinastriya" ' + LINK + '>что такое синастрия</a>, <a href="/blog/venera-v-sinastrii" ' + LINK + '>Венера в синастрии</a>, '
+             '<a href="/blog/luna-v-sinastrii" ' + LINK + '>Луна в синастрии</a>, <a href="/blog/sovmestimost-po-date-rozhdeniya" ' + LINK + '>совместимость по дате рождения</a>.</p>')
     page += FOOT
     assert 'ё' not in page and '—' not in page, (a, b)
     return page

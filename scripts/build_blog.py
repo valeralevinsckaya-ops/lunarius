@@ -97,7 +97,7 @@ footer{{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2
 <div class="wrap">
 <header>
 <a class="logo" href="/"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M3 19 A14 14 0 0 1 31 19" fill="none" stroke="#6E56CF" stroke-width="3" stroke-linecap="round"></path><line x1="17" y1="19" x2="25" y2="9" stroke="#2A2340" stroke-width="2.5" stroke-linecap="round"></line><circle cx="17" cy="19" r="2.5" fill="#2A2340"></circle></svg><span><b>Lunarius</b><span>Спидометр совместимости</span></span></a>
-<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/blog">Статьи</a><a href="/#faq">Вопросы</a></nav>
+<nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/ascendant">Асцендент</a><a href="/signs">Знаки</a><a href="/blog">Статьи</a></nav>
 </header>
 '''
 FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
@@ -119,6 +119,9 @@ for i, a in enumerate(articles):
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/blog">Статьи</a></p>'
     page += f'<article class="glass"><span class="tag">{TAGS.get(a["slug"], "Статья")}</span><h1>{a["h1"]}</h1>\n{a["body"]}\n{cta}</article>'
     page += '<section class="rel"><h2>Читайте также</h2><div class="grid">' + ''.join(card(x, articles.index(x)) for x in rel) + '</div></section>'
+    page += ('<p style="margin:24px 0 0;font-size:15px;line-height:1.9;color:#5E5675">Инструменты и разделы: '
+             '<a href="/">спидометр совместимости</a>, <a href="/natal">натальная карта онлайн</a>, <a href="/ascendant">расчет Асцендента</a>, '
+             '<a href="/signs">знаки зодиака</a>, <a href="/compat">совместимость знаков</a>, <a href="/elements">четыре стихии</a>.</p>')
     page += FOOT
     assert 'ё' not in page and '—' not in page, a['slug']
     open(os.path.join(out_dir, a['slug'] + '.html'), 'w', encoding='utf-8').write(page)

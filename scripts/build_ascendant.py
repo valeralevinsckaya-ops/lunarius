@@ -1,12 +1,14 @@
 # Собирает страницы /ascendant из docs/ascendant_content.py в public/ascendant/<slug>.html + public/ascendant/index.html
 # Общая часть <head>, стили и шапка берутся из public/elements/index.html, чтобы страницы выглядели одинаково.
-import os, sys, json, html
+import os, sys, json, html, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'docs'))
 from ascendant_content import SIGNS, HUB
 OUT = os.path.join(ROOT, 'public/ascendant'); os.makedirs(OUT, exist_ok=True)
-_el = open(os.path.join(ROOT, 'public/elements/index.html'), encoding='utf-8').read().split('\n')
-SHARED = '\n'.join(_el[11:108])  # от viewport до </header>
+_el = open(os.path.join(ROOT, 'public/elements/index.html'), encoding='utf-8').read()
+_el = re.sub(r'<!--meta:start-->.*?<!--meta:end-->\n?', '', _el, flags=re.S)  # свои OG и canonical страница получает ниже
+SHARED = _el[_el.index('<meta name="viewport"'):_el.index('</header>') + len('</header>')]  # от viewport до </header>
+SHARED = re.sub(r'<title>.*?</title>\n?|<meta name="description"[^>]*>\n?|<link rel="canonical"[^>]*>\n?|<meta property="og:(?:title|description|url)"[^>]*>\n?', '', SHARED)
 assert SHARED.startswith('<meta name="viewport"') and SHARED.endswith('</header>')
 P1 = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">'
 TAIL = '</div>\n</body>\n</html>\n'
@@ -51,7 +53,7 @@ for s in SIGNS:
     b += f'<h2>С возрастом и <em>советы</em></h2><div class="sec glass"><div><h3>Как меняется с годами</h3><p>{x["age"]}</p></div><div><h3>Три совета</h3>{ul(x["tips"])}</div>'
     b += f'<div class="wide"><h3>Управитель карты</h3><p>Управитель восходящего знака считается управителем всей натальной карты. При Асценденте {s["loc"]} это {s["ruler"]}: знак и дом, в которых стоит эта планета, показывают, куда уходит ваша главная энергия и в какой сфере жизни вы проявляетесь ярче всего. Найти ее положение можно в <a href="/natal">натальной карте</a>.</p></div></div>'
     b += f'<div class="cta"><b>Не уверены в своем Асценденте?<br>Рассчитайте по дате, времени и городу</b><a href="/ascendant">Рассчитать Асцендент</a></div>'
-    b += f'<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Асцендент - не то же самое, что знак зодиака по дате рождения. О Солнце {s["loc"]} читайте на странице <a href="/signs/{s["slug"]}">знака {s["name"]}</a>. Асцендент в других знаках: {others}.</p>'
+    b += f'<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Асцендент - не то же самое, что знак зодиака по дате рождения. О Солнце {s["loc"]} читайте на странице <a href="/signs/{s["slug"]}">знака {s["name"]}</a>, а о парах знака - в <a href="/compat">таблице совместимости</a>. Статьи: <a href="/blog/ascendent">что такое Асцендент</a>, <a href="/blog/doma-v-natalnoy-karte">дома в натальной карте</a>, <a href="/blog/aspekty-v-natalnoy-karte">аспекты в натальной карте</a>. Асцендент в других знаках: {others}.</p>'
     b += FOOT
     page = head(title, og, desc, f'/ascendant/{s["slug"]}', [crumbs_ld([('Главная', '/'), ('Асцендент', '/ascendant'), (name, f'/ascendant/{s["slug"]}')])]) + '\n' + b + '\n' + TAIL
     open(os.path.join(OUT, s['slug'] + '.html'), 'w', encoding='utf-8').write(page)
