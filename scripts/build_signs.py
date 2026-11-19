@@ -51,7 +51,6 @@ nav{{display:flex;flex-wrap:wrap;gap:28px;font-size:15px;font-weight:600}}nav a{
 .crumbs{{font-size:13px;color:#6B6380;margin:8px 0 20px}}.crumbs a{{color:#5B44BD;text-decoration:none}}
 .hero{{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:40px;align-items:center;padding:36px 44px}}
 .hero img{{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:32px;display:block}}
-.sym{{font-family:'Noto Sans Symbols','Segoe UI Symbol',sans-serif;font-size:64px;line-height:1}}
 h1{{margin:8px 0 10px;font-family:'Oswald',sans-serif;font-weight:600;font-size:72px;line-height:1;text-transform:uppercase}}
 .meta{{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}}
 .meta span{{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.65);font-size:13px;font-weight:700}}
@@ -121,7 +120,7 @@ for i, s in enumerate(SIGNS):
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path='/signs/' + s['slug']).replace('<!--METRIKA-->', METRIKA)
     page += '<p class="crumbs"><a href="/">Главная</a> · <a href="/signs">Знаки зодиака</a></p>'
     page += (f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{s["name"]}"><div>'
-             f'<div class="sym" style="color:{ELEM_COLOR[s["element"]]}">{s["symbol"]}</div><h1>{s["name"]}</h1>'
+             f'<h1>{s["name"]}</h1>'
              f'<div class="meta"><span>{s["dates"]}</span><span>Стихия: <a href="/elements/{EL_SLUG[s["element"]]}" style="color:{ELEM_COLOR[s["element"]]};font-weight:700;text-decoration:none">{s["element"]}</a></span><span>Крест: <b>{s["mode"]}</b></span><span>Управитель: <b>{s["ruler"]}</b></span></div>'
              f'<p class="intro">{s["intro"]}</p></div></section>')
     x = EXTRA[s['slug']]

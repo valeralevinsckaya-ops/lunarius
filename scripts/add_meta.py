@@ -42,8 +42,6 @@ def process(path):
     tags = []
     if 'rel="canonical"' not in s:
         tags.append(f'<link rel="canonical" href="{full}">')
-    if 'class="sym"' in s:  # крупные символы знаков: шрифт подгружается, не задерживая отрисовку
-        tags.append('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap" media="print" onload="this.media=\'all\'">')
     tags += [
         f'<meta property="og:type" content="{"article" if is_article else "website"}">',
         '<meta property="og:site_name" content="Lunarius">',

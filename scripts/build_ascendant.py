@@ -41,7 +41,7 @@ for s in SIGNS:
     desc = f"Узнайте, что дает {name}: внешность, характер, любовь, у женщин и мужчин, сочетание с Солнцем. Рассчитайте свой Асцендент онлайн бесплатно."
     others = ', '.join(f'<a href="/ascendant/{o["slug"]}">{o["loc"]}</a>' for o in SIGNS if o is not s)
     b = f'<p class="crumbs"><a href="/">Главная</a> · <a href="/ascendant">Асцендент</a></p>'
-    b += f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{name}"><div><div class="sym" style="color:{col}">{s["symbol"]}</div><h1 style="font-size:56px">{name}</h1>'
+    b += f'<section class="hero glass"><img src="/img/{s["img"]}.webp" alt="{name}"><div><h1 style="font-size:56px">{name}</h1>'
     b += f'<div class="meta"><span>Стихия: <b><a href="/elements/{s["el"]}" style="color:{col};text-decoration:none">{s["element"]}</a></b></span><span>Управитель карты: <b>{s["ruler"]}</b></span><span>Десцендент: <b>{d["loc"]}</b></span></div>'
     b += f'<p class="intro">{x["intro"][0]}</p><p class="intro" style="margin-top:12px">{x["intro"][1]}</p></div></section>'
     b += f'<h2>Внешность и <em>первое впечатление</em></h2><div class="sec glass"><div><h3>Внешность</h3><p>{x["look"][0]}</p></div><div><h3>Стиль и манера</h3><p>{x["look"][1]}</p></div><div class="wide"><h3>Как узнать человека с Асцендентом {s["loc"]}</h3>{ul(x["marks"])}</div></div>'
