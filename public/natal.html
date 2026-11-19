@@ -17,28 +17,28 @@
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.6;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}
+body{margin:0;font-family:'Manrope','Manrope Fallback',sans-serif;color:#2A2340;line-height:1.6;background:#FBF8F3;background-image:radial-gradient(1000px 700px at 100% 0%,rgba(242,180,120,.6),transparent 60%),radial-gradient(1000px 800px at 0% 25%,rgba(197,178,247,.65),transparent 60%),radial-gradient(900px 700px at 70% 80%,rgba(242,118,138,.3),transparent 60%),radial-gradient(800px 600px at 10% 100%,rgba(94,139,242,.25),transparent 60%);background-attachment:fixed}
 a{color:#5B44BD}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
 header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:28px 0}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#2A2340}
-.logo b{font-family:'Oswald',sans-serif;font-size:26px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1;display:block}
+.logo b{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:26px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1;display:block}
 .logo span{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5B44BD;margin-top:4px;display:block}
 nav{display:flex;flex-wrap:wrap;gap:28px;font-size:15px;font-weight:600}
 nav a{color:#2A2340;text-decoration:none}
-h1{margin:24px 0 12px;font-family:'Oswald',sans-serif;font-weight:600;font-size:72px;line-height:1;text-transform:uppercase;text-align:center}
+h1{margin:24px 0 12px;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:600;font-size:72px;line-height:1;text-transform:uppercase;text-align:center}
 h1 em{font-style:normal;background:linear-gradient(90deg,#6E56CF,#9A6BF0 60%,#F2768A);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{margin:0 auto 36px;max-width:720px;text-align:center;font-size:17px;color:#5E5675}
 .glass{background:linear-gradient(135deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.52) 55%,rgba(255,255,255,.68) 100%);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);border:1.5px solid rgba(255,255,255,.98);box-shadow:inset 0 1px 0 #fff,inset 0 24px 48px rgba(255,255,255,.3),0 36px 80px rgba(62,44,143,.22),0 4px 10px rgba(62,44,143,.08);border-radius:36px}
 form.glass{padding:32px 36px;display:flex;flex-direction:column;gap:18px}
 .f-row{display:grid;grid-template-columns:150px repeat(3,minmax(0,1fr));gap:16px;align-items:end}
-.f-row>span{font-family:'Oswald',sans-serif;font-size:30px;font-weight:500;text-transform:uppercase;color:#6E56CF;line-height:50px}
+.f-row>span{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:30px;font-weight:500;text-transform:uppercase;color:#6E56CF;line-height:50px}
 .f{display:flex;flex-direction:column;gap:6px;position:relative}
 label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#5E5675}
 input[type=text],input[type=date],input[type=time]{font-family:inherit;font-size:15px;color:#2A2340;padding:0 14px;height:50px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(91,68,189,.1);width:100%}
 .agree{align-self:center;display:flex;align-items:flex-start;gap:10px;max-width:720px;font-size:13px;line-height:1.5;color:#5E5675;cursor:pointer}
 .agree input{flex:0 0 auto;width:20px;height:20px;margin:0;accent-color:#6E56CF}
-.btn{align-self:center;margin-top:8px;min-height:58px;padding:0 48px;border:0;border-radius:999px;background:#2A2340;color:#FBF8F3;font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.btn{align-self:center;margin-top:8px;min-height:58px;padding:0 48px;border:0;border-radius:999px;background:#2A2340;color:#FBF8F3;font-family:'Oswald','Oswald Fallback',sans-serif;font-size:20px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 .btn:disabled{opacity:.6}
 #form-error{align-self:center;margin:0;padding:10px 16px;border-radius:12px;background:#FDE9DC;color:#A8461A;font-size:14px;font-weight:600}
 .city-list{position:absolute;left:0;right:0;top:100%;z-index:30;margin-top:4px;max-height:260px;overflow:auto;background:#fff;border:1px solid #D8CDEE;border-radius:14px;box-shadow:0 18px 40px rgba(75,58,158,.18)}
@@ -47,14 +47,14 @@ input[type=text],input[type=date],input[type=time]{font-family:inherit;font-size
 .hint{margin:16px auto 0;max-width:720px;text-align:center;font-size:13px;color:#6B6380}
 /* результат */
 #result{display:flex;flex-direction:column;gap:28px;margin-top:48px;scroll-margin-top:24px}
-.r-h{margin:0;font-family:'Oswald',sans-serif;font-weight:600;font-size:52px;text-transform:uppercase}
-.r-sub{margin:8px 0 0;font-family:'Oswald',sans-serif;font-weight:500;font-size:28px;text-transform:uppercase}
+.r-h{margin:0;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:600;font-size:52px;text-transform:uppercase}
+.r-sub{margin:8px 0 0;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:500;font-size:28px;text-transform:uppercase}
 .card{padding:24px 26px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.66) 0%,rgba(255,255,255,.38) 50%,rgba(255,255,255,.54) 100%);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 60px rgba(91,68,189,.16)}
 .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .who{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
-.big{font-family:'Oswald',sans-serif;font-size:40px;font-weight:600;line-height:1.05;text-transform:uppercase;margin:4px 0 8px}
+.big{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:40px;font-weight:600;line-height:1.05;text-transform:uppercase;margin:4px 0 8px}
 .big small{font-size:18px;font-weight:400;color:#6B6380;margin-left:8px;text-transform:none}
 .card p{margin:0;font-size:15px;color:#5E5675}
 .wheel-wrap{display:grid;grid-template-columns:minmax(0,680px) minmax(0,1fr);gap:28px;align-items:start}
@@ -67,12 +67,12 @@ input[type=text],input[type=date],input[type=time]{font-family:inherit;font-size
 .wheel{width:100%;height:auto;display:block}
 .plist{display:flex;flex-direction:column;gap:10px}
 .prow{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(110,86,207,.15)}
-.prow b{font-family:'Oswald',sans-serif;font-size:18px;font-weight:500;text-transform:uppercase}
+.prow b{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:18px;font-weight:500;text-transform:uppercase}
 .prow .pos{font-size:15px;color:#2A2340}
 .prow .house{font-size:13px;color:#6B6380;white-space:nowrap}
 .retro{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:#EDE5FF;color:#5B44BD;font-size:11px;font-weight:700;vertical-align:middle}
 .ptext{font-size:14px;color:#5E5675;grid-column:1/-1;margin:0}
-.hcard .n{font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;text-transform:uppercase}
+.hcard .n{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:22px;font-weight:600;text-transform:uppercase}
 .hcard .cs{font-size:13px;color:#5B44BD;font-weight:700}
 .hcard .pl{font-size:13px;color:#2A2340;margin-top:6px}
 .asp{display:flex;flex-direction:column;gap:6px}
@@ -86,7 +86,7 @@ input[type=text],input[type=date],input[type=time]{font-family:inherit;font-size
 .bal i{width:10px;height:10px;border-radius:50%;display:inline-block}
 .note{font-size:13px;color:#6B6380}
 .more{margin-top:12px}
-.more .card h3{margin:0 0 8px;font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase;letter-spacing:.03em;color:#2A2340}
+.more .card h3{margin:0 0 8px;font-family:'Oswald','Oswald Fallback',sans-serif;font-size:20px;font-weight:500;text-transform:uppercase;letter-spacing:.03em;color:#2A2340}
 .more .card p+p{margin-top:10px}
 .more .card a,.more p a{color:#5B44BD}
 footer{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2);font-size:13px;color:#6B6380;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
@@ -137,6 +137,7 @@ input[type=time]:disabled{opacity:.45}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://lunarius.ru/"}, {"@type": "ListItem", "position": 2, "name": "Натальная карта онлайн", "item": "https://lunarius.ru/natal"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Как рассчитать натальную карту онлайн?", "acceptedAnswer": {"@type": "Answer", "text": "Укажите дату, время и город рождения, отметьте согласие и нажмите «Построить карту». Регистрация не нужна, результат появится на этой же странице."}}, {"@type": "Question", "name": "Расчет натальной карты бесплатный?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Карта, все тексты расшифровки и колесо доступны бесплатно, платных разделов на сайте нет."}}, {"@type": "Question", "name": "Что делать, если я не знаю время рождения?", "acceptedAnswer": {"@type": "Answer", "text": "Отметьте «Не знаю точного времени». Мы рассчитаем планеты в знаках и аспекты между ними. Дома и Асцендент без времени построить нельзя, такая карта называется космограммой."}}, {"@type": "Question", "name": "Насколько точным должно быть время?", "acceptedAnswer": {"@type": "Answer", "text": "Чем точнее, тем лучше. Асцендент сдвигается в среднем на один градус за четыре минуты и меняет знак примерно раз в два часа, поэтому ошибка в полчаса может сместить границы домов. Время обычно указано в бирке из роддома или в медицинских документах."}}, {"@type": "Question", "name": "Зачем нужен город рождения?", "acceptedAnswer": {"@type": "Answer", "text": "По городу определяются координаты и часовой пояс на дату рождения, с учетом исторических переводов часов. От этого зависят Асцендент и дома. Если вашего населенного пункта нет в списке, выберите ближайший крупный город."}}, {"@type": "Question", "name": "Какая система домов используется?", "acceptedAnswer": {"@type": "Answer", "text": "Плацидус - самая распространенная система в современной западной астрологии. Положения планет считаются по астрономическим эфемеридам."}}, {"@type": "Question", "name": "Как узнать совместимость по натальной карте?", "acceptedAnswer": {"@type": "Answer", "text": "Для этого сравнивают две карты, такой метод называется синастрией. Откройте спидометр совместимости и введите данные двух людей."}}, {"@type": "Question", "name": "Вы сохраняете мои данные?", "acceptedAnswer": {"@type": "Answer", "text": "Нет. Дата, время и место рождения нужны только для расчета: сервер считает карту в памяти и сразу отдает результат в браузер."}}]}</script>
 <!--meta:end-->
+<!--fontfb:start--><style>@font-face{font-family:'Manrope Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 500;size-adjust:100.5%;ascent-override:106.1%;descent-override:29.9%;line-gap-override:0%}@font-face{font-family:'Manrope Fallback';src:local('Arial Bold'),local('Liberation Sans Bold'),local('Roboto Bold'),local('Helvetica Neue Bold');font-weight:600 800;size-adjust:98.5%;ascent-override:108.2%;descent-override:30.5%;line-gap-override:0%}@font-face{font-family:'Oswald Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 700;size-adjust:82%;ascent-override:145.5%;descent-override:35.2%;line-gap-override:0%}</style><!--fontfb:end-->
 </head>
 <body>
 <div class="wrap">

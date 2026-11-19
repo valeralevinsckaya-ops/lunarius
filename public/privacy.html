@@ -18,22 +18,22 @@
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:'Manrope',sans-serif;color:#2A2340;line-height:1.65;background:#FBF8F3;background-image:radial-gradient(900px 600px at 100% 0%,rgba(242,180,120,.55),transparent 60%),radial-gradient(900px 700px at 0% 20%,rgba(197,178,247,.6),transparent 60%),radial-gradient(800px 600px at 60% 100%,rgba(242,118,138,.28),transparent 60%);background-attachment:fixed}
+body{margin:0;font-family:'Manrope','Manrope Fallback',sans-serif;color:#2A2340;line-height:1.65;background:#FBF8F3;background-image:radial-gradient(900px 600px at 100% 0%,rgba(242,180,120,.55),transparent 60%),radial-gradient(900px 700px at 0% 20%,rgba(197,178,247,.6),transparent 60%),radial-gradient(800px 600px at 60% 100%,rgba(242,118,138,.28),transparent 60%);background-attachment:fixed}
 a{color:#5B44BD}
 .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:40px}
 .logo{display:flex;flex-direction:column;text-decoration:none;color:#2A2340}
-.logo b{font-family:'Oswald',sans-serif;font-size:26px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.logo b{font-family:'Oswald','Oswald Fallback',sans-serif;font-size:26px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1}
 .logo span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
 .back{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:#2A2340;color:#FBF8F3;text-decoration:none;font-weight:700;font-size:14px}
-h1{margin:0 0 12px;font-family:'Oswald',sans-serif;font-weight:600;font-size:44px;line-height:1.05;text-transform:uppercase}
+h1{margin:0 0 12px;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:600;font-size:44px;line-height:1.05;text-transform:uppercase}
 .lead{margin:0 0 24px;font-size:16px;color:#5E5675;max-width:720px}
 .tabs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 32px}
 .tabs a{display:inline-flex;align-items:center;min-height:42px;padding:0 18px;border-radius:999px;background:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.9);text-decoration:none;color:#2A2340;font-weight:600;font-size:14px;box-shadow:0 8px 24px rgba(91,68,189,.1)}
 .doc{margin:0 0 28px;padding:36px 40px;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.52) 100%);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);border:1.5px solid rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(91,68,189,.14);scroll-margin-top:24px}
 .meta{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#5B44BD;font-weight:700;margin:0 0 10px}
-h2{margin:0 0 20px;font-family:'Oswald',sans-serif;font-weight:600;font-size:30px;line-height:1.1;text-transform:uppercase}
-h3{margin:28px 0 10px;font-family:'Oswald',sans-serif;font-weight:500;font-size:20px;text-transform:uppercase;letter-spacing:.02em}
+h2{margin:0 0 20px;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:600;font-size:30px;line-height:1.1;text-transform:uppercase}
+h3{margin:28px 0 10px;font-family:'Oswald','Oswald Fallback',sans-serif;font-weight:500;font-size:20px;text-transform:uppercase;letter-spacing:.02em}
 p,li{font-size:15px}
 p{margin:0 0 12px}
 ul{margin:0 0 12px;padding-left:22px}
@@ -68,6 +68,7 @@ li{margin:0 0 6px}
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://lunarius.ru/"}, {"@type": "ListItem", "position": 2, "name": "Документы", "item": "https://lunarius.ru/privacy"}]}</script>
 <!--meta:end-->
+<!--fontfb:start--><style>@font-face{font-family:'Manrope Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 500;size-adjust:100.5%;ascent-override:106.1%;descent-override:29.9%;line-gap-override:0%}@font-face{font-family:'Manrope Fallback';src:local('Arial Bold'),local('Liberation Sans Bold'),local('Roboto Bold'),local('Helvetica Neue Bold');font-weight:600 800;size-adjust:98.5%;ascent-override:108.2%;descent-override:30.5%;line-gap-override:0%}@font-face{font-family:'Oswald Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 700;size-adjust:82%;ascent-override:145.5%;descent-override:35.2%;line-gap-override:0%}</style><!--fontfb:end-->
 </head>
 <body>
 <div class="wrap">

@@ -11,6 +11,30 @@ TODAY = datetime.date.today().isoformat()
 SECTIONS = {'blog': ('Блог', '/blog'), 'signs': ('Знаки зодиака', '/signs'), 'compat': ('Совместимость знаков', '/compat')}
 
 
+# Запасные шрифты с подогнанными метриками: пока Manrope и Oswald грузятся, текст занимает то же место,
+# и макет не прыгает (CLS). Коэффициенты измерены в Chrome по тексту главной относительно Arial.
+FB_START, FB_END = '<!--fontfb:start-->', '<!--fontfb:end-->'
+_LOCAL = "local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue')"
+_LOCAL_B = "local('Arial Bold'),local('Liberation Sans Bold'),local('Roboto Bold'),local('Helvetica Neue Bold')"
+FB_CSS = ('<style>'
+          "@font-face{font-family:'Manrope Fallback';src:" + _LOCAL + ";font-weight:200 500;size-adjust:100.5%;ascent-override:106.1%;descent-override:29.9%;line-gap-override:0%}"
+          "@font-face{font-family:'Manrope Fallback';src:" + _LOCAL_B + ";font-weight:600 800;size-adjust:98.5%;ascent-override:108.2%;descent-override:30.5%;line-gap-override:0%}"
+          "@font-face{font-family:'Oswald Fallback';src:" + _LOCAL + ";font-weight:200 700;size-adjust:82%;ascent-override:145.5%;descent-override:35.2%;line-gap-override:0%}"
+          '</style>')
+_FAM = re.compile(r"(font-family:\s*)(['\"]?)(Oswald|Manrope)\2(?!\s*;\s*src)(?!\s*,\s*'(?:Oswald|Manrope) Fallback')")
+
+
+def font_fallback(path):
+    s = open(path, encoding='utf-8').read()
+    if '</head>' not in s or '/fonts/' not in s:
+        return
+    new = re.sub(re.escape(FB_START) + r'.*?' + re.escape(FB_END) + r'\n?', '', s, flags=re.S)
+    new = _FAM.sub(lambda m: f"{m.group(1)}'{m.group(3)}','{m.group(3)} Fallback'", new)
+    new = new.replace('</head>', FB_START + FB_CSS + FB_END + '\n</head>', 1)
+    if new != s:
+        open(path, 'w', encoding='utf-8').write(new)
+
+
 def url_of(rel):
     rel = rel.replace(os.sep, '/')
     if rel == 'index.html':
@@ -88,5 +112,8 @@ def process(path):
     return True
 
 
-n = sum(process(p) for p in glob.glob(os.path.join(PUB, '**', '*.html'), recursive=True))
+_pages = glob.glob(os.path.join(PUB, '**', '*.html'), recursive=True)
+n = sum(process(p) for p in _pages)
+for _p in _pages:
+    font_fallback(_p)
 print('meta:', n, 'pages')
