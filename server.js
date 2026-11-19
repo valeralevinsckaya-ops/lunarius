@@ -93,10 +93,10 @@ app.use(express.static(PUBLIC, { maxAge: '1h', extensions: ['html'], redirect: f
 
 // --- IndexNow: при запуске на хостинге сообщаем Яндексу адреса из sitemap.
 // Запуск происходит после каждого деплоя, то есть когда страницы могли измениться.
-// Ключ лежит в public/<ключ>.txt. Отключить: переменная окружения INDEXNOW=off.
+// Ключ лежит в public/<ключ>.txt. Отключить (например, при запуске на своем компьютере): INDEXNOW=off npm start
 const INDEXNOW_KEY = '9952f21193d82752bb1c4449964a4d67';
 async function pingIndexNow() {
-  if (!process.env.PORT || process.env.INDEXNOW === 'off') return; // локальный запуск не трогаем
+  if (process.env.INDEXNOW === 'off' || process.env.NODE_ENV === 'development') { lastIndexNow = { status: 'отключено' }; return; }
   try {
     const xml = require('fs').readFileSync(path.join(PUBLIC, 'sitemap.xml'), 'utf8');
     const urlList = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
