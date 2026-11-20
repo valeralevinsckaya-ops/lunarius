@@ -230,9 +230,22 @@ for i, s in enumerate(SIGNS):
     assert 'ё' not in page and '—' not in page, s['slug']
     open(os.path.join(OUT, s['slug'] + '.html'), 'w', encoding='utf-8').write(page)
 
-idx = HEAD.format(title='12 знаков зодиака: характеристика, женщина и мужчина', desc='12 знаков зодиака: даты, стихия, управитель, характер, женщина и мужчина каждого знака в любви, быту и семье, совместимость с другими знаками.', path='/signs').replace('<!--METRIKA-->', METRIKA)
-idx += '<h1 class="list">Знаки зодиака</h1><p class="lead">Характер, любовь, быт и совместимость: отдельно о женщине и о мужчине каждого знака. Нажмите на карточку.</p>'
-idx += '<div class="grid">' + ''.join(card(s) for s in SIGNS) + '</div>' + FOOT
+from hubs_content import SIGNS_HUB as SH, MONTHS
+TBL = '<div class="glass" style="padding:20px 24px;margin:0;overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:15px">'
+TH = lambda cols: '<tr style="text-align:left">' + ''.join(f'<th style="padding:7px 10px;border-bottom:1px solid rgba(110,86,207,.2)">{c}</th>' for c in cols) + '</tr>'
+TD = lambda cols: '<tr>' + ''.join(f'<td style="padding:7px 10px;border-bottom:1px solid rgba(110,86,207,.12)">{c}</td>' for c in cols) + '</tr>'
+idx = HEAD.format(title=SH['title'], desc=SH['desc'], path='/signs').replace('<!--METRIKA-->', METRIKA)
+idx += f'<p class="crumbs"><a href="/">Главная</a> · Знаки зодиака</p><h1 class="list">Знаки зодиака</h1><p class="lead">{SH["lead"]}</p>'
+idx += '<div class="grid">' + ''.join(card(s) for s in SIGNS) + '</div>'
+idx += '<h2 id="po-datam">Знаки зодиака <em>по датам</em></h2>' + TBL + TH(['Знак', 'Даты', 'Стихия', 'Крест', 'Управитель']) + ''.join(
+    TD([f'<a href="/signs/{s["slug"]}">{s["name"]}</a>', s['dates'], s['element'], s['mode'], s['ruler']]) for s in SIGNS) + '</table></div>'
+idx += f'<p class="lead" style="margin:16px 0 0;max-width:820px">{SH["dates_note"]}</p>'
+idx += f'<h2 id="po-mesyacam">Знаки зодиака <em>по месяцам</em></h2><p class="lead" style="margin:-6px 0 18px;max-width:820px">{SH["months_intro"]}</p>' + TBL + TH(['Месяц', 'Знаки зодиака']) + ''.join(TD([m, z]) for m, z in MONTHS) + '</table></div>'
+idx += '<h2 id="kak-ustroen">Как устроен <em>зодиак</em></h2><div class="sec glass">' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in SH['how']) + '</div>'
+idx += '<div class="cta"><b>Совместимость знаков: таблица всех 78 пар</b><a href="/compat">Открыть таблицу</a></div>'
+idx += '<h2 id="voprosy">Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{a}</p></div>' for q, a in SH['faq']) + '</section>'
+idx += '<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Читайте также: <a href="/elements">стихии знаков зодиака</a>, <a href="/ascendant">Асцендент</a>, <a href="/natal">натальная карта онлайн</a>, <a href="/blog/sovmestimost-znakov-zodiaka">совместимость знаков зодиака</a>.</p>'
+idx += FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
 # страница 404: то же оформление, без canonical, закрыта от индексации
 p404 = HEAD.format(title='Страница не найдена | Lunarius', desc='Такой страницы нет. Перейдите к расчету совместимости, натальной карте или знакам зодиака.', path='/404').replace('<!--METRIKA-->', METRIKA)

@@ -195,7 +195,8 @@ for i, A in enumerate(SIGNS):
         open(os.path.join(OUT, f'{A[0]}-{B[0]}.html'), 'w', encoding='utf-8').write(page_for(A[0], B[0])); n += 1
 
 # индекс: таблица 12x12
-idx = HEAD.format(title='Совместимость знаков зодиака: таблица всех пар | Lunarius', desc='Таблица совместимости 12 знаков зодиака: выберите пару и читайте разбор - притяжение, любовь, трение, быт, совет паре. Затем проверьте пару по натальным картам.', path='/compat').replace('<!--METRIKA-->', METRIKA)
+from hubs_content import COMPAT_HUB as CH
+idx = HEAD.format(title=CH['title'], desc=CH['desc'], path='/compat').replace('<!--METRIKA-->', METRIKA)
 idx += '<h1 class="list">Совместимость знаков</h1><p class="lead">Выберите два знака. У каждой пары своя страница: что притягивает, где трение, как вы любите и живете вместе.</p>'
 idx += '<div class="glass" style="padding:24px"><div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:13px"><tr><th style="position:sticky;left:0;z-index:1;background:#F6F1FB"></th>' + ''.join(f'<th style="padding:8px 4px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{s[1]}</th>' for s in SIGNS) + '</tr>'
 STAR_COLOR = {5: '#5B44BD', 4: '#6E56CF', 3: '#9A8CC4', 2: '#E8762E', 1: '#E8762E'}
@@ -205,7 +206,36 @@ for A in SIGNS:
         a, b = sorted([A[0], B[0]], key=lambda k: IDX[k]); st = RELATION[rel_index(a, b)]['stars']
         idx += f'<td style="text-align:center;padding:4px"><a href="/compat/{a}-{b}" title="{A[1]} и {B[1]}" style="display:block;padding:8px 2px;border-radius:10px;background:rgba(255,255,255,.55);text-decoration:none;color:{STAR_COLOR[st]};font-weight:700">{st}★</a></td>'
     idx += '</tr>'
-idx += '</table></div><p style="margin:14px 0 0;font-size:13px;color:#6B6380">На телефоне таблицу можно листать вбок. 5★ одна стихия, 4★ дружественные стихии или один знак, 3★ соседи и противоположности, 2★ квадрат и квинконс. Это оценка по знакам Солнца; настоящую совместимость считает спидометр по полным натальным картам.</p></div>'
+idx += '</table></div><p style="margin:14px 0 0;font-size:13px;color:#6B6380">На телефоне таблицу можно листать вбок. 5★ одна стихия, 4★ дружественные стихии или один знак, 3★ соседи и противоположности, 2★ квадрат и квинконс. Это оценка по знакам Солнца; точную совместимость считает спидометр по полным натальным картам.</p></div>'
+import collections as _co
+_TBL = '<div class="glass" style="padding:20px 24px;margin:0;overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:15px">'
+_TH = lambda cols: '<tr style="text-align:left">' + ''.join(f'<th style="padding:7px 10px;border-bottom:1px solid rgba(110,86,207,.2)">{c}</th>' for c in cols) + '</tr>'
+_TD = lambda cols: '<tr>' + ''.join(f'<td style="padding:7px 10px;border-bottom:1px solid rgba(110,86,207,.12)">{c}</td>' for c in cols) + '</tr>'
+_g = _co.defaultdict(list)
+for _k, _v in STATS.items():
+    _a, _b = _k.split('-'); _g[rel_index(_a, _b)].append(_v['mean'])
+_avg = {r: sum(v) / len(v) for r, v in _g.items()}
+_fmt = lambda x: ('+' if x > 0 else '') + f'{x:.2f}'.replace('.', ',')
+_order = sorted(_avg, key=lambda r: (-RELATION[r]['stars'], -_avg[r]))
+idx += f'<h2 id="kak-chitat">Как читать <em>таблицу совместимости</em></h2><p class="lead" style="margin:-6px 0 18px;max-width:820px">{CH["how_intro"]}</p>'
+idx += _TBL + _TH(['Тип пары', 'Звезды', 'Что это значит', 'Средний балл спидометра']) + ''.join(
+    _TD([RELATION[r]['title'], f'{RELATION[r]["stars"]}★', CH['rel_text'][r], _fmt(_avg[r])]) for r in _order) + '</table></div>'
+_name = {s[0]: s[1] for s in SIGNS}
+_link = lambda k: f'<a href="/compat/{k}">{_name[k.split("-")[0]]} + {_name[k.split("-")[1]]}</a>'
+_L = sorted(STATS.items(), key=lambda x: -x[1]['mean'])
+_mixed = [kv for kv in _L if kv[0].split('-')[0] != kv[0].split('-')[1]]
+idx += f'<h2 id="spidometr">{CH["speedo_title"].split(" ", 1)[0]} <em>{CH["speedo_title"].split(" ", 1)[1]}</em></h2><div class="sec glass">' + ''.join(f'<div class="wide"><p>{p}</p></div>' for p in CH['speedo'])
+idx += '<div><h3>Выше всего в среднем</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[:6]) + '</ul></div>'
+idx += '<div><h3>Ниже всего в среднем</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[-6:][::-1]) + '</ul></div></div>'
+_best = []
+for _s in SIGNS:
+    _c = [(k, v['mean']) for k, v in STATS.items() if _s[0] in k.split('-') and k != f'{_s[0]}-{_s[0]}']
+    _c.sort(key=lambda x: -x[1]); _best.append(_TD([_s[1], _link(_c[0][0]) + ' ' + _fmt(_c[0][1]), _link(_c[1][0]) + ' ' + _fmt(_c[1][1]), _link(_c[-1][0]) + ' ' + _fmt(_c[-1][1])]))
+idx += '<h2 id="luchshie-pary">Лучшие пары <em>для каждого знака</em></h2><p class="lead" style="margin:-6px 0 18px;max-width:820px">По среднему баллу спидометра, без пар одного знака. Числа - средние по 20 000 смоделированных пар, шкала от -10 до +10.</p>'
+idx += _TBL + _TH(['Знак', 'Лучшая пара', 'Вторая', 'Труднее всего']) + ''.join(_best) + '</table></div>'
+idx += '<h2 id="muzhchina-zhenshchina">Мужчина и женщина, <em>любовь и брак</em></h2><div class="sec glass">' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in CH['mw']) + '</div>'
+idx += '<h2 id="voprosy">Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{a}</p></div>' for q, a in CH['faq']) + '</section>'
+idx += '<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Читайте также: <a href="/signs">знаки зодиака по датам</a>, <a href="/elements">стихии знаков</a>, <a href="/blog/sovmestimost-znakov-zodiaka">статья о совместимости знаков</a>, <a href="/blog/sinastriya">синастрия</a>.</p>'
 idx += CTA + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
 print('pairs:', n)
