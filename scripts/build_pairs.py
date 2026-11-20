@@ -35,6 +35,10 @@ EXTRA_CSS = '''
 .verdict p{{margin:0;font-size:15.5px}}
 .essence{{padding:32px 40px;font-size:17px;line-height:1.7}}
 .essence p{{margin:0}}
+.toc{{margin:28px 0 0;padding:20px 28px;font-size:14.5px;line-height:2.3}}
+.toc b{{margin-right:8px;font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.02em}}
+.toc a{{display:inline-block;margin:0 6px 0 0;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.7);color:#5B44BD;text-decoration:none;line-height:2;white-space:nowrap}}
+h2[id]{{scroll-margin-top:16px}}
 @media (max-width:640px){{.pair{{grid-template-columns:1fr 1fr;padding:20px}}.plus{{display:none}}.pname{{font-size:22px}}.verdict,.essence{{padding:24px 20px}}}}
 </style>'''
 HEAD = HEAD.replace('</style>', EXTRA_CSS, 1)
@@ -54,6 +58,9 @@ PLURAL = {'bliznecy', 'vesy', 'ryby'}
 def vb(slug, sg, pl): return pl if slug in PLURAL else sg
 
 def page_for(a, b):
+    toc = []
+    def H(anchor, short, inner):
+        toc.append((anchor, short)); return f'<h2 id="{anchor}">{inner}</h2>'
     A = SIGNS[IDX[a]]; B = SIGNS[IDX[b]]
     ta, tb = TRAITS[a], TRAITS[b]
     r = RELATION[rel_index(a, b)]
@@ -70,31 +77,31 @@ def page_for(a, b):
     ess = ESSENCE.get(essence_key(a, b))
     deep0 = DEEP.get(essence_key(a, b))
     if deep0 and deep0.get('intro'): page += f'<p class="lead" style="max-width:900px;margin:24px 0 0">{deep0["intro"]}</p>'
-    if ess: page += f'<h2>{nameA} и <em>{nameB}</em>: суть пары</h2><section class="essence glass"><p>{ess}</p></section>'
+    page += '<!--TOC-->'
+    if ess: page += H('sut', 'Суть пары', f'{nameA} и <em>{nameB}</em>: суть пары') + f'<section class="essence glass"><p>{ess}</p></section>'
     deep = DEEP.get(essence_key(a, b))
     if deep:
-        page += f'<h2>Он и она: <em>{nameA} и {nameB}</em></h2><section class="sec glass">'
-        page += f'<div><h3>Женщина-{nameA} и мужчина-{nameB}</h3><p>{deep["w_a_m_b"]}</p></div>'
-        if not same: page += f'<div><h3>Мужчина-{nameA} и женщина-{nameB}</h3><p>{deep["m_a_w_b"]}</p></div>'
-        page += f'<div class="wide"><h3>Как начинаются отношения</h3><p>{deep["start"]}</p></div>'
-        page += '</section>'
+        def cards(first, rest): return f'<div class="wide"><p>{first}</p></div>' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in rest)
+        page += H('ona-on', f'Женщина-{nameA} и мужчина-{nameB}', f'Женщина-{nameA} и <em>мужчина-{nameB}</em>') + '<section class="sec glass">' + cards(deep['w_a_m_b'], deep.get('wm', [])) + '</section>'
+        if not same: page += H('on-ona', f'Мужчина-{nameA} и женщина-{nameB}', f'Мужчина-{nameA} и <em>женщина-{nameB}</em>') + '<section class="sec glass">' + cards(deep['m_a_w_b'], deep.get('mw', [])) + '</section>'
+        page += H('nachalo', 'Начало отношений', f'Как начинаются отношения <em>{A[2]} и {B[2]}</em>') + f'<section class="essence glass"><p>{deep["start"]}</p></section>'
     # притяжение и трение
-    page += f'<h2>Что <em>притягивает</em></h2><section class="sec glass">'
+    page += H('prityazhenie', 'Что притягивает', f'Что притягивает <em>{A[2]} и {B[2]}</em>') + f'<section class="sec glass">'
     page += f'<div><h3>Что {vb(a, "дает", "дают")} {nameA}</h3><p>{cap(ta["gives"])}. {cap(ta["teaches"])} - этому {nameA} {vb(a, "учит", "учат")} {B[2]}.</p></div>'
     page += f'<div><h3>Что {vb(b, "дает", "дают")} {nameB}</h3><p>{cap(tb["gives"])}. {cap(tb["teaches"])} - этому {nameB} {vb(b, "учит", "учат")} {A[2]}.</p></div>'
     page += f'<div class="wide"><h3>Что каждому нужно</h3><p>{nameA} {vb(a, "ждет", "ждут")} от партнера {ta["needs"]}. {nameB} {vb(b, "ждет", "ждут")} {tb["needs"]}. ' + (
         'Запросы похожи, поэтому понимать друг друга легко.' if same else 'Насколько эти ожидания совпадают, и есть суть вашей совместимости: там, где один дает то, чего ждет другой, пара держится сама.') + '</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['attract']) if deep and deep.get('attract') else '') + '</section>'
-    page += f'<h2>В <em>любви</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
-    page += f'<h2>Где <em>трение</em></h2><section class="sec glass">'
+    page += H('lyubov', 'В любви', f'{nameA} и {nameB} <em>в любви</em>') + f'<section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
+    page += H('ssory', 'Ссоры', f'Из-за чего ссорятся <em>{nameA} и {nameB}</em>') + f'<section class="sec glass">'
     page += f'<div><h3>Как {vb(a, "ссорится", "ссорятся")} {nameA}</h3><p>{cap(ta["fight"])}.</p></div><div><h3>Как {vb(b, "ссорится", "ссорятся")} {nameB}</h3><p>{cap(tb["fight"])}.</p></div>'
     page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера могут раздражать {ta["irritates"]}. У {B[2]} партнера могут раздражать {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['friction']) if deep and deep.get('friction') else '') + '</section>'
-    page += f'<h2>В <em>быту</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
+    page += H('byt', 'В быту', f'{nameA} и {nameB} <em>в быту</em>') + f'<section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
     if deep:
-        page += f'<h2>В <em>близости</em></h2><section class="essence glass"><p>{deep["intimacy"]}</p></section>'
-        page += f'<h2>Дружба и <em>работа</em></h2><section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
-        page += f'<h2>Брак и <em>семья</em></h2><section class="sec glass"><div><h3>{nameA} и {nameB} в браке</h3><p>{deep["marriage"]}</p></div><div><h3>Кризисы и примирение</h3><p>{deep["crisis"]}</p></div></section>'
-        page += f'<h2>Как <em>завоевать</em></h2><section class="sec glass"><div><h3>Как завоевать {A[2]}</h3><p>{deep["win_a"]}</p></div>' + ('' if same else f'<div><h3>Как завоевать {B[2]}</h3><p>{deep["win_b"]}</p></div>') + '</section>'
-        page += f'<h2>Плюсы и <em>минусы</em> пары</h2><section class="sec glass"><div><h3>Сильные стороны</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['pros']) + '</ul></div><div><h3>Слабые места</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['cons']) + '</ul></div></section>'
+        page += H('postel', 'В постели', f'{nameA} и {nameB} <em>в постели</em>') + f'<section class="essence glass"><p>{deep["intimacy"]}</p></section>'
+        page += H('druzhba', 'Дружба и работа', f'{nameA} и {nameB} <em>в дружбе и работе</em>') + f'<section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
+        page += H('brak', 'В браке', f'{nameA} и {nameB} <em>в браке</em>') + f'<section class="sec glass"><div><h3>Семья, дети и бюджет</h3><p>{deep["marriage"]}</p></div><div><h3>Кризисы и примирение</h3><p>{deep["crisis"]}</p></div></section>'
+        page += H('zavoevat', 'Как завоевать', f'Как завоевать <em>{A[2]}' + ('' if same else f' и {B[2]}') + '</em>') + f'<section class="sec glass"><div><h3>Как завоевать {A[2]}</h3><p>{deep["win_a"]}</p></div>' + ('' if same else f'<div><h3>Как завоевать {B[2]}</h3><p>{deep["win_b"]}</p></div>') + '</section>'
+        page += H('plusy', 'Плюсы и минусы', f'Плюсы и минусы пары <em>{nameA} и {nameB}</em>') + f'<section class="sec glass"><div><h3>Сильные стороны</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['pros']) + '</ul></div><div><h3>Слабые места</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['cons']) + '</ul></div></section>'
     # совет
     adv = {0: 'Заводите разные интересы и друзей за пределами пары: вам нужен взгляд со стороны. И смейтесь над общими слабостями раньше, чем они начнут мешать.',
            1: 'Не ждите, что партнер будет понимать вас по умолчанию: объясняйте. Совместимость вы строите сами, зато она по-настоящему ваша.',
@@ -103,9 +110,9 @@ def page_for(a, b):
            4: 'Вносите новое: поездки, людей, задачи. Паре одной стихии грозит не ссора, а скука.',
            5: 'Не пытайтесь переделать: принимайте, что партнер устроен иначе, и спрашивайте вместо того, чтобы догадываться. Вы разные, и это ваш ресурс.',
            6: 'Помните, что раздражает именно то, чего вам не хватает. Когда захочется переделать партнера, спросите себя, не этому ли вы у него учитесь.'}[rel_index(a, b)]
-    page += f'<h2>Совет <em>паре</em></h2><section class="essence glass"><p>{deep["advice"] if deep and deep.get("advice") else adv}</p></section>'
+    page += H('sovet', 'Совет паре', f'Совет паре <em>{nameA} и {nameB}</em>') + f'<section class="essence glass"><p>{deep["advice"] if deep and deep.get("advice") else adv}</p></section>'
     if deep:
-        page += f'<h2>Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
+        page += H('voprosy', 'Вопросы', f'Вопросы о совместимости <em>{A[2]} и {B[2]}</em>') + f'<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
     page += CTA
     # другие пары с этими знаками
     others = [s for s in SIGNS if s[0] not in (a, b)][:4]
@@ -127,6 +134,7 @@ def page_for(a, b):
     page += ('<p style="margin:12px 0 0;font-size:15px;line-height:1.9">Читайте также: <a href="/blog/sovmestimost-znakov-zodiaka" ' + LINK + '>как читать совместимость знаков зодиака</a>, '
              '<a href="/blog/sinastriya" ' + LINK + '>что такое синастрия</a>, <a href="/blog/venera-v-sinastrii" ' + LINK + '>Венера в синастрии</a>, '
              '<a href="/blog/luna-v-sinastrii" ' + LINK + '>Луна в синастрии</a>, <a href="/blog/sovmestimost-po-date-rozhdeniya" ' + LINK + '>совместимость по дате рождения</a>.</p>')
+    page = page.replace('<!--TOC-->', '<nav class="toc glass" aria-label="Содержание"><b>На странице:</b> ' + ' '.join(f'<a href="#{i}">{t}</a>' for i, t in toc) + '</nav>')
     page += FOOT
     assert 'ё' not in page and '—' not in page, (a, b)
     return page
