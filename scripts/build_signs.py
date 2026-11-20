@@ -121,6 +121,10 @@ def person_block(label, p, inlove_title='', inlove=''):
 
 def deep_page(i, s, d):
     x = EXTRA[s['slug']]; nm = s['name']; gen = GEN[s['slug']]
+    d = dict(d)
+    d['woman'] = {**s['woman'], **d.get('woman', {})}; d['man'] = {**s['man'], **d.get('man', {})}
+    for k in ('woman_inlove', 'man_inlove', 'work', 'friendship'): d.setdefault(k, x[k])
+    d.setdefault('intro', (d['intro_lead'] + ' ' if d.get('intro_lead') else '') + s['intro'])
     toc = []
     def H(anchor, short, inner):
         toc.append((anchor, short)); return f'<h2 id="{anchor}">{inner}</h2>'
@@ -154,17 +158,20 @@ def deep_page(i, s, d):
     for o in SIGNS:
         a, b = sorted([s['slug'], o['slug']], key=ORDER.index); st = STATS[f'{a}-{b}']; rows.append((st['mean'], o, a, b, st))
     rows.sort(key=lambda r: -r[0])
+    q = lambda r: f'«{nm} + {r[1]["name"]}»'
+    speedo = (f'На спидометре Lunarius картина другая: мы посчитали по 20 000 случайных пар на каждое сочетание. Выше всех у знака {nm} пары {q(rows[0])}, {q(rows[1])} и {q(rows[2])}, ниже всех {q(rows[-2])} и {q(rows[-1])}. '
+              'Разница между сочетаниями меньше двух баллов по шкале от −10 до +10, а разброс внутри каждого сочетания намного шире, поэтому знак Солнца дает только стартовую подсказку.')
     num = lambda v: ('+' if v > 0 else '−' if v < 0 else '') + f'{abs(v):.2f}'.replace('.', ',')
     table = ('<div class="glass" style="padding:20px 24px;margin:18px 0 0;overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:15px"><tr style="text-align:left"><th style="padding:6px 8px">Пара</th><th style="padding:6px 8px">Средний балл</th><th style="padding:6px 8px">Перевес гармонии</th><th style="padding:6px 8px">Перевес напряжения</th></tr>'
              + ''.join(f'<tr><td style="padding:6px 8px"><a href="/compat/{a}-{b}" {LINK}>{nm} + {o["name"]}</a></td><td style="padding:6px 8px">{num(m)}</td><td style="padding:6px 8px">{st["good"]}%</td><td style="padding:6px 8px">{st["tense"]}%</td></tr>' for m, o, a, b, st in rows)
              + '</table><p style="margin:12px 0 0;font-size:13px;color:#6B6380">По 20 000 случайных пар на каждое сочетание, даты рождения 1960-2008, шкала спидометра от −10 до +10.</p></div>')
-    page += H('sovmestimost', 'Кто подходит', f'Какой знак зодиака <em>подходит {GEN_DAT.get(s["slug"], nm)}</em>') + f'<div class="sec glass"><div class="wide"><p>{d["match"]}</p></div><div><h3>Кто подходит женщине-{GEN_DAT[s["slug"]]}</h3><p>{d["match_woman"]}</p></div><div><h3>Кто подходит мужчине-{GEN_DAT[s["slug"]]}</h3><p>{d["match_man"]}</p></div></div>' + table
+    page += H('sovmestimost', 'Кто подходит', f'Какой знак зодиака <em>подходит {GEN_DAT.get(s["slug"], nm)}</em>') + f'<div class="sec glass"><div class="wide"><p>{d["match"]} {speedo}</p></div><div><h3>Кто подходит женщине-{GEN_DAT[s["slug"]]}</h3><p>{d["match_woman"]}</p></div><div><h3>Кто подходит мужчине-{GEN_DAT[s["slug"]]}</h3><p>{d["match_man"]}</p></div></div>' + table
     page += '<div class="compat" style="margin-top:20px">'
     page += f'<div class="cc"><div class="k">Легко</div><div class="v">{pair_links(s["slug"], s["easy"])}</div><p>Та же или дружественная стихия: понимание без усилий, общий темп.</p></div>'
     page += f'<div class="cc"><div class="k">Сложно</div><div class="v">{pair_links(s["slug"], s["hard"])}</div><p>Квадрат: один крест, разные стихии. Сильное трение и борьба за главное.</p></div>'
     page += f'<div class="cc"><div class="k">Противоположность</div><div class="v">{pair_links(s["slug"], s["opposite"])}</div><p>Оппозиция: сильное притяжение и такая же сильная тяга переделать друг друга.</p></div></div>'
     page += H('izvestnye', 'Известные', f'Известные <em>{GEN_PL_S.get(s["slug"], nm)}</em>') + f'<div class="sec glass"><div class="wide"><p class="famous">{d["famous"]}</p></div></div>'
-    page += H('voprosy', 'Вопросы', f'Вопросы о знаке <em>{nm}</em>') + '<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in d['faq']) + '</section>'
+    page += H('voprosy', 'Вопросы', f'Вопросы о знаке <em>{nm}</em>') + '<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{qq}</h3><p>{t.replace("{SPEEDO}", f"На спидометре Lunarius в среднем лучше всего складываются пары {q(rows[0])}, {q(rows[1])} и {q(rows[2])}, но разница между знаками невелика.")}</p></div>' for qq, t in d['faq']) + '</section>'
     page += '<div class="cta"><b>Знака Солнца мало: Луна, Венера и Марс решают больше.<br>Проверьте пару по натальным картам</b><a href="/">Запустить спидометр</a></div>'
     all_pairs = ', '.join('<a href="/compat/{}-{}" {}>{} + {}</a>'.format(*sorted([s['slug'], o['slug']], key=ORDER.index), LINK, nm, o['name']) for o in SIGNS)
     page += f'<p style="margin:16px 0 0;font-size:15px;line-height:1.9">Все пары {gen}: {all_pairs}.</p>'
