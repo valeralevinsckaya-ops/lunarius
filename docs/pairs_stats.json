@@ -1,0 +1,1484 @@
+{
+ "oven-oven": {
+  "n": 19985,
+  "mean": 1.14,
+  "se": 0.021,
+  "median": 1.18,
+  "p10": -2.8,
+  "p90": 4.9,
+  "good": 58,
+  "strong": 40,
+  "tense": 29,
+  "spheres": {
+   "attraction": 0.74,
+   "emotions": 0.04,
+   "communication": 0.82,
+   "values": 0.73,
+   "stability": 0.11,
+   "growth": 0.84
+  }
+ },
+ "oven-telec": {
+  "n": 20000,
+  "mean": 0.31,
+  "se": 0.021,
+  "median": 0.32,
+  "p10": -3.7,
+  "p90": 4.2,
+  "good": 48,
+  "strong": 30,
+  "tense": 40,
+  "spheres": {
+   "attraction": 0.5,
+   "emotions": 0.02,
+   "communication": 0.59,
+   "values": 0.5,
+   "stability": 0.09,
+   "growth": 0.53
+  }
+ },
+ "oven-bliznecy": {
+  "n": 20000,
+  "mean": 0.15,
+  "se": 0.022,
+  "median": 0.14,
+  "p10": -4,
+  "p90": 4.3,
+  "good": 46,
+  "strong": 29,
+  "tense": 42,
+  "spheres": {
+   "attraction": 0.04,
+   "emotions": 0,
+   "communication": -0.24,
+   "values": -0.01,
+   "stability": 0.18,
+   "growth": 0.02
+  }
+ },
+ "oven-rak": {
+  "n": 20000,
+  "mean": -0.61,
+  "se": 0.022,
+  "median": -0.65,
+  "p10": -4.7,
+  "p90": 3.5,
+  "good": 36,
+  "strong": 21,
+  "tense": 52,
+  "spheres": {
+   "attraction": -0.1,
+   "emotions": 0.03,
+   "communication": -0.14,
+   "values": -0.18,
+   "stability": 0.14,
+   "growth": -0.51
+  }
+ },
+ "oven-lev": {
+  "n": 20000,
+  "mean": 0.4,
+  "se": 0.022,
+  "median": 0.39,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 49,
+  "strong": 31,
+  "tense": 39,
+  "spheres": {
+   "attraction": -0.32,
+   "emotions": 0.06,
+   "communication": 0.09,
+   "values": -0.42,
+   "stability": 0.03,
+   "growth": 0.34
+  }
+ },
+ "oven-deva": {
+  "n": 20000,
+  "mean": -0.81,
+  "se": 0.021,
+  "median": -0.93,
+  "p10": -4.7,
+  "p90": 3.2,
+  "good": 33,
+  "strong": 19,
+  "tense": 55,
+  "spheres": {
+   "attraction": -0.47,
+   "emotions": 0.03,
+   "communication": -0.88,
+   "values": -0.52,
+   "stability": 0.09,
+   "growth": -0.56
+  }
+ },
+ "oven-vesy": {
+  "n": 20000,
+  "mean": -0.8,
+  "se": 0.021,
+  "median": -0.93,
+  "p10": -4.5,
+  "p90": 3.1,
+  "good": 32,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.42,
+   "emotions": 0.1,
+   "communication": -1.06,
+   "values": -0.48,
+   "stability": 0.06,
+   "growth": -1.15
+  }
+ },
+ "oven-skorpion": {
+  "n": 20000,
+  "mean": -0.5,
+  "se": 0.022,
+  "median": -0.6,
+  "p10": -4.4,
+  "p90": 3.6,
+  "good": 37,
+  "strong": 22,
+  "tense": 51,
+  "spheres": {
+   "attraction": -0.43,
+   "emotions": 0.07,
+   "communication": -0.06,
+   "values": -0.51,
+   "stability": 0.05,
+   "growth": -0.26
+  }
+ },
+ "oven-strelec": {
+  "n": 20000,
+  "mean": 0.42,
+  "se": 0.022,
+  "median": 0.43,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 49,
+  "strong": 32,
+  "tense": 39,
+  "spheres": {
+   "attraction": -0.28,
+   "emotions": 0.05,
+   "communication": 0.16,
+   "values": -0.3,
+   "stability": 0.11,
+   "growth": 0.31
+  }
+ },
+ "oven-kozerog": {
+  "n": 20000,
+  "mean": -0.6,
+  "se": 0.022,
+  "median": -0.68,
+  "p10": -4.7,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 21,
+  "tense": 52,
+  "spheres": {
+   "attraction": 0.01,
+   "emotions": 0.07,
+   "communication": -0.31,
+   "values": 0.03,
+   "stability": 0.05,
+   "growth": -0.52
+  }
+ },
+ "oven-vodoley": {
+  "n": 20000,
+  "mean": 0.19,
+  "se": 0.022,
+  "median": 0.18,
+  "p10": -3.8,
+  "p90": 4.3,
+  "good": 46,
+  "strong": 29,
+  "tense": 42,
+  "spheres": {
+   "attraction": 0.01,
+   "emotions": -0.01,
+   "communication": 0,
+   "values": 0.03,
+   "stability": 0.04,
+   "growth": 0.04
+  }
+ },
+ "oven-ryby": {
+  "n": 20000,
+  "mean": 0.33,
+  "se": 0.021,
+  "median": 0.41,
+  "p10": -3.5,
+  "p90": 4.1,
+  "good": 49,
+  "strong": 30,
+  "tense": 39,
+  "spheres": {
+   "attraction": 0.58,
+   "emotions": 0.06,
+   "communication": 0.62,
+   "values": 0.52,
+   "stability": 0.14,
+   "growth": 0.42
+  }
+ },
+ "telec-telec": {
+  "n": 19983,
+  "mean": 1.02,
+  "se": 0.02,
+  "median": 1.1,
+  "p10": -2.8,
+  "p90": 4.7,
+  "good": 58,
+  "strong": 38,
+  "tense": 30,
+  "spheres": {
+   "attraction": 0.52,
+   "emotions": 0,
+   "communication": 0.83,
+   "values": 0.53,
+   "stability": 0.08,
+   "growth": 0.65
+  }
+ },
+ "telec-bliznecy": {
+  "n": 20000,
+  "mean": 0.25,
+  "se": 0.021,
+  "median": 0.28,
+  "p10": -3.7,
+  "p90": 4.1,
+  "good": 47,
+  "strong": 29,
+  "tense": 40,
+  "spheres": {
+   "attraction": 0.48,
+   "emotions": 0.03,
+   "communication": 0.59,
+   "values": 0.47,
+   "stability": 0.13,
+   "growth": 0.42
+  }
+ },
+ "telec-rak": {
+  "n": 20000,
+  "mean": 0.1,
+  "se": 0.021,
+  "median": 0.1,
+  "p10": -3.8,
+  "p90": 4,
+  "good": 45,
+  "strong": 27,
+  "tense": 42,
+  "spheres": {
+   "attraction": -0.18,
+   "emotions": 0.08,
+   "communication": -0.14,
+   "values": -0.17,
+   "stability": 0.09,
+   "growth": -0.19
+  }
+ },
+ "telec-lev": {
+  "n": 20000,
+  "mean": -0.47,
+  "se": 0.021,
+  "median": -0.53,
+  "p10": -4.4,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 22,
+  "tense": 50,
+  "spheres": {
+   "attraction": 0.15,
+   "emotions": 0.05,
+   "communication": -0.15,
+   "values": 0.12,
+   "stability": 0.12,
+   "growth": -0.38
+  }
+ },
+ "telec-deva": {
+  "n": 20000,
+  "mean": 0.24,
+  "se": 0.021,
+  "median": 0.2,
+  "p10": -3.7,
+  "p90": 4.3,
+  "good": 46,
+  "strong": 29,
+  "tense": 41,
+  "spheres": {
+   "attraction": -0.56,
+   "emotions": 0,
+   "communication": 0.13,
+   "values": -0.62,
+   "stability": 0.06,
+   "growth": 0.08
+  }
+ },
+ "telec-vesy": {
+  "n": 20000,
+  "mean": -0.84,
+  "se": 0.021,
+  "median": -0.99,
+  "p10": -4.5,
+  "p90": 3.1,
+  "good": 32,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.6,
+   "emotions": 0.05,
+   "communication": -0.68,
+   "values": -0.64,
+   "stability": 0.09,
+   "growth": -0.64
+  }
+ },
+ "telec-skorpion": {
+  "n": 20000,
+  "mean": -0.87,
+  "se": 0.021,
+  "median": -0.98,
+  "p10": -4.7,
+  "p90": 3.1,
+  "good": 32,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.46,
+   "emotions": -0.01,
+   "communication": -1.14,
+   "values": -0.5,
+   "stability": 0.09,
+   "growth": -1.14
+  }
+ },
+ "telec-strelec": {
+  "n": 20000,
+  "mean": -0.66,
+  "se": 0.021,
+  "median": -0.79,
+  "p10": -4.5,
+  "p90": 3.3,
+  "good": 35,
+  "strong": 19,
+  "tense": 53,
+  "spheres": {
+   "attraction": -0.41,
+   "emotions": 0,
+   "communication": -0.32,
+   "values": -0.47,
+   "stability": 0.1,
+   "growth": -0.41
+  }
+ },
+ "telec-kozerog": {
+  "n": 20000,
+  "mean": 0.24,
+  "se": 0.022,
+  "median": 0.21,
+  "p10": -3.8,
+  "p90": 4.3,
+  "good": 47,
+  "strong": 29,
+  "tense": 42,
+  "spheres": {
+   "attraction": -0.58,
+   "emotions": 0.02,
+   "communication": 0.14,
+   "values": -0.58,
+   "stability": 0.08,
+   "growth": 0.12
+  }
+ },
+ "telec-vodoley": {
+  "n": 20000,
+  "mean": -0.5,
+  "se": 0.022,
+  "median": -0.55,
+  "p10": -4.5,
+  "p90": 3.6,
+  "good": 38,
+  "strong": 22,
+  "tense": 51,
+  "spheres": {
+   "attraction": 0.16,
+   "emotions": 0.09,
+   "communication": -0.2,
+   "values": 0.12,
+   "stability": 0.12,
+   "growth": -0.43
+  }
+ },
+ "telec-ryby": {
+  "n": 20000,
+  "mean": 0.1,
+  "se": 0.021,
+  "median": 0.06,
+  "p10": -3.8,
+  "p90": 4,
+  "good": 45,
+  "strong": 27,
+  "tense": 43,
+  "spheres": {
+   "attraction": -0.05,
+   "emotions": 0.06,
+   "communication": -0.13,
+   "values": -0.09,
+   "stability": 0.1,
+   "growth": -0.23
+  }
+ },
+ "bliznecy-bliznecy": {
+  "n": 19988,
+  "mean": 1.03,
+  "se": 0.021,
+  "median": 1.11,
+  "p10": -2.8,
+  "p90": 4.8,
+  "good": 57,
+  "strong": 39,
+  "tense": 31,
+  "spheres": {
+   "attraction": 0.69,
+   "emotions": 0.03,
+   "communication": 0.82,
+   "values": 0.64,
+   "stability": 0.11,
+   "growth": 0.69
+  }
+ },
+ "bliznecy-rak": {
+  "n": 20000,
+  "mean": 0.32,
+  "se": 0.021,
+  "median": 0.35,
+  "p10": -3.6,
+  "p90": 4.2,
+  "good": 48,
+  "strong": 30,
+  "tense": 39,
+  "spheres": {
+   "attraction": 0.53,
+   "emotions": 0,
+   "communication": 0.63,
+   "values": 0.53,
+   "stability": 0.13,
+   "growth": 0.5
+  }
+ },
+ "bliznecy-lev": {
+  "n": 20000,
+  "mean": 0.12,
+  "se": 0.021,
+  "median": 0.09,
+  "p10": -3.9,
+  "p90": 4.1,
+  "good": 45,
+  "strong": 28,
+  "tense": 43,
+  "spheres": {
+   "attraction": -0.05,
+   "emotions": 0.04,
+   "communication": -0.15,
+   "values": -0.09,
+   "stability": 0.08,
+   "growth": -0.18
+  }
+ },
+ "bliznecy-deva": {
+  "n": 20000,
+  "mean": -0.59,
+  "se": 0.022,
+  "median": -0.64,
+  "p10": -4.7,
+  "p90": 3.6,
+  "good": 37,
+  "strong": 22,
+  "tense": 52,
+  "spheres": {
+   "attraction": 0.03,
+   "emotions": 0.04,
+   "communication": -0.28,
+   "values": 0,
+   "stability": 0.13,
+   "growth": -0.59
+  }
+ },
+ "bliznecy-vesy": {
+  "n": 20000,
+  "mean": 0.38,
+  "se": 0.021,
+  "median": 0.38,
+  "p10": -3.6,
+  "p90": 4.3,
+  "good": 49,
+  "strong": 31,
+  "tense": 39,
+  "spheres": {
+   "attraction": -0.37,
+   "emotions": 0.04,
+   "communication": 0.22,
+   "values": -0.43,
+   "stability": 0.06,
+   "growth": 0.24
+  }
+ },
+ "bliznecy-skorpion": {
+  "n": 20000,
+  "mean": -0.68,
+  "se": 0.022,
+  "median": -0.76,
+  "p10": -4.7,
+  "p90": 3.5,
+  "good": 35,
+  "strong": 21,
+  "tense": 53,
+  "spheres": {
+   "attraction": -0.45,
+   "emotions": 0.04,
+   "communication": -0.46,
+   "values": -0.49,
+   "stability": 0.01,
+   "growth": -0.5
+  }
+ },
+ "bliznecy-strelec": {
+  "n": 20000,
+  "mean": -0.87,
+  "se": 0.021,
+  "median": -0.98,
+  "p10": -4.8,
+  "p90": 3.2,
+  "good": 33,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.39,
+   "emotions": 0.05,
+   "communication": -1.19,
+   "values": -0.47,
+   "stability": 0.1,
+   "growth": -1.22
+  }
+ },
+ "bliznecy-kozerog": {
+  "n": 20000,
+  "mean": -0.64,
+  "se": 0.022,
+  "median": -0.73,
+  "p10": -4.6,
+  "p90": 3.4,
+  "good": 35,
+  "strong": 20,
+  "tense": 53,
+  "spheres": {
+   "attraction": -0.43,
+   "emotions": 0.02,
+   "communication": -0.46,
+   "values": -0.43,
+   "stability": 0.05,
+   "growth": -0.31
+  }
+ },
+ "bliznecy-vodoley": {
+  "n": 20000,
+  "mean": 0.32,
+  "se": 0.022,
+  "median": 0.3,
+  "p10": -3.9,
+  "p90": 4.5,
+  "good": 48,
+  "strong": 31,
+  "tense": 41,
+  "spheres": {
+   "attraction": -0.39,
+   "emotions": 0.06,
+   "communication": 0.19,
+   "values": -0.43,
+   "stability": 0.06,
+   "growth": 0.24
+  }
+ },
+ "bliznecy-ryby": {
+  "n": 20000,
+  "mean": -0.54,
+  "se": 0.021,
+  "median": -0.57,
+  "p10": -4.5,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 21,
+  "tense": 51,
+  "spheres": {
+   "attraction": 0.08,
+   "emotions": 0.1,
+   "communication": -0.24,
+   "values": 0.01,
+   "stability": 0.15,
+   "growth": -0.5
+  }
+ },
+ "rak-rak": {
+  "n": 19992,
+  "mean": 1.14,
+  "se": 0.02,
+  "median": 1.19,
+  "p10": -2.7,
+  "p90": 4.8,
+  "good": 59,
+  "strong": 39,
+  "tense": 29,
+  "spheres": {
+   "attraction": 0.54,
+   "emotions": 0.01,
+   "communication": 0.86,
+   "values": 0.55,
+   "stability": 0.06,
+   "growth": 0.85
+  }
+ },
+ "rak-lev": {
+  "n": 20000,
+  "mean": 0.39,
+  "se": 0.02,
+  "median": 0.42,
+  "p10": -3.4,
+  "p90": 4.2,
+  "good": 49,
+  "strong": 30,
+  "tense": 38,
+  "spheres": {
+   "attraction": 0.56,
+   "emotions": 0.04,
+   "communication": 0.61,
+   "values": 0.61,
+   "stability": 0,
+   "growth": 0.6
+  }
+ },
+ "rak-deva": {
+  "n": 20000,
+  "mean": 0.22,
+  "se": 0.021,
+  "median": 0.2,
+  "p10": -3.7,
+  "p90": 4.2,
+  "good": 46,
+  "strong": 29,
+  "tense": 41,
+  "spheres": {
+   "attraction": -0.04,
+   "emotions": 0.04,
+   "communication": -0.16,
+   "values": -0.02,
+   "stability": 0.1,
+   "growth": -0.06
+  }
+ },
+ "rak-vesy": {
+  "n": 20000,
+  "mean": -0.39,
+  "se": 0.021,
+  "median": -0.44,
+  "p10": -4.3,
+  "p90": 3.6,
+  "good": 38,
+  "strong": 22,
+  "tense": 49,
+  "spheres": {
+   "attraction": 0.23,
+   "emotions": 0.07,
+   "communication": -0.2,
+   "values": 0.22,
+   "stability": 0.08,
+   "growth": -0.29
+  }
+ },
+ "rak-skorpion": {
+  "n": 20000,
+  "mean": 0.41,
+  "se": 0.022,
+  "median": 0.41,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 49,
+  "strong": 31,
+  "tense": 39,
+  "spheres": {
+   "attraction": -0.35,
+   "emotions": 0.05,
+   "communication": 0.1,
+   "values": -0.38,
+   "stability": 0.02,
+   "growth": 0.32
+  }
+ },
+ "rak-strelec": {
+  "n": 20000,
+  "mean": -0.57,
+  "se": 0.021,
+  "median": -0.68,
+  "p10": -4.4,
+  "p90": 3.5,
+  "good": 36,
+  "strong": 21,
+  "tense": 52,
+  "spheres": {
+   "attraction": -0.39,
+   "emotions": 0.05,
+   "communication": -0.31,
+   "values": -0.46,
+   "stability": 0.16,
+   "growth": -0.36
+  }
+ },
+ "rak-kozerog": {
+  "n": 20000,
+  "mean": -0.74,
+  "se": 0.021,
+  "median": -0.8,
+  "p10": -4.5,
+  "p90": 3.1,
+  "good": 34,
+  "strong": 18,
+  "tense": 54,
+  "spheres": {
+   "attraction": -0.38,
+   "emotions": 0.04,
+   "communication": -1.04,
+   "values": -0.46,
+   "stability": 0.04,
+   "growth": -1
+  }
+ },
+ "rak-vodoley": {
+  "n": 20000,
+  "mean": -0.77,
+  "se": 0.021,
+  "median": -0.85,
+  "p10": -4.6,
+  "p90": 3.2,
+  "good": 33,
+  "strong": 18,
+  "tense": 54,
+  "spheres": {
+   "attraction": -0.46,
+   "emotions": 0.05,
+   "communication": -0.67,
+   "values": -0.51,
+   "stability": -0.01,
+   "growth": -0.56
+  }
+ },
+ "rak-ryby": {
+  "n": 20000,
+  "mean": 0.21,
+  "se": 0.021,
+  "median": 0.24,
+  "p10": -3.8,
+  "p90": 4.1,
+  "good": 47,
+  "strong": 29,
+  "tense": 41,
+  "spheres": {
+   "attraction": -0.61,
+   "emotions": 0.04,
+   "communication": 0.07,
+   "values": -0.65,
+   "stability": 0.08,
+   "growth": 0.04
+  }
+ },
+ "lev-lev": {
+  "n": 19979,
+  "mean": 1.18,
+  "se": 0.02,
+  "median": 1.26,
+  "p10": -2.6,
+  "p90": 4.8,
+  "good": 60,
+  "strong": 40,
+  "tense": 28,
+  "spheres": {
+   "attraction": 0.75,
+   "emotions": 0.03,
+   "communication": 0.86,
+   "values": 0.8,
+   "stability": 0.06,
+   "growth": 0.75
+  }
+ },
+ "lev-deva": {
+  "n": 20000,
+  "mean": 0.45,
+  "se": 0.021,
+  "median": 0.49,
+  "p10": -3.4,
+  "p90": 4.3,
+  "good": 50,
+  "strong": 31,
+  "tense": 38,
+  "spheres": {
+   "attraction": 0.69,
+   "emotions": 0.04,
+   "communication": 0.62,
+   "values": 0.74,
+   "stability": 0.01,
+   "growth": 0.58
+  }
+ },
+ "lev-vesy": {
+  "n": 20000,
+  "mean": 0.33,
+  "se": 0.021,
+  "median": 0.37,
+  "p10": -3.6,
+  "p90": 4.2,
+  "good": 48,
+  "strong": 30,
+  "tense": 40,
+  "spheres": {
+   "attraction": 0.04,
+   "emotions": 0.05,
+   "communication": -0.01,
+   "values": 0.11,
+   "stability": 0.02,
+   "growth": 0.05
+  }
+ },
+ "lev-skorpion": {
+  "n": 20000,
+  "mean": -0.51,
+  "se": 0.022,
+  "median": -0.58,
+  "p10": -4.6,
+  "p90": 3.7,
+  "good": 37,
+  "strong": 22,
+  "tense": 51,
+  "spheres": {
+   "attraction": 0.1,
+   "emotions": 0.08,
+   "communication": -0.33,
+   "values": 0.18,
+   "stability": 0.04,
+   "growth": -0.5
+  }
+ },
+ "lev-strelec": {
+  "n": 20000,
+  "mean": 0.34,
+  "se": 0.021,
+  "median": 0.36,
+  "p10": -3.7,
+  "p90": 4.3,
+  "good": 48,
+  "strong": 31,
+  "tense": 40,
+  "spheres": {
+   "attraction": -0.42,
+   "emotions": 0.05,
+   "communication": 0.09,
+   "values": -0.42,
+   "stability": 0.04,
+   "growth": 0.16
+  }
+ },
+ "lev-kozerog": {
+  "n": 20000,
+  "mean": -0.48,
+  "se": 0.021,
+  "median": -0.56,
+  "p10": -4.4,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 22,
+  "tense": 51,
+  "spheres": {
+   "attraction": -0.37,
+   "emotions": 0.02,
+   "communication": -0.04,
+   "values": -0.39,
+   "stability": -0.06,
+   "growth": -0.21
+  }
+ },
+ "lev-vodoley": {
+  "n": 20000,
+  "mean": -0.82,
+  "se": 0.021,
+  "median": -0.93,
+  "p10": -4.6,
+  "p90": 3,
+  "good": 32,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.41,
+   "emotions": 0.05,
+   "communication": -1.07,
+   "values": -0.45,
+   "stability": -0.02,
+   "growth": -1.11
+  }
+ },
+ "lev-ryby": {
+  "n": 20000,
+  "mean": -0.87,
+  "se": 0.021,
+  "median": -0.99,
+  "p10": -4.6,
+  "p90": 3,
+  "good": 32,
+  "strong": 17,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.45,
+   "emotions": 0.04,
+   "communication": -0.85,
+   "values": -0.48,
+   "stability": -0.01,
+   "growth": -0.67
+  }
+ },
+ "deva-deva": {
+  "n": 19987,
+  "mean": 1.14,
+  "se": 0.02,
+  "median": 1.21,
+  "p10": -2.7,
+  "p90": 4.8,
+  "good": 59,
+  "strong": 40,
+  "tense": 29,
+  "spheres": {
+   "attraction": 0.72,
+   "emotions": 0.02,
+   "communication": 0.83,
+   "values": 0.83,
+   "stability": 0,
+   "growth": 0.7
+  }
+ },
+ "deva-vesy": {
+  "n": 20000,
+  "mean": 0.49,
+  "se": 0.02,
+  "median": 0.53,
+  "p10": -3.3,
+  "p90": 4.2,
+  "good": 50,
+  "strong": 32,
+  "tense": 37,
+  "spheres": {
+   "attraction": 0.75,
+   "emotions": 0.06,
+   "communication": 0.65,
+   "values": 0.77,
+   "stability": 0.05,
+   "growth": 0.6
+  }
+ },
+ "deva-skorpion": {
+  "n": 20000,
+  "mean": 0.4,
+  "se": 0.022,
+  "median": 0.39,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 49,
+  "strong": 31,
+  "tense": 39,
+  "spheres": {
+   "attraction": 0.13,
+   "emotions": 0.05,
+   "communication": 0.11,
+   "values": 0.2,
+   "stability": 0.03,
+   "growth": 0.17
+  }
+ },
+ "deva-strelec": {
+  "n": 20000,
+  "mean": -0.51,
+  "se": 0.022,
+  "median": -0.53,
+  "p10": -4.5,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 21,
+  "tense": 50,
+  "spheres": {
+   "attraction": 0.31,
+   "emotions": 0.01,
+   "communication": -0.41,
+   "values": 0.35,
+   "stability": 0.04,
+   "growth": -0.49
+  }
+ },
+ "deva-kozerog": {
+  "n": 20000,
+  "mean": 0.48,
+  "se": 0.022,
+  "median": 0.52,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 50,
+  "strong": 32,
+  "tense": 38,
+  "spheres": {
+   "attraction": -0.21,
+   "emotions": 0.04,
+   "communication": 0.18,
+   "values": -0.19,
+   "stability": 0.1,
+   "growth": 0.32
+  }
+ },
+ "deva-vodoley": {
+  "n": 20000,
+  "mean": -0.46,
+  "se": 0.022,
+  "median": -0.52,
+  "p10": -4.5,
+  "p90": 3.6,
+  "good": 38,
+  "strong": 22,
+  "tense": 50,
+  "spheres": {
+   "attraction": -0.41,
+   "emotions": 0.07,
+   "communication": 0.02,
+   "values": -0.44,
+   "stability": 0.02,
+   "growth": -0.24
+  }
+ },
+ "deva-ryby": {
+  "n": 20000,
+  "mean": -0.81,
+  "se": 0.02,
+  "median": -0.92,
+  "p10": -4.5,
+  "p90": 3.1,
+  "good": 33,
+  "strong": 18,
+  "tense": 56,
+  "spheres": {
+   "attraction": -0.38,
+   "emotions": 0.04,
+   "communication": -1.07,
+   "values": -0.43,
+   "stability": 0.08,
+   "growth": -1.17
+  }
+ },
+ "vesy-vesy": {
+  "n": 19986,
+  "mean": 1.25,
+  "se": 0.019,
+  "median": 1.32,
+  "p10": -2.4,
+  "p90": 4.8,
+  "good": 61,
+  "strong": 41,
+  "tense": 27,
+  "spheres": {
+   "attraction": 0.72,
+   "emotions": 0.03,
+   "communication": 0.98,
+   "values": 0.79,
+   "stability": 0.05,
+   "growth": 0.85
+  }
+ },
+ "vesy-skorpion": {
+  "n": 20000,
+  "mean": 0.58,
+  "se": 0.021,
+  "median": 0.65,
+  "p10": -3.3,
+  "p90": 4.4,
+  "good": 52,
+  "strong": 33,
+  "tense": 36,
+  "spheres": {
+   "attraction": 0.77,
+   "emotions": 0.07,
+   "communication": 0.72,
+   "values": 0.84,
+   "stability": 0.14,
+   "growth": 0.57
+  }
+ },
+ "vesy-strelec": {
+  "n": 20000,
+  "mean": 0.47,
+  "se": 0.02,
+  "median": 0.49,
+  "p10": -3.3,
+  "p90": 4.3,
+  "good": 50,
+  "strong": 31,
+  "tense": 37,
+  "spheres": {
+   "attraction": 0.17,
+   "emotions": 0.04,
+   "communication": 0.24,
+   "values": 0.23,
+   "stability": 0.06,
+   "growth": 0.19
+  }
+ },
+ "vesy-kozerog": {
+  "n": 20000,
+  "mean": -0.42,
+  "se": 0.021,
+  "median": -0.48,
+  "p10": -4.3,
+  "p90": 3.5,
+  "good": 38,
+  "strong": 22,
+  "tense": 50,
+  "spheres": {
+   "attraction": 0.3,
+   "emotions": 0.06,
+   "communication": -0.34,
+   "values": 0.33,
+   "stability": 0.03,
+   "growth": -0.39
+  }
+ },
+ "vesy-vodoley": {
+  "n": 20000,
+  "mean": 0.28,
+  "se": 0.021,
+  "median": 0.26,
+  "p10": -3.6,
+  "p90": 4.2,
+  "good": 47,
+  "strong": 29,
+  "tense": 40,
+  "spheres": {
+   "attraction": -0.46,
+   "emotions": 0.08,
+   "communication": 0.03,
+   "values": -0.44,
+   "stability": 0.02,
+   "growth": 0.08
+  }
+ },
+ "vesy-ryby": {
+  "n": 20000,
+  "mean": -0.53,
+  "se": 0.02,
+  "median": -0.61,
+  "p10": -4.3,
+  "p90": 3.3,
+  "good": 36,
+  "strong": 20,
+  "tense": 51,
+  "spheres": {
+   "attraction": -0.42,
+   "emotions": 0.02,
+   "communication": -0.1,
+   "values": -0.48,
+   "stability": 0.05,
+   "growth": -0.25
+  }
+ },
+ "skorpion-skorpion": {
+  "n": 19982,
+  "mean": 1.46,
+  "se": 0.021,
+  "median": 1.54,
+  "p10": -2.4,
+  "p90": 5.2,
+  "good": 63,
+  "strong": 44,
+  "tense": 26,
+  "spheres": {
+   "attraction": 1,
+   "emotions": 0.08,
+   "communication": 0.96,
+   "values": 1.1,
+   "stability": 0.16,
+   "growth": 1.12
+  }
+ },
+ "skorpion-strelec": {
+  "n": 20000,
+  "mean": 0.51,
+  "se": 0.021,
+  "median": 0.54,
+  "p10": -3.4,
+  "p90": 4.4,
+  "good": 50,
+  "strong": 32,
+  "tense": 37,
+  "spheres": {
+   "attraction": 0.8,
+   "emotions": 0.06,
+   "communication": 0.67,
+   "values": 0.89,
+   "stability": 0.05,
+   "growth": 0.56
+  }
+ },
+ "skorpion-kozerog": {
+  "n": 20000,
+  "mean": 0.47,
+  "se": 0.022,
+  "median": 0.5,
+  "p10": -3.6,
+  "p90": 4.5,
+  "good": 50,
+  "strong": 32,
+  "tense": 38,
+  "spheres": {
+   "attraction": 0.2,
+   "emotions": 0.06,
+   "communication": 0.22,
+   "values": 0.23,
+   "stability": 0.06,
+   "growth": 0.26
+  }
+ },
+ "skorpion-vodoley": {
+  "n": 20000,
+  "mean": -0.64,
+  "se": 0.022,
+  "median": -0.65,
+  "p10": -4.7,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 21,
+  "tense": 52,
+  "spheres": {
+   "attraction": 0.09,
+   "emotions": 0.02,
+   "communication": -0.43,
+   "values": 0.11,
+   "stability": 0.08,
+   "growth": -0.66
+  }
+ },
+ "skorpion-ryby": {
+  "n": 20000,
+  "mean": 0.32,
+  "se": 0.022,
+  "median": 0.32,
+  "p10": -3.8,
+  "p90": 4.4,
+  "good": 48,
+  "strong": 31,
+  "tense": 40,
+  "spheres": {
+   "attraction": -0.26,
+   "emotions": -0.01,
+   "communication": -0.01,
+   "values": -0.28,
+   "stability": 0.01,
+   "growth": 0.17
+  }
+ },
+ "strelec-strelec": {
+  "n": 19981,
+  "mean": 1.29,
+  "se": 0.02,
+  "median": 1.4,
+  "p10": -2.5,
+  "p90": 4.9,
+  "good": 62,
+  "strong": 42,
+  "tense": 27,
+  "spheres": {
+   "attraction": 0.73,
+   "emotions": 0.07,
+   "communication": 1.01,
+   "values": 0.85,
+   "stability": 0.05,
+   "growth": 0.9
+  }
+ },
+ "strelec-kozerog": {
+  "n": 20000,
+  "mean": 0.52,
+  "se": 0.021,
+  "median": 0.54,
+  "p10": -3.4,
+  "p90": 4.4,
+  "good": 50,
+  "strong": 32,
+  "tense": 37,
+  "spheres": {
+   "attraction": 0.74,
+   "emotions": 0.03,
+   "communication": 0.76,
+   "values": 0.82,
+   "stability": 0.17,
+   "growth": 0.63
+  }
+ },
+ "strelec-vodoley": {
+  "n": 20000,
+  "mean": 0.37,
+  "se": 0.022,
+  "median": 0.42,
+  "p10": -3.7,
+  "p90": 4.4,
+  "good": 49,
+  "strong": 31,
+  "tense": 39,
+  "spheres": {
+   "attraction": 0.11,
+   "emotions": 0.06,
+   "communication": 0.19,
+   "values": 0.15,
+   "stability": 0.02,
+   "growth": 0.11
+  }
+ },
+ "strelec-ryby": {
+  "n": 20000,
+  "mean": -0.54,
+  "se": 0.021,
+  "median": -0.58,
+  "p10": -4.5,
+  "p90": 3.5,
+  "good": 37,
+  "strong": 21,
+  "tense": 51,
+  "spheres": {
+   "attraction": 0.35,
+   "emotions": 0.02,
+   "communication": -0.39,
+   "values": 0.32,
+   "stability": 0.03,
+   "growth": -0.49
+  }
+ },
+ "kozerog-kozerog": {
+  "n": 19984,
+  "mean": 1.29,
+  "se": 0.02,
+  "median": 1.35,
+  "p10": -2.5,
+  "p90": 5,
+  "good": 61,
+  "strong": 41,
+  "tense": 27,
+  "spheres": {
+   "attraction": 0.73,
+   "emotions": 0.03,
+   "communication": 1.08,
+   "values": 0.83,
+   "stability": 0.12,
+   "growth": 1.01
+  }
+ },
+ "kozerog-vodoley": {
+  "n": 20000,
+  "mean": 0.5,
+  "se": 0.021,
+  "median": 0.6,
+  "p10": -3.5,
+  "p90": 4.4,
+  "good": 51,
+  "strong": 32,
+  "tense": 37,
+  "spheres": {
+   "attraction": 0.72,
+   "emotions": 0.07,
+   "communication": 0.79,
+   "values": 0.82,
+   "stability": 0.06,
+   "growth": 0.59
+  }
+ },
+ "kozerog-ryby": {
+  "n": 20000,
+  "mean": 0.3,
+  "se": 0.021,
+  "median": 0.29,
+  "p10": -3.7,
+  "p90": 4.3,
+  "good": 48,
+  "strong": 30,
+  "tense": 40,
+  "spheres": {
+   "attraction": 0.03,
+   "emotions": 0.07,
+   "communication": 0.12,
+   "values": 0.07,
+   "stability": 0.1,
+   "growth": 0.05
+  }
+ },
+ "vodoley-vodoley": {
+  "n": 19982,
+  "mean": 1.18,
+  "se": 0.02,
+  "median": 1.24,
+  "p10": -2.6,
+  "p90": 5,
+  "good": 60,
+  "strong": 40,
+  "tense": 29,
+  "spheres": {
+   "attraction": 0.73,
+   "emotions": 0.05,
+   "communication": 1.05,
+   "values": 0.78,
+   "stability": 0.06,
+   "growth": 0.8
+  }
+ },
+ "vodoley-ryby": {
+  "n": 20000,
+  "mean": 0.33,
+  "se": 0.02,
+  "median": 0.35,
+  "p10": -3.5,
+  "p90": 4.1,
+  "good": 48,
+  "strong": 30,
+  "tense": 39,
+  "spheres": {
+   "attraction": 0.63,
+   "emotions": 0.04,
+   "communication": 0.64,
+   "values": 0.62,
+   "stability": 0.05,
+   "growth": 0.44
+  }
+ },
+ "ryby-ryby": {
+  "n": 19989,
+  "mean": 0.99,
+  "se": 0.02,
+  "median": 1.07,
+  "p10": -2.7,
+  "p90": 4.6,
+  "good": 57,
+  "strong": 38,
+  "tense": 30,
+  "spheres": {
+   "attraction": 0.62,
+   "emotions": 0,
+   "communication": 0.79,
+   "values": 0.62,
+   "stability": 0.17,
+   "growth": 0.59
+  }
+ }
+}

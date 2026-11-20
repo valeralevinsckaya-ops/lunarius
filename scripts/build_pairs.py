@@ -5,6 +5,28 @@ sys.path.insert(0, os.path.join(ROOT, 'docs'))
 from pairs_content import SIGNS, TRAITS, RELATION, ESSENCE, essence_key
 from signs_content import SIGNS as SIGN_PAGES
 from pairs_deep import DEEP
+import glob as _glob, importlib as _il, json as _json
+CARDS = {}
+for _f in sorted(_glob.glob(os.path.join(ROOT, 'docs', 'pairs_cards_*.py'))): CARDS.update(_il.import_module(os.path.basename(_f)[:-3]).C)
+# Средние баллы спидометра по 20 000 случайных пар на сочетание: считает scripts/pair_stats.js
+STATS = _json.load(open(os.path.join(ROOT, 'docs', 'pairs_stats.json'), encoding='utf-8'))
+RANK = {k: i + 1 for i, (k, v) in enumerate(sorted(STATS.items(), key=lambda kv: -kv[1]['mean']))}
+SPHERE_RU = {'attraction': 'притяжение', 'emotions': 'эмоции', 'communication': 'общение', 'values': 'ценности', 'stability': 'устойчивость', 'growth': 'рост вместе'}
+REL_NAME = {0: 'один знак', 1: 'соседние знаки', 2: 'секстиль', 3: 'квадрат', 4: 'тригон', 5: 'квинконс', 6: 'оппозиция'}
+STARS_RU = {2: 'две звезды', 3: 'три звезды', 4: 'четыре звезды', 5: 'пять звезд'}
+def num(x, digits=2):
+    t = f'{abs(x):.{digits}f}'.replace('.', ',')
+    return ('−' if x < 0 else '+') + t if round(x, digits) != 0 else t
+def zone_ru(v):
+    return 'Есть напряжение' if v <= -0.5 else 'Нейтрально' if v <= 0.5 else 'Хорошая совместимость'
+DATE_FAQ = [
+ 'Откройте главную страницу, укажите дату, время и город рождения каждого. Расчет бесплатный и занимает несколько секунд.',
+ 'На главной странице есть спидометр: введите две даты рождения, по возможности со временем и городом, и получите балл пары и разбор по сферам.',
+ 'Нужны даты рождения обоих, а для точности время и город. Введите их в спидометр на главной: он сравнит десять планет каждой карты.',
+ 'Запустите спидометр на главной странице и введите данные рождения обоих партнеров. Без времени рождения расчет тоже работает, только без Асцендента и домов.',
+ 'Знака Солнца для этого мало. Введите полные даты рождения в спидометр на главной, и он покажет балл для каждого из вас и общую стрелку.',
+ 'Спидометр на главной странице считает пару по натальным картам: введите дату, время и место рождения обоих и прочитайте разбор по шести сферам.',
+]
 OUT = os.path.join(ROOT, 'public/compat'); os.makedirs(OUT, exist_ok=True)
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 EASY = {s['slug']: s['easy'] for s in SIGN_PAGES}
@@ -76,13 +98,29 @@ def page_for(a, b):
     page += f'<h1 class="list" style="margin-bottom:18px">Совместимость <em>{G2}</em></h1>'
     page += (f'<section class="pair glass"><div><img src="/img/{A[5]}.webp" alt="{nameA}"><div class="pname">{nameA}</div><div class="pel" style="color:{ELEM_COLOR[A[4]]}">{A[4]}</div></div>'
              f'<div class="plus">+</div><div><img src="/img/{B[5]}.webp" alt="{nameB}"><div class="pname">{nameB}</div><div class="pel" style="color:{ELEM_COLOR[B[4]]}">{B[4]}</div></div></section>')
-    page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"]}</p></div></section>'
+    page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"].split(". ")[0]}. На спидометре у пар «{nameA} и {nameB}» средний балл {num(STATS[f"{a}-{b}"]["mean"])} по шкале от −10 до +10: {RANK[f"{a}-{b}"]}-е место среди 78 сочетаний знаков.</p></div></section>'
     ess = ESSENCE.get(essence_key(a, b))
     deep0 = DEEP.get(essence_key(a, b))
     if deep0 and deep0.get('intro'): page += f'<p class="lead" style="max-width:900px;margin:24px 0 0">{deep0["intro"]}</p>'
     page += '<!--TOC-->'
     if ess: page += H('sut', 'Суть пары', f'{nameA} и <em>{nameB}</em>: суть пары') + f'<section class="essence glass"><p>{ess}</p></section>'
+    st = STATS[f'{a}-{b}']
+    sp = sorted(st['spheres'].items(), key=lambda kv: kv[1])
+    if st['mean'] > 0.5: tail = 'Знак Солнца дает такой паре небольшую фору, но разброс внутри сочетания намного шире этой форы: итог решают Луна, Венера, Марс и точное время рождения.'
+    elif st['mean'] < -0.3: tail = 'Знак Солнца дает такой паре небольшой минус, и другие планеты легко его перекрывают: у каждой третьей пары с этими знаками спидометр показывает перевес гармонии.'
+    else: tail = 'Знак Солнца почти не сдвигает результат: итог решают Луна, Венера, Марс и точное время рождения.'
+    P2 = '<p style="margin:14px 0 0">'
+    page += H('ball', 'Балл спидометра', f'Средний балл спидометра: <em>{nameA} и {nameB}</em>') + (
+        f'<section class="essence glass"><p>Мы посчитали на спидометре 20 000 случайных пар «{nameA} и {nameB}» с датами рождения 1960-2008 годов. '
+        f'В среднем получилось {num(st["mean"])}, это зона «{zone_ru(st["mean"])}»; половина пар набирает больше {num(st["median"])}.</p>'
+        f'{P2}У {st["good"]}% таких пар перевешивают гармоничные связи (балл выше +0,5), у {st["tense"]}% перевешивает напряжение (ниже −0,5), у остальных {100 - st["good"] - st["tense"]}% счет близок к нулю. '
+        f'Сильную связь, от +2 и выше, получают {st["strong"]}% пар. Восемь пар из десяти укладываются в диапазон от {num(st["p10"], 1)} до {num(st["p90"], 1)}.</p>'
+        f'{P2}По сферам у этого сочетания выше всего {SPHERE_RU[sp[-1][0]]} ({num(sp[-1][1])}), ниже всего {SPHERE_RU[sp[0][0]]} ({num(sp[0][1])}). {tail}</p></section>')
     deep = DEEP.get(essence_key(a, b))
+    cd = CARDS[f'{a}-{b}']
+    def duo(key, ha, hb):
+        if same: return f'<div class="wide"><h3>{nameA} рядом с {A[3]}</h3><p>{cd[key]}</p></div>'
+        return f'<div><h3>{ha}</h3><p>{cd[key][0]}</p></div><div><h3>{hb}</h3><p>{cd[key][1]}</p></div>'
     if deep:
         def cards(first, rest): return f'<div class="wide"><p>{first}</p></div>' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in rest)
         page += H('ona-on', f'Женщина-{nameA} и мужчина-{nameB}', f'Женщина-{nameA} и <em>мужчина-{nameB}</em>') + '<section class="sec glass">' + cards(deep['w_a_m_b'], deep.get('wm', [])) + '</section>'
@@ -90,15 +128,12 @@ def page_for(a, b):
         page += H('nachalo', 'Начало отношений', f'Как начинаются отношения <em>{G2}</em>') + f'<section class="essence glass"><p>{deep["start"]}</p></section>'
     # притяжение и трение
     page += H('prityazhenie', 'Что притягивает', f'Что притягивает <em>{G2}</em>') + f'<section class="sec glass">'
-    page += f'<div><h3>Что {vb(a, "дает", "дают")} {nameA}</h3><p>{cap(ta["gives"])}. {cap(ta["teaches"])} - этому {nameA} {vb(a, "учит", "учат")} {B[2]}.</p></div>'
-    page += f'<div><h3>Что {vb(b, "дает", "дают")} {nameB}</h3><p>{cap(tb["gives"])}. {cap(tb["teaches"])} - этому {nameB} {vb(b, "учит", "учат")} {A[2]}.</p></div>'
-    page += f'<div class="wide"><h3>Что каждому нужно</h3><p>{nameA} {vb(a, "ждет", "ждут")} от партнера {ta["needs"]}. {nameB} {vb(b, "ждет", "ждут")} {tb["needs"]}. ' + (
-        'Запросы похожи, поэтому понимать друг друга легко.' if same else 'Насколько эти ожидания совпадают, и есть суть вашей совместимости: там, где один дает то, чего ждет другой, пара держится сама.') + '</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['attract']) if deep and deep.get('attract') else '') + '</section>'
-    page += H('lyubov', 'В любви', f'{nameA} и {nameB} <em>в любви</em>') + f'<section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
+    page += ''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['attract']) + '</section>'
+    page += H('lyubov', 'В любви', f'{nameA} и {nameB} <em>в любви</em>') + '<section class="sec glass">' + duo('love', nameA, nameB) + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
     page += H('ssory', 'Ссоры', f'Из-за чего ссорятся <em>{nameA} и {nameB}</em>') + f'<section class="sec glass">'
-    page += f'<div><h3>Как {vb(a, "ссорится", "ссорятся")} {nameA}</h3><p>{cap(ta["fight"])}.</p></div><div><h3>Как {vb(b, "ссорится", "ссорятся")} {nameB}</h3><p>{cap(tb["fight"])}.</p></div>'
-    page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера раздражают {ta["irritates"]}. У {B[2]} партнера раздражают {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['friction']) if deep and deep.get('friction') else '') + '</section>'
-    page += H('byt', 'В быту', f'{nameA} и {nameB} <em>в быту</em>') + f'<section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
+    page += duo('fight', f'Как {vb(a, "ссорится", "ссорятся")} {nameA}', f'Как {vb(b, "ссорится", "ссорятся")} {nameB}')
+    page += ''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['friction']) + '</section>'
+    page += H('byt', 'В быту', f'{nameA} и {nameB} <em>в быту</em>') + '<section class="sec glass">' + duo('home', nameA, nameB) + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
     if deep:
         page += H('postel', 'В постели', f'{nameA} и {nameB} <em>в постели</em>') + f'<section class="essence glass"><p>{deep["intimacy"]}</p></section>'
         page += H('druzhba', 'Дружба и работа', f'{nameA} и {nameB} <em>в дружбе и работе</em>') + f'<section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
@@ -114,8 +149,18 @@ def page_for(a, b):
            5: 'Не пытайтесь переделать: принимайте, что партнер устроен иначе, и спрашивайте вместо того, чтобы догадываться. Вы разные, и это ваш ресурс.',
            6: 'Помните, что раздражает то, чего вам не хватает. Когда захочется переделать партнера, спросите себя, не этому ли вы у него учитесь.'}[rel_index(a, b)]
     page += H('sovet', 'Совет паре', f'Совет паре <em>{nameA} и {nameB}</em>') + f'<section class="essence glass"><p>{deep["advice"] if deep and deep.get("advice") else adv}</p></section>'
+    def faq_for(items):
+        out = []
+        for q, t in items:
+            if 'в процентах' in q:
+                t = (f'Спидометр Lunarius посчитал 20 000 случайных пар с такими знаками Солнца: у {st["good"]}% перевешивают гармоничные связи, у {st["tense"]}% напряженные, средний балл {num(st["mean"])} по шкале от −10 до +10. '
+                     f'По классической схеме это {REL_NAME[rel_index(a, b)]}, {STARS_RU[r["stars"]]} из пяти на шкале знаков.')
+            elif 'по дате рождения' in q: t = DATE_FAQ[(IDX[a] * 5 + IDX[b]) % len(DATE_FAQ)]
+            else: t = t.replace(' Точный ответ дает сравнение натальных карт.', '')
+            out.append((q, t))
+        return out
     if deep:
-        page += H('voprosy', 'Вопросы', f'Вопросы о совместимости <em>{G2}</em>') + f'<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
+        page += H('voprosy', 'Вопросы', f'Вопросы о совместимости <em>{G2}</em>') + f'<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in faq_for(deep['faq'])) + '</section>'
     page += CTA
     # другие пары с этими знаками
     others = [s for s in SIGNS if s[0] not in (a, b)][:4]
