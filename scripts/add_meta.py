@@ -8,7 +8,28 @@ SITE = 'https://lunarius.ru'
 IMG = SITE + '/og-image.jpg'
 START, END = '<!--meta:start-->', '<!--meta:end-->'
 TODAY = datetime.date.today().isoformat()
-SECTIONS = {'blog': ('Блог', '/blog'), 'signs': ('Знаки зодиака', '/signs'), 'compat': ('Совместимость знаков', '/compat')}
+SECTIONS = {'blog': ('Блог', '/blog'), 'signs': ('Знаки зодиака', '/signs'), 'compat': ('Совместимость знаков', '/compat'),
+            'ascendant': ('Асцендент', '/ascendant'), 'elements': ('Стихии', '/elements')}
+ARTICLE_SECTIONS = ('blog', 'signs', 'compat', 'ascendant', 'elements')
+# дата изменения статьи берется из sitemap (lastmod), дата публикации - из истории git (первый коммит файла)
+import subprocess
+try:
+    _sm = open(os.path.join(PUB, 'sitemap.xml'), encoding='utf-8').read()
+    LASTMOD = dict(re.findall(r'<loc>https://lunarius\.ru([^<]*)</loc><lastmod>([0-9-]+)</lastmod>', _sm))
+except OSError:
+    LASTMOD = {}
+def published(path):
+    try:
+        out = subprocess.run(['git', 'log', '--format=%cs', '--diff-filter=A', '--', path], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        return out[-1] if out else None
+    except Exception:
+        return None
+# калькуляторы: разметка WebApplication
+APPS = {
+    '/': ('Спидометр совместимости Lunarius', 'Расчет совместимости пары по датам рождения: синастрия двух натальных карт, шкала от -10 до +10.'),
+    '/natal': ('Натальная карта онлайн', 'Расчет натальной карты по дате, времени и месту рождения: планеты в знаках и домах, Асцендент, аспекты с расшифровкой.'),
+    '/ascendant': ('Калькулятор Асцендента', 'Расчет Асцендента (восходящего знака) по дате, времени и городу рождения с расшифровкой.'),
+}
 
 
 # Запасные шрифты с подогнанными метриками: пока Manrope и Oswald грузятся, текст занимает то же место,
@@ -62,7 +83,8 @@ def process(path):
     t_short = re.sub(r'\s*\|\s*Lunarius\s*$', '', title)
     m = re.search(r'<meta name="description" content="([^"]*)"', s)
     desc = html.unescape(m.group(1)) if m else ''
-    is_article = rel.startswith('blog/') and not rel.endswith('index.html')
+    _p = rel.replace(os.sep, '/').split('/')
+    is_article = len(_p) == 2 and _p[0] in ARTICLE_SECTIONS and _p[1] != 'index.html'
     tags = []
     if 'rel="canonical"' not in s:
         tags.append(f'<link rel="canonical" href="{full}">')
@@ -85,7 +107,7 @@ def process(path):
     if u == '/':
         ld.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Lunarius', 'alternateName': 'Спидометр совместимости', 'url': SITE + '/', 'inLanguage': 'ru'})
         ld.append({'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Lunarius', 'url': SITE + '/', 'logo': SITE + '/icon-512.png', 'email': 'info@lunarius.ru'})
-    else:
+    elif 'BreadcrumbList' not in s:
         crumbs = [('Главная', '/')]
         if parts[0] in SECTIONS and len(parts) > 1:
             crumbs.append(SECTIONS[parts[0]])
@@ -102,10 +124,19 @@ def process(path):
             ld.append({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
                 {'@type': 'Question', 'name': clean(a), 'acceptedAnswer': {'@type': 'Answer', 'text': clean(b)}} for a, b in qa]})
     if is_article:
-        ld.append({'@context': 'https://schema.org', '@type': 'Article', 'headline': t_short[:110], 'description': desc,
-                   'image': IMG, 'inLanguage': 'ru', 'dateModified': TODAY, 'mainEntityOfPage': full,
+        art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': t_short[:110], 'description': desc,
+                   'image': IMG, 'inLanguage': 'ru', 'dateModified': LASTMOD.get(u, TODAY), 'mainEntityOfPage': full,
                    'author': {'@type': 'Organization', 'name': 'Lunarius', 'url': SITE + '/'},
-                   'publisher': {'@type': 'Organization', 'name': 'Lunarius', 'logo': {'@type': 'ImageObject', 'url': SITE + '/icon-512.png'}}})
+                   'publisher': {'@type': 'Organization', 'name': 'Lunarius', 'logo': {'@type': 'ImageObject', 'url': SITE + '/icon-512.png'}}}
+        pub = published(path)
+        if pub:
+            art['datePublished'] = pub
+        ld.append(art)
+    if u in APPS:
+        ld.append({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': APPS[u][0], 'description': APPS[u][1], 'url': full,
+                   'applicationCategory': 'LifestyleApplication', 'operatingSystem': 'Any', 'browserRequirements': 'Требуется JavaScript', 'inLanguage': 'ru',
+                   'isAccessibleForFree': True, 'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'RUB'},
+                   'publisher': {'@type': 'Organization', 'name': 'Lunarius', 'url': SITE + '/'}})
     for obj in ld:
         tags.append('<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + '</script>')
     block = START + '\n' + '\n'.join(tags) + '\n' + END + '\n'
