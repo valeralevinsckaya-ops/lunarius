@@ -56,7 +56,26 @@ DEEP_CSS = ('<style>.toc{margin:28px 0 0;padding:20px 28px;font-size:14.5px;line
             '@media (max-width:640px){.faq{padding:6px 20px}}</style>')
 def sec(cards, cls=''):
     return '<div class="sec glass">' + ''.join(f'<div{cls}><h3>{h}</h3><p>{t}</p></div>' for h, t in cards) + '</div>'
+PL = ['Овны', 'Тельцы', 'Близнецы', 'Раки', 'Львы', 'Девы', 'Весы', 'Скорпионы', 'Стрельцы', 'Козероги', 'Водолеи', 'Рыбы']
+TIME_SUN = {0: 'около восхода', 9: 'около полудня', 6: 'около заката', 3: 'около полуночи'}
+def fill_defaults(i, s, x):
+    t = TEXTS[s['slug']]; d = BY[s['desc']]; name = 'Асцендент ' + s['loc']
+    x = dict(x)
+    if 'intro_lead' in x: x.setdefault('intro', [x['intro_lead']] + list(t['intro']))
+    x.setdefault('look', [('Внешность', t['look'][0]), ('Стиль и манера', t['look'][1])])
+    for k in ('behave', 'marks', 'plus', 'minus', 'compat', 'age', 'tips'): x.setdefault(k, t[k])
+    x.setdefault('love', t['love'][0]); x.setdefault('descendant', t['love'][1])
+    x.setdefault('work', [('Профессии', t['work'][0]), ('Деньги и стиль работы', t['work'][1])])
+    when = '; '.join(f'{PL[(i + k) % 12]} {v}' for k, v in [(0, TIME_SUN[0]), (-3, TIME_SUN[9]), (-6, TIME_SUN[6]), (3, TIME_SUN[3])])
+    faq = list(x.get('faq', []))
+    faq += [(f'Какой Десцендент при Асценденте {s["loc"]}?', f'Десцендент всегда в противоположном знаке, при Асценденте {s["loc"]} он {d["loc"]}. Это начало седьмого дома, дома партнерства: он описывает людей, которых вы притягиваете и которые вас дополняют.'),
+            (f'Какая планета управляет картой при Асценденте {s["loc"]}?', f'{s["ruler"]}. Знак и дом, где эта планета стоит в вашей натальной карте, показывают, куда уходит ваша главная энергия.'),
+            (f'В какое время рождаются люди с Асцендентом {s["loc"]}?', f'Зависит от даты. Асцендент совпадает со знаком Солнца на восходе и дальше переходит в следующие знаки, в среднем каждые 2 часа. Асцендент {s["loc"]} получают: {when}. Точно его покажет только расчет по времени и городу.'),
+            (f'Как узнать, есть ли у меня Асцендент {s["loc"]}?', 'Введите дату, точное время и город рождения в калькулятор на странице «Асцендент». Расчет бесплатный и занимает несколько секунд.')] if 'faq_full' not in x else []
+    x['faq'] = x.get('faq_full', faq)
+    return x
 def deep_asc(i, s, x):
+    x = fill_defaults(i, s, x)
     d = BY[s['desc']]; name = 'Асцендент ' + s['loc']; col = ELEM_COLOR[s['element']]
     others = ', '.join(f'<a href="/ascendant/{o["slug"]}">{o["loc"]}</a>' for o in SIGNS if o is not s)
     toc = [('vneshnost', 'Внешность'), ('harakter', 'Характер'), ('zhenshchina', 'У женщины'), ('muzhchina', 'У мужчины'), ('lyubov', 'Любовь'),
@@ -77,7 +96,7 @@ def deep_asc(i, s, x):
     for j, o in enumerate(SIGNS):
         k = (j - i) % 12
         cards += (f'<div><h3>{o["name"]} с Асцендентом {s["loc"]}</h3><p class="sun-when">Рождение {BORN[k]}, Солнце в {k + 1} доме</p>'
-                  f'<p>{x["sun"][o["slug"]]}</p><p class="sm"><a href="/signs/{o["slug"]}">Знак {o["name"]}</a></p></div>')
+                  f'<p>{x["sun"][o["slug"]]}</p></div>')
     b += (f'<h2 id="solnce">{name} <em>и знак Солнца</em></h2><p class="lead" style="margin:-6px 0 18px;max-width:820px">Асцендент показывает, каким вас видят, а Солнце, то есть знак зодиака по дате рождения, - кто вы внутри. '
           f'Ниже 12 сочетаний: знак Солнца с Асцендентом {s["loc"]}. Время суток указано примерно, дом считается от Асцендента по целым знакам.</p><div class="sec glass">{cards}</div>')
     b += f'<h2 id="rebenok">Ребенок с Асцендентом <em>{s["loc"]}</em></h2><div class="sec glass"><div class="wide"><p>{x["child"]}</p></div></div>'
