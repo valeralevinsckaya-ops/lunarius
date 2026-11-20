@@ -23,8 +23,7 @@ def crumbs_ld(items):
         {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': 'https://lunarius.ru' + u} for i, (n, u) in enumerate(items)]})
 def head(title, og, desc, path, extra):
     return '\n'.join([P1, f'<title>{e(title)}</title>', f'<meta name="description" content="{e(desc)}">',
-        f'<link rel="canonical" href="https://lunarius.ru{path}">', f'<meta property="og:title" content="{e(og)}">',
-        f'<meta property="og:description" content="{e(desc)}">', f'<meta property="og:url" content="https://lunarius.ru{path}">'] + extra + [SHARED])
+        f'<link rel="canonical" href="https://lunarius.ru{path}">', ] + extra + [SHARED])
 
 # ---------- страницы знаков
 import ascendant_texts_1, ascendant_texts_2, ascendant_texts_3
@@ -36,7 +35,8 @@ def ul(items): return '<ul>' + ''.join(f'<li>{x}</li>' for x in items) + '</ul>'
 for s in SIGNS:
     x = TEXTS[s['slug']]
     col = ELEM_COLOR[s['element']]; d = BY[s['desc']]; name = 'Асцендент ' + s['loc']
-    title = f"{name}: внешность, характер и любовь | Lunarius"
+    title = f"{name}: внешность, характер и любовь"
+    if len(title) <= 49: title += " | Lunarius"
     og = f"{name}: внешность, характер, любовь"
     desc = f"Узнайте, что дает {name}: внешность, характер, любовь, у женщин и мужчин, сочетание с Солнцем. Рассчитайте свой Асцендент онлайн бесплатно."
     others = ', '.join(f'<a href="/ascendant/{o["slug"]}">{o["loc"]}</a>' for o in SIGNS if o is not s)

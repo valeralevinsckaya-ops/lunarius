@@ -91,7 +91,8 @@ def page_for(a, b):
     same = a == b
     nameA, nameB = A[1], B[1]
     G2 = f'двух {GEN_PL[a]}' if same else f'{A[2]} и {B[2]}'
-    title = f'Совместимость {G2} в любви и браке | Lunarius'
+    title = f'Совместимость {G2} в любви и браке'
+    if len(title) <= 49: title += ' | Lunarius'
     desc = f'Узнайте, подходят ли друг другу {nameA} и {nameB}: любовь, брак, быт, ссоры и совет паре. Проверьте свою пару по датам рождения бесплатно.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path=f'/compat/{a}-{b}').replace('<!--METRIKA-->', METRIKA)
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/compat">Совместимость знаков</a></p>'
@@ -194,7 +195,7 @@ for i, A in enumerate(SIGNS):
         open(os.path.join(OUT, f'{A[0]}-{B[0]}.html'), 'w', encoding='utf-8').write(page_for(A[0], B[0])); n += 1
 
 # индекс: таблица 12x12
-idx = HEAD.format(title='Совместимость знаков зодиака: все пары с описанием | Lunarius', desc='Таблица совместимости 12 знаков зодиака: выберите пару и читайте разбор - притяжение, любовь, трение, быт, совет паре. Затем проверьте пару по натальным картам.', path='/compat').replace('<!--METRIKA-->', METRIKA)
+idx = HEAD.format(title='Совместимость знаков зодиака: таблица всех пар | Lunarius', desc='Таблица совместимости 12 знаков зодиака: выберите пару и читайте разбор - притяжение, любовь, трение, быт, совет паре. Затем проверьте пару по натальным картам.', path='/compat').replace('<!--METRIKA-->', METRIKA)
 idx += '<h1 class="list">Совместимость знаков</h1><p class="lead">Выберите два знака. У каждой пары своя страница: что притягивает, где трение, как вы любите и живете вместе.</p>'
 idx += '<div class="glass" style="padding:24px"><div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:13px"><tr><th style="position:sticky;left:0;z-index:1;background:#F6F1FB"></th>' + ''.join(f'<th style="padding:8px 4px;font-family:Oswald;font-weight:500;text-transform:uppercase;font-size:12px">{s[1]}</th>' for s in SIGNS) + '</tr>'
 STAR_COLOR = {5: '#5B44BD', 4: '#6E56CF', 3: '#9A8CC4', 2: '#E8762E', 1: '#E8762E'}

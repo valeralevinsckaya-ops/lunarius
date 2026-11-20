@@ -127,7 +127,7 @@ for i, a in enumerate(articles):
     assert 'ё' not in page and '—' not in page, a['slug']
     open(os.path.join(out_dir, a['slug'] + '.html'), 'w', encoding='utf-8').write(page)
 
-idx = HEAD.format(metrika=METRIKA, title='Статьи об астрологии отношений: натальная карта, синастрия, совместимость | Lunarius', desc='Статьи Lunarius простым языком: как читать натальную карту, что такое асцендент и дома, совместимость знаков зодиака, синастрия, Луна и Венера в отношениях.', path='/blog')
+idx = HEAD.format(metrika=METRIKA, title='Статьи об астрологии: натальная карта и синастрия | Lunarius', desc='Статьи Lunarius простым языком: как читать натальную карту, что такое асцендент и дома, совместимость знаков зодиака, синастрия, Луна и Венера в отношениях.', path='/blog')
 idx += '<h1 class="list">Статьи</h1><p class="lead">Астрология отношений простым языком: от основ синастрии до отдельных планет. Все статьи заканчиваются тем, что можно проверить на себе.</p>'
 idx += '<div class="grid">' + ''.join(card(a, i) for i, a in enumerate(articles)) + '</div>' + FOOT
 open(os.path.join(out_dir, 'index.html'), 'w', encoding='utf-8').write(idx)

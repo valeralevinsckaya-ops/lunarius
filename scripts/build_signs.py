@@ -230,7 +230,7 @@ for i, s in enumerate(SIGNS):
     assert 'ё' not in page and '—' not in page, s['slug']
     open(os.path.join(OUT, s['slug'] + '.html'), 'w', encoding='utf-8').write(page)
 
-idx = HEAD.format(title='Знаки зодиака: характеристика, женщина и мужчина каждого знака в любви | Lunarius', desc='12 знаков зодиака: даты, стихия, управитель, характер, женщина и мужчина каждого знака в любви, быту и семье, совместимость с другими знаками.', path='/signs').replace('<!--METRIKA-->', METRIKA)
+idx = HEAD.format(title='12 знаков зодиака: характеристика, женщина и мужчина', desc='12 знаков зодиака: даты, стихия, управитель, характер, женщина и мужчина каждого знака в любви, быту и семье, совместимость с другими знаками.', path='/signs').replace('<!--METRIKA-->', METRIKA)
 idx += '<h1 class="list">Знаки зодиака</h1><p class="lead">Характер, любовь, быт и совместимость: отдельно о женщине и о мужчине каждого знака. Нажмите на карточку.</p>'
 idx += '<div class="grid">' + ''.join(card(s) for s in SIGNS) + '</div>' + FOOT
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(idx)
