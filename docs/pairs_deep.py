@@ -74,6 +74,9 @@ for _f in sorted(_glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__fi
 from pairs_extra import ADD as _ADD
 for _f in sorted(_glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'pairs_extra_*.py'))):
     _ADD = {**_ADD, **{k: v for k, v in _il.import_module(_os.path.basename(_f)[:-3]).ADD.items()}}
+for _f in sorted(_glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'pairs_extra_*.py'))):
+    for _k, _v in getattr(_il.import_module(_os.path.basename(_f)[:-3]), 'REP', {}).items():
+        DEEP[_k].update(_v)
 for _k, _v in _ADD.items():
     for _f, _items in _v.items():
         DEEP[_k][_f] = DEEP[_k][_f] + _items

@@ -49,6 +49,8 @@ FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru"
 '''
 CTA = '<div class="cta"><b>Знака Солнца мало: у каждого из вас еще девять планет.<br>Прокатитесь на спидометре совместимости по натальным картам</b><a href="/">Запустить спидометр</a></div>'
 
+GEN_PL = {'oven': 'Овнов', 'telec': 'Тельцов', 'bliznecy': 'Близнецов', 'rak': 'Раков', 'lev': 'Львов', 'deva': 'Дев', 'vesy': 'Весов', 'skorpion': 'Скорпионов', 'strelec': 'Стрельцов', 'kozerog': 'Козерогов', 'vodoley': 'Водолеев', 'ryby': 'Рыб'}
+
 def rel_index(a, b):
     d = abs(IDX[a] - IDX[b]); return min(d, 12 - d)
 
@@ -66,11 +68,12 @@ def page_for(a, b):
     r = RELATION[rel_index(a, b)]
     same = a == b
     nameA, nameB = A[1], B[1]
-    title = f'Совместимость {A[2]} и {B[2]} в любви и браке | Lunarius'
+    G2 = f'двух {GEN_PL[a]}' if same else f'{A[2]} и {B[2]}'
+    title = f'Совместимость {G2} в любви и браке | Lunarius'
     desc = f'Узнайте, подходят ли друг другу {nameA} и {nameB}: любовь, брак, быт, ссоры и совет паре. Проверьте свою пару по датам рождения бесплатно.'
     page = HEAD.format(title=html.escape(title), desc=html.escape(desc), path=f'/compat/{a}-{b}').replace('<!--METRIKA-->', METRIKA)
     page += f'<p class="crumbs"><a href="/">Главная</a> · <a href="/compat">Совместимость знаков</a></p>'
-    page += f'<h1 class="list" style="margin-bottom:18px">Совместимость <em>{A[2]} и {B[2]}</em></h1>'
+    page += f'<h1 class="list" style="margin-bottom:18px">Совместимость <em>{G2}</em></h1>'
     page += (f'<section class="pair glass"><div><img src="/img/{A[5]}.webp" alt="{nameA}"><div class="pname">{nameA}</div><div class="pel" style="color:{ELEM_COLOR[A[4]]}">{A[4]}</div></div>'
              f'<div class="plus">+</div><div><img src="/img/{B[5]}.webp" alt="{nameB}"><div class="pname">{nameB}</div><div class="pel" style="color:{ELEM_COLOR[B[4]]}">{B[4]}</div></div></section>')
     page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"]}</p></div></section>'
@@ -84,9 +87,9 @@ def page_for(a, b):
         def cards(first, rest): return f'<div class="wide"><p>{first}</p></div>' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in rest)
         page += H('ona-on', f'Женщина-{nameA} и мужчина-{nameB}', f'Женщина-{nameA} и <em>мужчина-{nameB}</em>') + '<section class="sec glass">' + cards(deep['w_a_m_b'], deep.get('wm', [])) + '</section>'
         if not same: page += H('on-ona', f'Мужчина-{nameA} и женщина-{nameB}', f'Мужчина-{nameA} и <em>женщина-{nameB}</em>') + '<section class="sec glass">' + cards(deep['m_a_w_b'], deep.get('mw', [])) + '</section>'
-        page += H('nachalo', 'Начало отношений', f'Как начинаются отношения <em>{A[2]} и {B[2]}</em>') + f'<section class="essence glass"><p>{deep["start"]}</p></section>'
+        page += H('nachalo', 'Начало отношений', f'Как начинаются отношения <em>{G2}</em>') + f'<section class="essence glass"><p>{deep["start"]}</p></section>'
     # притяжение и трение
-    page += H('prityazhenie', 'Что притягивает', f'Что притягивает <em>{A[2]} и {B[2]}</em>') + f'<section class="sec glass">'
+    page += H('prityazhenie', 'Что притягивает', f'Что притягивает <em>{G2}</em>') + f'<section class="sec glass">'
     page += f'<div><h3>Что {vb(a, "дает", "дают")} {nameA}</h3><p>{cap(ta["gives"])}. {cap(ta["teaches"])} - этому {nameA} {vb(a, "учит", "учат")} {B[2]}.</p></div>'
     page += f'<div><h3>Что {vb(b, "дает", "дают")} {nameB}</h3><p>{cap(tb["gives"])}. {cap(tb["teaches"])} - этому {nameB} {vb(b, "учит", "учат")} {A[2]}.</p></div>'
     page += f'<div class="wide"><h3>Что каждому нужно</h3><p>{nameA} {vb(a, "ждет", "ждут")} от партнера {ta["needs"]}. {nameB} {vb(b, "ждет", "ждут")} {tb["needs"]}. ' + (
@@ -112,7 +115,7 @@ def page_for(a, b):
            6: 'Помните, что раздражает то, чего вам не хватает. Когда захочется переделать партнера, спросите себя, не этому ли вы у него учитесь.'}[rel_index(a, b)]
     page += H('sovet', 'Совет паре', f'Совет паре <em>{nameA} и {nameB}</em>') + f'<section class="essence glass"><p>{deep["advice"] if deep and deep.get("advice") else adv}</p></section>'
     if deep:
-        page += H('voprosy', 'Вопросы', f'Вопросы о совместимости <em>{A[2]} и {B[2]}</em>') + f'<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
+        page += H('voprosy', 'Вопросы', f'Вопросы о совместимости <em>{G2}</em>') + f'<section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
     page += CTA
     # другие пары с этими знаками
     others = [s for s in SIGNS if s[0] not in (a, b)][:4]
