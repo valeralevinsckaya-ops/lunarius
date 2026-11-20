@@ -225,14 +225,14 @@ _link = lambda k: f'<a href="/compat/{k}">{_name[k.split("-")[0]]} + {_name[k.sp
 _L = sorted(STATS.items(), key=lambda x: -x[1]['mean'])
 _mixed = [kv for kv in _L if kv[0].split('-')[0] != kv[0].split('-')[1]]
 idx += f'<h2 id="spidometr">{CH["speedo_title"].split(" ", 1)[0]} <em>{CH["speedo_title"].split(" ", 1)[1]}</em></h2><div class="sec glass">' + ''.join(f'<div class="wide"><p>{p}</p></div>' for p in CH['speedo'])
-idx += '<div><h3>Выше всего в среднем</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[:6]) + '</ul></div>'
-idx += '<div><h3>Ниже всего в среднем</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[-6:][::-1]) + '</ul></div></div>'
+idx += '<div><h3>Лидеры по среднему баллу</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[:6]) + '</ul></div>'
+idx += '<div><h3>Последние по среднему баллу</h3><ul>' + ''.join(f'<li>{_link(k)}: {_fmt(v["mean"])}</li>' for k, v in _mixed[-6:][::-1]) + '</ul></div></div>'
 _best = []
 for _s in SIGNS:
     _c = [(k, v['mean']) for k, v in STATS.items() if _s[0] in k.split('-') and k != f'{_s[0]}-{_s[0]}']
     _c.sort(key=lambda x: -x[1]); _best.append(_TD([_s[1], _link(_c[0][0]) + ' ' + _fmt(_c[0][1]), _link(_c[1][0]) + ' ' + _fmt(_c[1][1]), _link(_c[-1][0]) + ' ' + _fmt(_c[-1][1])]))
 idx += '<h2 id="luchshie-pary">Лучшие пары <em>для каждого знака</em></h2><p class="lead" style="margin:-6px 0 18px;max-width:820px">По среднему баллу спидометра, без пар одного знака. Числа - средние по 20 000 смоделированных пар, шкала от -10 до +10.</p>'
-idx += _TBL + _TH(['Знак', 'Лучшая пара', 'Вторая', 'Труднее всего']) + ''.join(_best) + '</table></div>'
+idx += _TBL + _TH(['Знак', 'Первое место', 'Второе место', 'Последнее место']) + ''.join(_best) + '</table></div>'
 idx += '<h2 id="muzhchina-zhenshchina">Мужчина и женщина, <em>любовь и брак</em></h2><div class="sec glass">' + ''.join(f'<div><h3>{h}</h3><p>{t}</p></div>' for h, t in CH['mw']) + '</div>'
 idx += '<h2 id="voprosy">Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{a}</p></div>' for q, a in CH['faq']) + '</section>'
 idx += '<p style="margin:16px 0 0;font-size:14px;color:#6B6380">Читайте также: <a href="/signs">знаки зодиака по датам</a>, <a href="/elements">стихии знаков</a>, <a href="/blog/sovmestimost-znakov-zodiaka">статья о совместимости знаков</a>, <a href="/blog/sinastriya">синастрия</a>.</p>'
