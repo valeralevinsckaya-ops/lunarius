@@ -82,11 +82,11 @@ def page_for(a, b):
     page += f'<div><h3>Что {vb(b, "дает", "дают")} {nameB}</h3><p>{cap(tb["gives"])}. {cap(tb["teaches"])} - этому {nameB} {vb(b, "учит", "учат")} {A[2]}.</p></div>'
     page += f'<div class="wide"><h3>Что каждому нужно</h3><p>{nameA} {vb(a, "ждет", "ждут")} от партнера {ta["needs"]}. {nameB} {vb(b, "ждет", "ждут")} {tb["needs"]}. ' + (
         'Запросы похожи, поэтому понимать друг друга легко.' if same else 'Насколько эти ожидания совпадают, и есть суть вашей совместимости: там, где один дает то, чего ждет другой, пара держится сама.') + '</p></div></section>'
-    page += f'<h2>В <em>любви</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div></section>'
+    page += f'<h2>В <em>любви</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
     page += f'<h2>Где <em>трение</em></h2><section class="sec glass">'
     page += f'<div><h3>Как {vb(a, "ссорится", "ссорятся")} {nameA}</h3><p>{cap(ta["fight"])}.</p></div><div><h3>Как {vb(b, "ссорится", "ссорятся")} {nameB}</h3><p>{cap(tb["fight"])}.</p></div>'
     page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера могут раздражать {ta["irritates"]}. У {B[2]} партнера могут раздражать {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div></section>'
-    page += f'<h2>В <em>быту</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div></section>'
+    page += f'<h2>В <em>быту</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
     if deep:
         page += f'<h2>В <em>близости</em></h2><section class="essence glass"><p>{deep["intimacy"]}</p></section>'
         page += f'<h2>Дружба и <em>работа</em></h2><section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
