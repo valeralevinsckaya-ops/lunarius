@@ -4,6 +4,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'docs'))
 from pairs_content import SIGNS, TRAITS, RELATION, ESSENCE, essence_key
 from signs_content import SIGNS as SIGN_PAGES
+from pairs_deep import DEEP
 OUT = os.path.join(ROOT, 'public/compat'); os.makedirs(OUT, exist_ok=True)
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
 EASY = {s['slug']: s['easy'] for s in SIGN_PAGES}
@@ -68,6 +69,12 @@ def page_for(a, b):
     page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"]}</p></div></section>'
     ess = ESSENCE.get(essence_key(a, b))
     if ess: page += f'<h2>{nameA} и <em>{nameB}</em>: суть пары</h2><section class="essence glass"><p>{ess}</p></section>'
+    deep = DEEP.get(essence_key(a, b))
+    if deep:
+        page += f'<h2>Он и она: <em>{nameA} и {nameB}</em></h2><section class="sec glass">'
+        page += f'<div><h3>Женщина-{nameA} и мужчина-{nameB}</h3><p>{deep["w_a_m_b"]}</p></div>'
+        if not same: page += f'<div><h3>Мужчина-{nameA} и женщина-{nameB}</h3><p>{deep["m_a_w_b"]}</p></div>'
+        page += '</section>'
     # притяжение и трение
     page += f'<h2>Что <em>притягивает</em></h2><section class="sec glass">'
     page += f'<div><h3>Что {vb(a, "дает", "дают")} {nameA}</h3><p>{cap(ta["gives"])}. {cap(ta["teaches"])} - этому {nameA} {vb(a, "учит", "учат")} {B[2]}.</p></div>'
@@ -79,6 +86,9 @@ def page_for(a, b):
     page += f'<div><h3>Как {vb(a, "ссорится", "ссорятся")} {nameA}</h3><p>{cap(ta["fight"])}.</p></div><div><h3>Как {vb(b, "ссорится", "ссорятся")} {nameB}</h3><p>{cap(tb["fight"])}.</p></div>'
     page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера могут раздражать {ta["irritates"]}. У {B[2]} партнера могут раздражать {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div></section>'
     page += f'<h2>В <em>быту</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div></section>'
+    if deep:
+        page += f'<h2>В <em>близости</em></h2><section class="essence glass"><p>{deep["intimacy"]}</p></section>'
+        page += f'<h2>Дружба и <em>работа</em></h2><section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
     # совет
     adv = {0: 'Заводите разные интересы и друзей за пределами пары: вам нужен взгляд со стороны. И смейтесь над общими слабостями раньше, чем они начнут мешать.',
            1: 'Не ждите, что партнер будет понимать вас по умолчанию: объясняйте. Совместимость вы строите сами, зато она по-настоящему ваша.',
@@ -88,6 +98,8 @@ def page_for(a, b):
            5: 'Не пытайтесь переделать: принимайте, что партнер устроен иначе, и спрашивайте вместо того, чтобы догадываться. Вы разные, и это ваш ресурс.',
            6: 'Помните, что раздражает именно то, чего вам не хватает. Когда захочется переделать партнера, спросите себя, не этому ли вы у него учитесь.'}[rel_index(a, b)]
     page += f'<h2>Совет <em>паре</em></h2><section class="essence glass"><p>{adv}</p></section>'
+    if deep:
+        page += f'<h2>Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
     page += CTA
     # другие пары с этими знаками
     others = [s for s in SIGNS if s[0] not in (a, b)][:4]
