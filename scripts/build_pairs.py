@@ -68,6 +68,8 @@ def page_for(a, b):
              f'<div class="plus">+</div><div><img src="/img/{B[5]}.webp" alt="{nameB}"><div class="pname">{nameB}</div><div class="pel" style="color:{ELEM_COLOR[B[4]]}">{B[4]}</div></div></section>')
     page += f'<section class="verdict glass"><div class="stars">{"★" * r["stars"]}{"☆" * (5 - r["stars"])}</div><div style="flex:1;min-width:260px"><h2>{r["title"]}</h2><p>{r["text"]}</p></div></section>'
     ess = ESSENCE.get(essence_key(a, b))
+    deep0 = DEEP.get(essence_key(a, b))
+    if deep0 and deep0.get('intro'): page += f'<p class="lead" style="max-width:900px;margin:24px 0 0">{deep0["intro"]}</p>'
     if ess: page += f'<h2>{nameA} и <em>{nameB}</em>: суть пары</h2><section class="essence glass"><p>{ess}</p></section>'
     deep = DEEP.get(essence_key(a, b))
     if deep:
@@ -81,11 +83,11 @@ def page_for(a, b):
     page += f'<div><h3>Что {vb(a, "дает", "дают")} {nameA}</h3><p>{cap(ta["gives"])}. {cap(ta["teaches"])} - этому {nameA} {vb(a, "учит", "учат")} {B[2]}.</p></div>'
     page += f'<div><h3>Что {vb(b, "дает", "дают")} {nameB}</h3><p>{cap(tb["gives"])}. {cap(tb["teaches"])} - этому {nameB} {vb(b, "учит", "учат")} {A[2]}.</p></div>'
     page += f'<div class="wide"><h3>Что каждому нужно</h3><p>{nameA} {vb(a, "ждет", "ждут")} от партнера {ta["needs"]}. {nameB} {vb(b, "ждет", "ждут")} {tb["needs"]}. ' + (
-        'Запросы похожи, поэтому понимать друг друга легко.' if same else 'Насколько эти ожидания совпадают, и есть суть вашей совместимости: там, где один дает то, чего ждет другой, пара держится сама.') + '</p></div></section>'
+        'Запросы похожи, поэтому понимать друг друга легко.' if same else 'Насколько эти ожидания совпадают, и есть суть вашей совместимости: там, где один дает то, чего ждет другой, пара держится сама.') + '</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['attract']) if deep and deep.get('attract') else '') + '</section>'
     page += f'<h2>В <em>любви</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["love"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["love"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['love']) if deep and deep.get('love') else '') + '</section>'
     page += f'<h2>Где <em>трение</em></h2><section class="sec glass">'
     page += f'<div><h3>Как {vb(a, "ссорится", "ссорятся")} {nameA}</h3><p>{cap(ta["fight"])}.</p></div><div><h3>Как {vb(b, "ссорится", "ссорятся")} {nameB}</h3><p>{cap(tb["fight"])}.</p></div>'
-    page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера могут раздражать {ta["irritates"]}. У {B[2]} партнера могут раздражать {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div></section>'
+    page += f'<div class="wide"><h3>Что раздражает</h3><p>У {A[2]} партнера могут раздражать {ta["irritates"]}. У {B[2]} партнера могут раздражать {tb["irritates"]}. Это не недостатки, а обратная сторона того, за что вы друг друга выбрали.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['friction']) if deep and deep.get('friction') else '') + '</section>'
     page += f'<h2>В <em>быту</em></h2><section class="sec glass"><div><h3>{nameA}</h3><p>{cap(ta["home"])}.</p></div><div><h3>{nameB}</h3><p>{cap(tb["home"])}.</p></div>' + (''.join(f'<div class="wide"><h3>{h}</h3><p>{t}</p></div>' for h, t in deep['home']) if deep and deep.get('home') else '') + '</section>'
     if deep:
         page += f'<h2>В <em>близости</em></h2><section class="essence glass"><p>{deep["intimacy"]}</p></section>'
@@ -101,7 +103,7 @@ def page_for(a, b):
            4: 'Вносите новое: поездки, людей, задачи. Паре одной стихии грозит не ссора, а скука.',
            5: 'Не пытайтесь переделать: принимайте, что партнер устроен иначе, и спрашивайте вместо того, чтобы догадываться. Вы разные, и это ваш ресурс.',
            6: 'Помните, что раздражает именно то, чего вам не хватает. Когда захочется переделать партнера, спросите себя, не этому ли вы у него учитесь.'}[rel_index(a, b)]
-    page += f'<h2>Совет <em>паре</em></h2><section class="essence glass"><p>{adv}</p></section>'
+    page += f'<h2>Совет <em>паре</em></h2><section class="essence glass"><p>{deep["advice"] if deep and deep.get("advice") else adv}</p></section>'
     if deep:
         page += f'<h2>Частые <em>вопросы</em></h2><section id="faq" class="sec glass">' + ''.join(f'<div class="wide"><h3>{q}</h3><p>{t}</p></div>' for q, t in deep['faq']) + '</section>'
     page += CTA
