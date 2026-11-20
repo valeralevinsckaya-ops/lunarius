@@ -44,7 +44,7 @@ def rise_minutes(i, lat=55.75):
         l = math.radians(lon); ra = math.atan2(math.sin(l) * math.cos(eps), math.cos(l))
         dec = math.asin(math.sin(eps) * math.sin(l)); return math.degrees(ra - math.asin(math.tan(dec) * math.tan(phi))) % 360
     return round(((oa(i * 30 + 30) - oa(i * 30)) % 360) / 15 * 60 / 1.0027)
-def dur(m): return f'{m} мин' if m < 60 else (f'{m // 60} ч {m % 60} мин' if m % 60 >= 10 else f'около {m // 60} ч')
+def dur(m): return f'{m} мин' if m < 60 else (f'{m // 60} ч {m % 60} мин' if m % 60 >= 10 else f'{m // 60} ч')
 BORN = {0: 'около восхода Солнца', 1: 'в последние часы перед рассветом', 2: 'глубокой ночью, после полуночи', 3: 'около полуночи',
         4: 'поздним вечером', 5: 'вечером, после заката', 6: 'около заката', 7: 'ближе к вечеру', 8: 'во второй половине дня',
         9: 'около полудня', 10: 'в первой половине дня', 11: 'утром, вскоре после восхода'}
