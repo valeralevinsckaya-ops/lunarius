@@ -125,12 +125,12 @@ def process(path):
                 {'@type': 'Question', 'name': clean(a), 'acceptedAnswer': {'@type': 'Answer', 'text': clean(b)}} for a, b in qa]})
     if is_article:
         art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': t_short[:110], 'description': desc,
-                   'image': IMG, 'inLanguage': 'ru', 'dateModified': LASTMOD.get(u, TODAY), 'mainEntityOfPage': full,
+                   'image': IMG, 'inLanguage': 'ru', 'dateModified': LASTMOD.get(u, TODAY) + 'T12:00:00+03:00', 'mainEntityOfPage': full,
                    'author': {'@type': 'Organization', 'name': 'Lunarius', 'url': SITE + '/'},
                    'publisher': {'@type': 'Organization', 'name': 'Lunarius', 'logo': {'@type': 'ImageObject', 'url': SITE + '/icon-512.png'}}}
         pub = published(path)
         if pub:
-            art['datePublished'] = pub
+            art['datePublished'] = pub + 'T12:00:00+03:00'
         ld.append(art)
     if u in APPS:
         ld.append({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': APPS[u][0], 'description': APPS[u][1], 'url': full,
