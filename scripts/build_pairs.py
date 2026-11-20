@@ -74,6 +74,7 @@ def page_for(a, b):
         page += f'<h2>Он и она: <em>{nameA} и {nameB}</em></h2><section class="sec glass">'
         page += f'<div><h3>Женщина-{nameA} и мужчина-{nameB}</h3><p>{deep["w_a_m_b"]}</p></div>'
         if not same: page += f'<div><h3>Мужчина-{nameA} и женщина-{nameB}</h3><p>{deep["m_a_w_b"]}</p></div>'
+        page += f'<div class="wide"><h3>Как начинаются отношения</h3><p>{deep["start"]}</p></div>'
         page += '</section>'
     # притяжение и трение
     page += f'<h2>Что <em>притягивает</em></h2><section class="sec glass">'
@@ -89,6 +90,9 @@ def page_for(a, b):
     if deep:
         page += f'<h2>В <em>близости</em></h2><section class="essence glass"><p>{deep["intimacy"]}</p></section>'
         page += f'<h2>Дружба и <em>работа</em></h2><section class="sec glass"><div><h3>В дружбе</h3><p>{deep["friendship"]}</p></div><div><h3>В работе и деньгах</h3><p>{deep["work"]}</p></div></section>'
+        page += f'<h2>Брак и <em>семья</em></h2><section class="sec glass"><div><h3>{nameA} и {nameB} в браке</h3><p>{deep["marriage"]}</p></div><div><h3>Кризисы и примирение</h3><p>{deep["crisis"]}</p></div></section>'
+        page += f'<h2>Как <em>завоевать</em></h2><section class="sec glass"><div><h3>Как завоевать {A[2]}</h3><p>{deep["win_a"]}</p></div>' + ('' if same else f'<div><h3>Как завоевать {B[2]}</h3><p>{deep["win_b"]}</p></div>') + '</section>'
+        page += f'<h2>Плюсы и <em>минусы</em> пары</h2><section class="sec glass"><div><h3>Сильные стороны</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['pros']) + '</ul></div><div><h3>Слабые места</h3><ul>' + ''.join(f'<li>{t}</li>' for t in deep['cons']) + '</ul></div></section>'
     # совет
     adv = {0: 'Заводите разные интересы и друзей за пределами пары: вам нужен взгляд со стороны. И смейтесь над общими слабостями раньше, чем они начнут мешать.',
            1: 'Не ждите, что партнер будет понимать вас по умолчанию: объясняйте. Совместимость вы строите сами, зато она по-настоящему ваша.',
