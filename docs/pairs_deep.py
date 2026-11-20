@@ -69,3 +69,9 @@ DEEP = {
 import glob as _glob, importlib as _il, os as _os
 for _f in sorted(_glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'pairs_deep_*.py'))):
     DEEP.update(_il.import_module(_os.path.basename(_f)[:-3]).D)
+
+# Дополнительные блоки (docs/pairs_extra.py) дописываются в конец списков.
+from pairs_extra import ADD as _ADD
+for _k, _v in _ADD.items():
+    for _f, _items in _v.items():
+        DEEP[_k][_f] = DEEP[_k][_f] + _items
