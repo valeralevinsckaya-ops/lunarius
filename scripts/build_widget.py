@@ -42,7 +42,7 @@ button{{width:100%;height:44px;border:0;border-radius:999px;background:#6E56CF;c
 button:hover{{background:#5B44BD}}
 button:disabled{{opacity:.6;cursor:wait}}
 .res{{text-align:center;margin-top:10px}}
-.g{{width:100%;max-width:340px;height:auto;overflow:visible;display:block;margin:0 auto}}
+.g{{width:100%;max-width:270px;height:auto;overflow:visible;display:block;margin:0 auto}}
 #needle{{transition:transform .9s cubic-bezier(.3,1.4,.5,1)}}
 .sc{{font-family:'Oswald',Arial,sans-serif;font-size:34px;font-weight:600;line-height:1;margin-top:2px;color:#5B44BD}}
 .zn{{font-weight:700;font-size:15px;margin-top:4px}}
@@ -134,11 +134,11 @@ DESC = 'Бесплатный виджет совместимости по дат
 head = re.sub(r'<title>.*?</title>', f'<title>{TITLE}</title>', head, flags=re.S)
 head = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{DESC}">', head)
 head = re.sub(r'<link rel="canonical" href="[^"]*">', '<link rel="canonical" href="https://lunarius.ru/vidzhet">', head)
-CODE = ('<iframe src="https://lunarius.ru/widget" width="100%" height="640" style="max-width:560px;border:0;border-radius:20px" '
+CODE = ('<iframe src="https://lunarius.ru/widget" width="100%" height="740" style="max-width:560px;border:0;border-radius:20px" '
         'loading="lazy" title="Спидометр совместимости Lunarius"></iframe>\n'
         '<p style="max-width:560px;font-size:13px;text-align:center"><a href="https://lunarius.ru/">Спидометр совместимости Lunarius</a></p>')
 css = ('<style>.wbox{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:28px;align-items:start;margin:8px 0 36px}'
-       '.wbox iframe{width:100%;height:640px;border:0;border-radius:20px;box-shadow:0 18px 40px rgba(91,68,189,.15);background:#FBF8F3}'
+       '.wbox iframe{width:100%;height:740px;border:0;border-radius:20px;box-shadow:0 18px 40px rgba(91,68,189,.15);background:#FBF8F3}'
        '.code{padding:22px 24px}.code pre{white-space:pre-wrap;word-break:break-all;margin:0 0 14px;padding:14px;border-radius:14px;background:#2A2340;color:#FBF8F3;font-size:13px;line-height:1.5}'
        '.code button{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border:0;border-radius:999px;background:#6E56CF;color:#fff;font:700 14px Manrope,sans-serif;cursor:pointer}'
        '.steps{padding:24px 28px}.steps ol{margin:0;padding-left:20px}.steps li{margin:0 0 8px}'
@@ -148,7 +148,7 @@ faq = [
     ('Сколько стоит виджет?', 'Виджет бесплатный. Регистрация и ключи не нужны: скопируйте код и вставьте его на страницу.'),
     ('Что увидят посетители вашего сайта?', 'Форму с двумя датами и городами рождения, кнопку расчета и спидометр совместимости от -10 до +10 с названием зоны и коротким пояснением. Из виджета посетитель может перейти к подробному разбору пары на Lunarius.ru.'),
     ('Сохраняются ли данные посетителей?', 'Нет. Даты и города рождения передаются по HTTPS, расчет идет в памяти сервера, после ответа данные не хранятся. Подробно об этом написано в <a href="/privacy">политике конфиденциальности</a>.'),
-    ('Можно ли поменять размер?', 'Да. Ширина подстраивается под колонку сайта, высоту можно задать в атрибуте height. На узких экранах поля встают друг под другом, поэтому для мобильной версии лучше оставить высоту 640 пикселей или больше.'),
+    ('Можно ли поменять размер?', 'Да. Ширина подстраивается под колонку сайта, высоту можно задать в атрибуте height. На узких экранах поля встают друг под другом, поэтому для мобильной версии лучше оставить высоту 740 пикселей или больше.'),
     ('Какие условия использования?', 'Подпись со ссылкой на Lunarius под виджетом должна остаться на месте. Виджет нельзя встраивать на страницы с запрещенным контентом. В остальном ставьте его на любые страницы: в блог, в статью о знаках зодиака, на сайт астролога или свадебного агентства.'),
     ('Насколько точен расчет?', 'Виджет использует тот же алгоритм, что и главная страница Lunarius: синастрию натальных карт двух людей с учетом аспектов Солнца, Луны, Венеры, Марса и других планет. Время рождения в виджете не спрашивается, поэтому расчет идет на полдень. Сайт носит развлекательный характер.'),
 ]
