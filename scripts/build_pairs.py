@@ -64,7 +64,7 @@ h2[id]{{scroll-margin-top:16px}}
 @media (max-width:640px){{.pair{{grid-template-columns:1fr 1fr;padding:20px}}.plus{{display:none}}.pname{{font-size:22px}}.verdict,.essence{{padding:24px 20px}}}}
 </style>'''
 HEAD = HEAD.replace('</style>', EXTRA_CSS, 1)
-FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
+FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a> · <a href="/vidzhet">Виджет для сайта</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
 </div>
 </body>
 </html>

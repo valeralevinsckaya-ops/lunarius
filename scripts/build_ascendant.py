@@ -12,7 +12,7 @@ SHARED = re.sub(r'<title>.*?</title>\n?|<meta name="description"[^>]*>\n?|<link 
 assert SHARED.startswith('<meta name="viewport"') and SHARED.endswith('</header>')
 P1 = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">'
 TAIL = '</div>\n</body>\n</html>\n'
-FOOT = '<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>'
+FOOT = '<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a> · <a href="/vidzhet">Виджет для сайта</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>'
 ELEM_COLOR = {'Огонь': '#F2768A', 'Земля': '#D9A93E', 'Воздух': '#5E8BF2', 'Вода': '#6E56CF'}
 BY = {s['slug']: s for s in SIGNS}
 e = html.escape

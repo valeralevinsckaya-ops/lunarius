@@ -102,7 +102,7 @@ footer{{margin-top:72px;padding:28px 0 0;border-top:1px solid rgba(110,86,207,.2
 <nav aria-label="Основное меню"><a href="/">Совместимость</a><a href="/natal">Натальная карта</a><a href="/ascendant">Асцендент</a><a href="/signs">Знаки</a><a href="/blog">Статьи</a></nav>
 </header>
 '''
-FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
+FOOT = '''<footer><span>© 2026 Lunarius.ru · <a href="mailto:info@lunarius.ru">info@lunarius.ru</a> · <a href="/privacy">Документы</a> · <a href="/vidzhet">Виджет для сайта</a></span><span>Сайт носит развлекательный характер и не заменяет консультацию специалиста</span></footer>
 </div>
 </body>
 </html>

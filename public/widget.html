@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Спидометр совместимости Lunarius: виджет</title>
+<meta name="description" content="Виджет спидометра совместимости Lunarius для вставки на сайт.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://lunarius.ru/vidzhet">
+<style>@font-face{font-family:'Manrope';src:url(/fonts/manrope.woff) format('woff');font-weight:200 800;font-display:swap}@font-face{font-family:'Oswald';src:url(/fonts/oswald.woff) format('woff');font-weight:200 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:'Manrope','Manrope Fallback',Arial,sans-serif;color:#2A2340;font-size:14px;line-height:1.45;background:#FBF8F3;background-image:radial-gradient(420px 300px at 100% 0%,rgba(242,180,120,.45),transparent 60%),radial-gradient(420px 340px at 0% 30%,rgba(197,178,247,.55),transparent 60%)}
+.w{max-width:560px;margin:0 auto;padding:16px 16px 12px}
+.hd{display:flex;align-items:center;gap:10px;text-decoration:none;color:#2A2340;margin-bottom:12px}
+.hd b{display:block;font-family:'Oswald','Oswald Fallback',Arial,sans-serif;font-weight:600;font-size:20px;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.hd span span{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5B44BD}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.p{background:rgba(255,255,255,.72);border:1.5px solid rgba(255,255,255,.95);border-radius:16px;padding:10px 12px;box-shadow:0 6px 18px rgba(91,68,189,.08)}
+.p h2{margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5B44BD}
+label{display:block;font-size:12px;color:#5E5675;margin:6px 0 3px}
+input[type=date],input[type=text]{width:100%;height:38px;border:1.5px solid rgba(110,86,207,.25);border-radius:10px;padding:0 10px;font:inherit;color:#2A2340;background:#fff}
+input:focus{outline:2px solid #6E56CF;outline-offset:1px}
+.ok{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#5E5675;margin:10px 2px}
+.ok input{margin-top:2px;accent-color:#6E56CF}
+.ok a{color:#5B44BD}
+button{width:100%;height:44px;border:0;border-radius:999px;background:#6E56CF;color:#fff;font:700 15px 'Manrope',Arial,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(110,86,207,.3)}
+button:hover{background:#5B44BD}
+button:disabled{opacity:.6;cursor:wait}
+.res{text-align:center;margin-top:10px}
+.g{width:100%;max-width:340px;height:auto;overflow:visible;display:block;margin:0 auto}
+#needle{transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.sc{font-family:'Oswald','Oswald Fallback',Arial,sans-serif;font-size:34px;font-weight:600;line-height:1;margin-top:2px;color:#5B44BD}
+.zn{font-weight:700;font-size:15px;margin-top:4px}
+.tx{color:#5E5675;font-size:13px;margin:6px auto 0;max-width:460px}
+.err{color:#C2410C;font-size:13px;margin-top:8px;min-height:1em}
+.more{display:inline-flex;align-items:center;min-height:40px;padding:0 18px;margin-top:10px;border-radius:999px;background:#2A2340;color:#FBF8F3;text-decoration:none;font-weight:700;font-size:13px}
+.ft{text-align:center;font-size:11px;color:#6B6380;margin-top:10px}
+.ft a{color:#5B44BD}
+@media (max-width:420px){.row{grid-template-columns:1fr}}
+</style>
+<!--meta:start-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lunarius">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Спидометр совместимости Lunarius: виджет">
+<meta property="og:description" content="Виджет спидометра совместимости Lunarius для вставки на сайт.">
+<meta property="og:url" content="https://lunarius.ru/widget">
+<meta property="og:image" content="https://lunarius.ru/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://lunarius.ru/"}, {"@type": "ListItem", "position": 2, "name": "Спидометр совместимости Lunarius: виджет", "item": "https://lunarius.ru/widget"}]}</script>
+<!--meta:end-->
+<!--fontfb:start--><style>@font-face{font-family:'Manrope Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 500;size-adjust:100.5%;ascent-override:106.1%;descent-override:29.9%;line-gap-override:0%}@font-face{font-family:'Manrope Fallback';src:local('Arial Bold'),local('Liberation Sans Bold'),local('Roboto Bold'),local('Helvetica Neue Bold');font-weight:600 800;size-adjust:98.5%;ascent-override:108.2%;descent-override:30.5%;line-gap-override:0%}@font-face{font-family:'Oswald Fallback';src:local('Arial'),local('Liberation Sans'),local('Roboto'),local('Helvetica Neue');font-weight:200 700;size-adjust:82%;ascent-override:145.5%;descent-override:35.2%;line-gap-override:0%}</style><!--fontfb:end-->
+</head>
+<body>
+<div class="w">
+<a class="hd" href="https://lunarius.ru/?utm_source=widget&amp;utm_medium=iframe" target="_blank" rel="noopener"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M3 19 A14 14 0 0 1 31 19" fill="none" stroke="#6E56CF" stroke-width="3" stroke-linecap="round"></path><line x1="17" y1="19" x2="25" y2="9" stroke="#2A2340" stroke-width="2.5" stroke-linecap="round"></line><circle cx="17" cy="19" r="2.5" fill="#2A2340"></circle></svg><span><b>Lunarius</b><span>Спидометр совместимости</span></span></a>
+<form id="f" novalidate>
+<div class="row">
+<div class="p"><h2>Вы</h2><label for="da">Дата рождения</label><input type="date" id="da" min="1900-01-01" max="2100-12-31" required><label for="ca">Город рождения</label><input type="text" id="ca" list="cl" value="Москва" autocomplete="off"></div>
+<div class="p"><h2>Партнер</h2><label for="db">Дата рождения</label><input type="date" id="db" min="1900-01-01" max="2100-12-31" required><label for="cb">Город рождения</label><input type="text" id="cb" list="cl" value="Москва" autocomplete="off"></div>
+</div>
+<datalist id="cl"></datalist>
+<label class="ok"><input type="checkbox" id="ok"><span>Согласен(на) на обработку данных о рождении для расчета по <a href="https://lunarius.ru/privacy" target="_blank" rel="noopener">политике конфиденциальности</a>. Данные не сохраняются.</span></label>
+<button type="submit" id="go">Проверить совместимость</button>
+<div class="err" id="err" role="alert"></div>
+</form>
+<div class="res" aria-live="polite">
+<svg viewBox="0 0 320 196" class="g" role="img" aria-label="Спидометр совместимости по шкале от -10 до +10"><defs><linearGradient id="gHero" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E8BF2"></stop><stop offset="0.32" stop-color="#9A6BF0"></stop><stop offset="0.5" stop-color="#C3A6F5"></stop><stop offset="0.72" stop-color="#F2768A"></stop><stop offset="1" stop-color="#F7B731"></stop></linearGradient><filter id="gHeroGlow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="7"></feGaussianBlur></filter></defs><path d="M30 160 A130 130 0 0 1 290 160" fill="none" stroke="url(#gHero)" stroke-width="30" stroke-linecap="round" filter="url(#gHeroGlow)" opacity="0.6"></path><path d="M30 160 A130 130 0 0 1 290 160" fill="none" stroke="url(#gHero)" stroke-width="24" stroke-linecap="round"></path><path d="M30 160 A130 130 0 0 1 290 160" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.45" transform="translate(0 -6)"></path><line x1="42.0" y1="160.0" x2="52.0" y2="160.0" stroke="#8C7AE6" stroke-width="1.5"></line><text x="68.0" y="164.0" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">-10</text><line x1="54.3" y1="107.6" x2="63.2" y2="112.0" stroke="#8C7AE6" stroke-width="1.5"></line><text x="77.6" y="123.2" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">-5</text><line x1="83.8" y1="69.9" x2="90.2" y2="77.6" stroke="#8C7AE6" stroke-width="1.5"></line><text x="100.6" y="93.8" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">-2</text><line x1="160.0" y1="42.0" x2="160.0" y2="52.0" stroke="#8C7AE6" stroke-width="1.5"></line><text x="160.0" y="72.0" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">0</text><line x1="236.2" y1="69.9" x2="229.8" y2="77.6" stroke="#8C7AE6" stroke-width="1.5"></line><text x="219.4" y="93.8" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">+2</text><line x1="265.7" y1="107.6" x2="256.8" y2="112.0" stroke="#8C7AE6" stroke-width="1.5"></line><text x="242.4" y="123.2" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">+5</text><line x1="278.0" y1="160.0" x2="268.0" y2="160.0" stroke="#8C7AE6" stroke-width="1.5"></line><text x="252.0" y="164.0" text-anchor="middle" font-size="11" font-weight="700" fill="#5E5675" font-family="Manrope, sans-serif">+10</text><path id="needle" d="M70 160 L92 149 L90 155.5 L160 154 L160 166 L90 164.5 L92 171 Z" fill="#2A2340" stroke="#2A2340" stroke-width="1.5" stroke-linejoin="round" transform="rotate(90 160 160)"></path><circle cx="160" cy="160" r="12" fill="#2A2340"></circle><circle cx="160" cy="160" r="4" fill="#FBF8F3"></circle><text x="30" y="192" text-anchor="middle" font-size="12" fill="#6B6380" font-family="Manrope, sans-serif">напряжение</text><text x="290" y="192" text-anchor="middle" font-size="12" fill="#6B6380" font-family="Manrope, sans-serif">гармония</text></svg>
+<div class="sc" id="sc">0,00</div>
+<div class="zn" id="zn">Укажите две даты рождения</div>
+<div class="tx" id="tx">Стрелка покажет общий тренд пары по шкале от -10 до +10. Без времени рождения расчет идет на полдень.</div>
+<a class="more" id="more" href="https://lunarius.ru/?utm_source=widget&amp;utm_medium=iframe" target="_blank" rel="noopener">Подробный разбор пары на Lunarius.ru</a>
+</div>
+<div class="ft">Расчет: <a href="https://lunarius.ru/?utm_source=widget&amp;utm_medium=iframe" target="_blank" rel="noopener">спидометр совместимости Lunarius</a></div>
+</div>
+<script>
+(function () {
+  var $ = function (i) { return document.getElementById(i); };
+  var ids = {}; ids['москва'] = 20;
+  var host = ''; try { host = new URL(document.referrer).hostname; } catch (e) {}
+  if (host) document.querySelectorAll('a[href*="utm_source=widget"]').forEach(function (a) { a.href += '&utm_campaign=' + encodeURIComponent(host); });
+  var t;
+  function suggest(e) {
+    var q = e.target.value.trim(); clearTimeout(t);
+    if (q.length < 2) return;
+    t = setTimeout(function () {
+      fetch('/api/cities?q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (list) {
+        var dl = $('cl'); dl.innerHTML = '';
+        list.forEach(function (c) { ids[c.label.toLowerCase()] = c.id; ids[c.name.toLowerCase()] = ids[c.name.toLowerCase()] == null ? c.id : ids[c.name.toLowerCase()]; var o = document.createElement('option'); o.value = c.label; dl.appendChild(o); });
+      }).catch(function () {});
+    }, 200);
+  }
+  $('ca').addEventListener('input', suggest); $('cb').addEventListener('input', suggest);
+  function city(v) { v = v.trim().toLowerCase(); return ids[v]; }
+  function angle(v) { var f = (1 + Math.sign(v) * Math.sqrt(Math.abs(v) / 10)) / 2; return f * 180; }
+  function fmt(v) { return (v > 0 ? '+' : '') + v.toFixed(2).replace('.', ','); }
+  $('f').addEventListener('submit', function (e) {
+    e.preventDefault(); $('err').textContent = '';
+    var a = $('da').value, b = $('db').value, ca = city($('ca').value), cb = city($('cb').value);
+    if (!a || !b) { $('err').textContent = 'Укажите обе даты рождения'; return; }
+    if (ca == null || cb == null) { $('err').textContent = 'Выберите город рождения из подсказок'; return; }
+    if (!$('ok').checked) { $('err').textContent = 'Отметьте согласие на обработку данных'; return; }
+    $('go').disabled = true;
+    fetch('/api/compatibility', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ consent: true, a: { date: a, cityId: ca }, b: { date: b, cityId: cb } }) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Ошибка расчета'); return j; }); })
+      .then(function (r) {
+        var v = r.trend.score;
+        $('needle').setAttribute('transform', 'rotate(' + angle(v).toFixed(1) + ' 160 160)');
+        $('sc').textContent = fmt(v); $('sc').style.color = v < 0 ? '#E8762E' : '#5B44BD';
+        $('zn').textContent = r.trend.zone; $('tx').textContent = r.trend.text;
+        try { parent.postMessage({ lunarius: 'done', score: v }, '*'); } catch (e) {}
+      })
+      .catch(function (er) { $('err').textContent = er.message || 'Ошибка расчета, попробуйте еще раз'; })
+      .then(function () { $('go').disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
