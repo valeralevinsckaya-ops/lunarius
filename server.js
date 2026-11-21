@@ -113,7 +113,7 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(PUBLIC, '404.html'), (err) => { if (err && !res.headersSent) res.type('text').send('Страница не найдена'); });
 });
 
-// --- IndexNow: при запуске на хостинге сообщаем Яндексу адреса из sitemap.
+// --- IndexNow: при запуске на хостинге сообщаем Яндексу и Bing адреса из sitemap.
 // Запуск происходит после каждого деплоя, то есть когда страницы могли измениться.
 // Ключ лежит в public/<ключ>.txt. Отключить (например, при запуске на своем компьютере): INDEXNOW=off npm start
 const INDEXNOW_KEY = '9952f21193d82752bb1c4449964a4d67';
@@ -123,13 +123,20 @@ async function pingIndexNow() {
     const xml = require('fs').readFileSync(path.join(PUBLIC, 'sitemap.xml'), 'utf8');
     const urlList = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     if (!urlList.length) return;
-    const r = await fetch('https://yandex.com/indexnow', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ host: 'lunarius.ru', key: INDEXNOW_KEY, keyLocation: `https://lunarius.ru/${INDEXNOW_KEY}.txt`, urlList }),
-    });
-    lastIndexNow = { at: new Date().toISOString(), status: r.status, urls: urlList.length };
-    console.log(`IndexNow: отправлено ${urlList.length} адресов, ответ ${r.status}`);
+    // Яндекс и Bing (через Bing адреса получают и другие участники IndexNow)
+    const body = JSON.stringify({ host: 'lunarius.ru', key: INDEXNOW_KEY, keyLocation: `https://lunarius.ru/${INDEXNOW_KEY}.txt`, urlList });
+    const engines = { yandex: 'https://yandex.com/indexnow', bing: 'https://www.bing.com/indexnow' };
+    const status = {};
+    for (const [name, url] of Object.entries(engines)) {
+      try {
+        const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body });
+        status[name] = r.status;
+      } catch (e) {
+        status[name] = 'ошибка: ' + String(e.message || e);
+      }
+    }
+    lastIndexNow = { at: new Date().toISOString(), status, urls: urlList.length };
+    console.log(`IndexNow: отправлено ${urlList.length} адресов, ответы ${JSON.stringify(status)}`);
   } catch (e) {
     lastIndexNow = { at: new Date().toISOString(), error: String(e.message || e) };
     console.log('IndexNow: не удалось отправить', e.message || e);

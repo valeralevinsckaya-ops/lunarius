@@ -145,8 +145,45 @@ def process(path):
     return True
 
 
+def structure(path):
+    """Тег <main> и уровни заголовков. Повторный запуск ничего не меняет."""
+    rel = os.path.relpath(path, PUB)
+    if rel.startswith('tpl') or rel.startswith('yandex_') or rel.startswith('google'):
+        return
+    s = open(path, encoding='utf-8').read()
+    orig = s
+    # <main> от конца шапки до подвала (для доступности и чтобы роботы видели основной текст)
+    if '<main' not in s and '</header>' in s and '<footer' in s:
+        a = s.find('</header>') + len('</header>')
+        b = s.rfind('<footer')
+        # если подвал лежит выше по вложенности, чем шапка, закрываем main там, где кончается ее контейнер
+        depth = 0
+        for m in re.finditer(r'<(/?)(div|section|article|aside)[\s>]', s[a:b]):
+            depth += -1 if m.group(1) else 1
+            if depth < 0:
+                b = a + m.start()
+                break
+        if a < b:
+            s = s[:a] + '<main>' + s[a:b] + '</main>' + s[b:]
+    # Карточки сразу под H1 (хабы /signs, /elements, /blog): их заголовки H3 шли раньше первого H2.
+    # Делаем их H2, а стили карточек распространяем на H2.
+    i = s.find('</h1>')
+    if i != -1:
+        nxt = re.search(r'<h([2-6])[\s>]', s[i:])
+        if nxt and nxt.group(1) == '3':
+            j = s.find('<h2', i)
+            j = len(s) if j == -1 else j
+            seg = re.sub(r'<h3(?=[\s>])', '<h2', s[i:j]).replace('</h3>', '</h2>')
+            s = s[:i] + seg + s[j:]
+            for cls in ('card', 'cardl', 'ecard'):
+                s = s.replace('.%s h3{' % cls, '.%s h3,.%s h2{' % (cls, cls))
+    if s != orig:
+        open(path, 'w', encoding='utf-8').write(s)
+
+
 _pages = glob.glob(os.path.join(PUB, '**', '*.html'), recursive=True)
 n = sum(process(p) for p in _pages)
 for _p in _pages:
     font_fallback(_p)
+    structure(_p)
 print('meta:', n, 'pages')
