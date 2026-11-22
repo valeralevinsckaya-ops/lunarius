@@ -20,6 +20,9 @@ from blog_d import D
 from blog_extra import EXTRA
 from blog_extra2 import EXTRA2
 from blog_extra3 import EXTRA3
+from blog_extra5 import EXTRA5
+from blog_extra6 import EXTRA6
+from blog_extra7 import EXTRA7
 out_dir = os.path.join(ROOT, 'public/blog'); os.makedirs(out_dir, exist_ok=True)
 IMAGES = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces']
 articles = []
@@ -27,7 +30,7 @@ for a in A + B + C + D:
     body = a['body'].strip()
     if a['slug'] in EXTRA:
         i = body.rfind('<h2>')
-        body = body[:i] + EXTRA[a['slug']].strip() + '\n' + EXTRA2.get(a['slug'], '').strip() + '\n' + EXTRA3.get(a['slug'], '').strip() + '\n' + body[i:]
+        body = body[:i] + EXTRA[a['slug']].strip() + '\n' + EXTRA2.get(a['slug'], '').strip() + '\n' + EXTRA3.get(a['slug'], '').strip() + '\n' + EXTRA5.get(a['slug'], '').strip() + '\n' + EXTRA6.get(a['slug'], '').strip() + '\n' + EXTRA7.get(a['slug'], '').strip() + '\n' + body[i:]
     # все блоки «Частые вопросы» сводим в один перед последним разделом и размечаем как FAQ
     parts = re.split(r'(?=<h2>)', body)
     faq = [x for x in parts if x.startswith('<h2>Частые вопросы</h2>')]

@@ -1,9 +1,9 @@
-# Собирает разделы «Луна в знаках» (/luna) и «Венера в знаках» (/venera).
+# Собирает разделы «Луна, Венера, Марс, Сатурн, Меркурий в знаках» (/luna, /venera, /mars, /saturn, /merkuriy).
 # Тексты: docs/moon_signs.py, docs/venus_signs.py. Оформление со страницы стихий, как у раздела «Дома».
 import os, sys, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'docs'))
-import moon_signs, venus_signs, planets_extra as PX
+import moon_signs, venus_signs, mars_signs, saturn_signs, mercury_signs, planets_extra as PX
 from signs_content import SIGNS
 P = os.path.join(ROOT, 'public')
 LOC = {'oven': 'Овне', 'telec': 'Тельце', 'bliznecy': 'Близнецах', 'rak': 'Раке', 'lev': 'Льве', 'deva': 'Деве', 'vesy': 'Весах',
@@ -34,6 +34,7 @@ ELN = {'Огонь': 'огненных', 'Земля': 'земных', 'Возд
 EL_SIGNS = {}
 for _s in SIGNS: EL_SIGNS.setdefault(_s['element'], []).append(_s['name'])
 ORDER = [x['slug'] for x in SIGNS]
+mod_sat = saturn_signs
 def extra(slug_p, k, s, name, loc):
     if slug_p == 'luna':
         st, home = PX.MOON[k]
@@ -41,8 +42,19 @@ def extra(slug_p, k, s, name, loc):
         return (f'<h2 id="stress">{name} в {loc} <em>в стрессе</em></h2><div class="sec glass"><div class="wide"><p>{st}</p></div></div>'
                 f'<h2 id="dom">Дом, семья <em>и дети</em></h2><div class="sec glass"><div class="wide"><p>{home}</p></div></div>'
                 f'<h2 id="solnce">{name} в {loc} <em>и знак Солнца</em></h2><p class="lead" style="margin:0 0 12px;font-size:15px">Знак Солнца показывает волю и цели, Луна потребности. Вот как Луна в {loc} сочетается с Солнцем в разных стихиях.</p><div class="sec glass">' + rows + '</div>')
-    style, money = PX.VENUS[k]
     i = ORDER.index(k)
+    el = ''
+    if slug_p in PX.ELEM:
+        el = f'<h2 id="stihiya">{name} в {ELN[s["element"]]} <em>знаках</em></h2><div class="sec glass"><div class="wide"><p>{PX.ELEM[slug_p][s["element"]]}</p></div></div>'
+    if slug_p == 'mars':
+        return el
+    if slug_p == 'saturn':
+        return el + (f'<h2 id="gody">Годы рождения <em>с Сатурном в {loc}</em></h2><div class="sec glass"><div class="wide"><p>Сатурн идет по знаку около 2,5 лет, поэтому {name} в {loc} есть у всех, кто родился в эти годы: {mod_sat.P[k]["years"]}. Если вы родились на границе периода, проверьте знак Сатурна в <a href="/natal">натальной карте</a>: из-за попятного движения Сатурн может вернуться в прошлый знак на несколько месяцев.</p></div></div>')
+    if slug_p == 'merkuriy':
+        suns = [SIGNS[(i + d) % 12] for d in (-1, 0, 1)]
+        lst = ', '.join(f'<a href="/signs/{x["slug"]}">{x["name"]}</a>' for x in suns)
+        return el + (f'<h2 id="u-kogo">У каких знаков <em>бывает {name} в {loc}</em></h2><div class="sec glass"><div class="wide"><p>Меркурий не отходит от Солнца дальше 28 градусов, поэтому {name} в {loc} встречается только у трех знаков Солнца: {lst}. У {GEN[k]} Меркурий в своем знаке, и мысли совпадают с характером. У соседних знаков он добавляет к их мышлению черты {GEN[k]}.</p></div></div>')
+    style, money = PX.VENUS[k]
     suns = [SIGNS[(i + d) % 12] for d in (-2, -1, 0, 1, 2)]
     lst = ', '.join(f'<a href="/signs/{x["slug"]}">{x["name"]}</a>' for x in suns)
     return (f'<h2 id="stil">Вкус <em>и стиль</em></h2><div class="sec glass"><div class="wide"><p>{style}</p></div></div>'
@@ -52,8 +64,15 @@ def extra(slug_p, k, s, name, loc):
 PLANETS = [
     ('luna', 'Луна', 'Луны', moon_signs, 'Луна в знаках', '/blog/luna-v-sinastrii', 'Луна в синастрии'),
     ('venera', 'Венера', 'Венеры', venus_signs, 'Венера в знаках', '/blog/venera-v-sinastrii', 'Венера в синастрии'),
+    ('mars', 'Марс', 'Марса', mars_signs, 'Марс в знаках', '/blog/venera-mars-sinastriya', 'Венера и Марс в синастрии'),
+    ('saturn', 'Сатурн', 'Сатурна', saturn_signs, 'Сатурн в знаках', '/blog/sinastriya', 'Синастрия'),
+    ('merkuriy', 'Меркурий', 'Меркурия', mercury_signs, 'Меркурий в знаках', '/blog/sinastriya', 'Синастрия'),
 ]
-CTA = '<div class="cta" style="margin-top:36px"><b>Узнать свою {gen} и совместимость</b><a href="/natal">Рассчитать натальную карту</a></div>'
+ACC = {'luna': 'Луну', 'venera': 'Венеру', 'mars': 'Марс', 'saturn': 'Сатурн', 'merkuriy': 'Меркурий'}
+POS = {'luna': 'свою', 'venera': 'свою', 'mars': 'свой', 'saturn': 'свой', 'merkuriy': 'свой'}
+TAIL = {'luna': 'в любви и совместимости', 'venera': 'в любви и совместимости', 'mars': 'в страсти и конфликтах', 'saturn': 'в карьере и страхах, годы рождения', 'merkuriy': 'в учебе, работе и общении'}
+SPH = {'mars': ('в страсти и спорте', 'в конфликте'), 'saturn': ('в карьере', ': страхи и уроки'), 'merkuriy': ('в учебе и работе', 'в споре')}
+CTA = '<div class="cta" style="margin-top:36px"><b>Узнать {gen} и совместимость</b><a href="/natal">Рассчитать натальную карту</a></div>'
 
 count = 0
 for slug_p, name, gen_p, mod, section, art, art_t in PLANETS:
@@ -62,7 +81,7 @@ for slug_p, name, gen_p, mod, section, art, art_t in PLANETS:
     for s in SIGNS:
         k = s['slug']; t = mod.P[k]; loc = LOC[k]
         title = f'{name} в {loc} у женщины и мужчины | Lunarius'
-        desc = f'{name} в {loc} в натальной карте: характер, {name} в {loc} у женщины и у мужчины, в любви и совместимости, сильные стороны и советы.'
+        desc = f'{name} в {loc} в натальной карте: характер, {name} в {loc} у женщины и у мужчины, {TAIL[slug_p]}, сильные стороны и советы.'
         assert len(desc) <= 160 and len(title) <= 71, (k, len(desc), len(title))
         nav = '<div class="hn">' + ''.join(f'<a href="/{slug_p}/{x["slug"]}"{" class=\"on\"" if x["slug"] == k else ""}>{name} в {LOC[x["slug"]]}</a>' for x in SIGNS) + '</div>'
         body = (f'<main>\n<p class="crumbs"><a href="/">Главная</a> · <a href="/{slug_p}">{section}</a> · {name} в {loc}</p>'
@@ -71,20 +90,22 @@ for slug_p, name, gen_p, mod, section, art, art_t in PLANETS:
                 f'<h2 id="znachenie">Что значит {name} <em>в {loc}</em></h2><div class="sec glass">' + ''.join(f'<div class="wide"><p>{p}</p></div>' for p in t['about']) + '</div>'
                 f'<h2 id="zhenshchina">{name} в {loc} <em>у женщины</em></h2><div class="sec glass"><div class="wide"><p>{t["woman"]}</p></div></div>'
                 f'<h2 id="muzhchina">{name} в {loc} <em>у мужчины</em></h2><div class="sec glass"><div class="wide"><p>{t["man"]}</p></div></div>'
-                f'<h2 id="lyubov">{name} в {loc} <em>в любви</em></h2><div class="sec glass"><div class="wide"><p>{t["love"]}</p></div></div>'
+                + (f'<h2 id="lyubov">{name} в {loc} <em>в любви</em></h2><div class="sec glass"><div class="wide"><p>{t["love"]}</p></div></div>' if 'love' in t else
+                   f'<h2 id="sfera">{name} в {loc} <em>{SPH[slug_p][0]}</em></h2><div class="sec glass"><div class="wide"><p>{t["sphere"]}</p></div></div>'
+                   f'<h2 id="trudnosti">{name} в {loc}<em>{" " if not SPH[slug_p][1].startswith(":") else ""}{SPH[slug_p][1]}</em></h2><div class="sec glass"><div class="wide"><p>{t["conflict"]}</p></div></div>')
                 + extra(slug_p, k, s, name, loc) +
                 f'<h2 id="plyusy">Сильные стороны <em>и сложности</em></h2><div class="sec glass">'
                 f'<div><h3>Сильные стороны</h3><ul>' + ''.join(f'<li>{x[0].upper() + x[1:]}</li>' for x in t['plus']) + '</ul></div>'
                 f'<div><h3>Сложности</h3><ul>' + ''.join(f'<li>{x[0].upper() + x[1:]}</li>' for x in t['minus']) + '</ul></div></div>'
-                f'<h2 id="sovmestimost">Совместимость: <em>{name} в {loc}</em></h2><div class="sec glass"><div class="wide"><p>{t["match"]}</p>'
+                f'<h2 id="sovmestimost">Совместимость: <em>{name} в {loc}</em></h2><div class="sec glass"><div class="wide">' + (f'<p>{t["match"]}</p>' if t.get('match') and 'статье «' not in t['match'] else '') +
                 f'<p style="margin-top:10px">Полную картину пары дает синастрия всех планет, ее считает <a href="/">спидометр совместимости</a>. Подробнее в статье <a href="{art}">{art_t}</a>.</p></div></div>'
                 f'<h2 id="sovety">Советы <em>для {gen_p} в {loc}</em></h2><div class="sec glass"><div class="wide"><p>{t["advice"]}</p></div></div>'
                 f'<h2 id="voprosy">Частые <em>вопросы</em></h2>' + faq(t['faq'])
-                + CTA.format(gen=name[:-1] + 'у')
+                + CTA.format(gen=POS[slug_p] + ' ' + ACC[slug_p])
                 + f'<h2 style="margin-top:48px">{section}</h2>' + nav +
-                f'<p style="margin:24px 0 0;font-size:15px;color:#5E5675">Читайте также: <a href="/signs/{k}">знак {GEN[k]}</a>, <a href="/{other[0]}/{k}">{other[1]} в {loc}</a>, <a href="/doma">дома в натальной карте</a>, <a href="/natal">натальная карта онлайн</a>.</p>'
+                f'<p style="margin:24px 0 0;font-size:15px;color:#5E5675">Читайте также: <a href="/signs/{k}">знак {GEN[k]}</a>, ' + ', '.join(f'<a href="/{o[0]}/{k}">{o[1]} в {loc}</a>' for o in PLANETS if o[0] != slug_p) + f', <a href="/doma">дома в натальной карте</a>, <a href="/natal">натальная карта онлайн</a>.</p>'
                 '</main>')
-        page = head(title, desc, f'/{slug_p}/{k}') + body + FOOT
+        page = re.sub(r'(?<![а-яА-Я])([вВ]) Льве', r'\1о Льве', head(title, desc, f'/{slug_p}/{k}') + body + FOOT)
         assert 'ё' not in page and '—' not in page, k
         open(os.path.join(out, k + '.html'), 'w', encoding='utf-8').write(page); count += 1
     h = mod.HUB
@@ -93,8 +114,9 @@ for slug_p, name, gen_p, mod, section, art, art_t in PLANETS:
            f'<h1 class="list">{h["h1"]}</h1><p class="lead">{h["lead"]}</p><div class="grid">{cards}</div>'
            f'<h2 id="chto">{name} <em>в натальной карте</em></h2><div class="sec glass">' + ''.join(f'<div><h3>{a}</h3><p>{b}</p></div>' for a, b in h['intro']) + '</div>'
            '<h2 id="voprosy">Частые <em>вопросы</em></h2>' + faq(h['faq'])
-           + CTA.format(gen=name[:-1] + 'у')
-           + f'<p style="margin:24px 0 0;font-size:15px;color:#5E5675">Другие разделы: <a href="/{other[0]}">{other[4]}</a>, <a href="/doma">дома в натальной карте</a>, <a href="/signs">знаки зодиака</a>, <a href="/ascendant">Асцендент</a>.</p></main>' + FOOT)
+           + CTA.format(gen=POS[slug_p] + ' ' + ACC[slug_p])
+           + f'<p style="margin:24px 0 0;font-size:15px;color:#5E5675">Другие разделы: ' + ', '.join(f'<a href="/{o[0]}">{o[4]}</a>' for o in PLANETS if o[0] != slug_p) + f', <a href="/doma">дома в натальной карте</a>, <a href="/signs">знаки зодиака</a>, <a href="/ascendant">Асцендент</a>.</p></main>' + FOOT)
+    hub = re.sub(r'(?<![а-яА-Я])([вВ]) Льве', r'\1о Льве', hub)
     assert 'ё' not in hub and '—' not in hub
     open(os.path.join(out, 'index.html'), 'w', encoding='utf-8').write(hub); count += 1
 print('planets:', count)
