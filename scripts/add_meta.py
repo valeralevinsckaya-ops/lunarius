@@ -90,6 +90,7 @@ def process(path):
         tags.append(f'<link rel="canonical" href="{full}">')
     if rel == 'index.html':
         tags.append('<meta name="msvalidate.01" content="3692369FBDC7EFDF2ED863E77175A327">')  # Bing Webmaster
+        tags.append('<meta name="p:domain_verify" content="137475fa50973139095b458a29dbd17e">')  # Pinterest
     tags += [
         f'<meta property="og:type" content="{"article" if is_article else "website"}">',
         '<meta property="og:site_name" content="Lunarius">',
