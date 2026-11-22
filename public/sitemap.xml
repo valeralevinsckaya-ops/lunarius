@@ -8,6 +8,8 @@
   <url><loc>https://lunarius.ru/compat</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/blog</loc><lastmod>2026-11-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://lunarius.ru/doma</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/vidzhet</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lunarius.ru/signs/bliznecy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/signs/deva</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -49,6 +51,30 @@
   <url><loc>https://lunarius.ru/doma/7-dom</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/doma/8-dom</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/doma/9-dom</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/bliznecy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/deva</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/kozerog</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/lev</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/oven</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/rak</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/ryby</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/skorpion</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/strelec</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/telec</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/vesy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/luna/vodoley</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/bliznecy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/deva</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/kozerog</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/lev</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/oven</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/rak</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/ryby</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/skorpion</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/strelec</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/telec</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/vesy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lunarius.ru/venera/vodoley</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lunarius.ru/compat/bliznecy-bliznecy</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://lunarius.ru/compat/bliznecy-deva</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://lunarius.ru/compat/bliznecy-kozerog</loc><lastmod>2026-11-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
