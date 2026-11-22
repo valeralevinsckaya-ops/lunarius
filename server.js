@@ -96,6 +96,9 @@ function sectionIndex(req, res, next) {
   if ((req.method !== 'GET' && req.method !== 'HEAD') || !/^\/[a-z0-9-]+$/.test(req.path)) return next();
   res.sendFile(path.join(PUBLIC, req.path.slice(1), 'index.html'), { maxAge: '1h' }, (err) => { if (err) next(); });
 }
+// --- статья о домах заменена разделом /doma
+const MOVED = { '/blog/doma-v-natalnoy-karte': '/doma' };
+app.use((req, res, next) => (MOVED[req.path] ? res.redirect(301, MOVED[req.path]) : next()));
 app.use(sectionIndex);
 app.use('/fonts', express.static(path.join(PUBLIC, 'fonts'), { maxAge: '365d', immutable: true })); // свои шрифты Oswald и Manrope
 app.use('/img', express.static(path.join(PUBLIC, 'img'), { maxAge: '30d' })); // картинки знаков меняются редко

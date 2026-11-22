@@ -1,5 +1,5 @@
 # Собирает страницы блога из docs/blog-articles-edited.html (выгрузка Google Doc) в public/blog/
-import re, os, html
+import re, os, html, sys
 
 def make_lead(t, n=170):
     t = t.strip()
@@ -12,33 +12,36 @@ def make_lead(t, n=170):
     return cut + '...'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 METRIKA = open(os.path.join(ROOT, 'design/metrika.html'), encoding='utf-8').read()
-src = open(os.path.join(ROOT, 'docs/blog-articles-edited.html'), encoding='utf-8').read()
+sys.path.insert(0, os.path.join(ROOT, 'docs'))
+from blog_a import A
+from blog_b import B
+from blog_c import C
+from blog_d import D
+from blog_extra import EXTRA
+from blog_extra2 import EXTRA2
+from blog_extra3 import EXTRA3
 out_dir = os.path.join(ROOT, 'public/blog'); os.makedirs(out_dir, exist_ok=True)
-
 IMAGES = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces']
-TAGS = {'natalnaya-karta': 'Натальная карта', 'sovmestimost-po-date-rozhdeniya': 'Совместимость', 'ascendent': 'Натальная карта', 'sovmestimost-znakov-zodiaka': 'Знаки',
-        'sinastriya': 'Основы', 'doma-v-natalnoy-karte': 'Натальная карта', 'venera-v-sinastrii': 'Притяжение', 'luna-v-sinastrii': 'Эмоции', 'aspekty-v-natalnoy-karte': 'Аспекты'}
-
-# разбиваем на статьи по карточкам "Статья N."
-parts = re.split(r'(?=<p><b>Статья \d+\.</b>)', src)[1:]
 articles = []
-for part in parts:
-    m_url = re.search(r'<p>URL: lunarius\.ru/blog/([a-z0-9-]+)</p>', part)
-    m_title = re.search(r'<p>Title: (.*?)</p>', part)
-    m_desc = re.search(r'<p>Description: (.*?)</p>', part)
-    m_h1 = re.search(r'<h1>(.*?)</h1>', part)
-    body = part[m_h1.end():]
-    body = re.sub(r'<p><b>Статья.*', '', body, flags=re.S)
-    # списки: подряд идущие <li> оборачиваем в <ul>
-    body = re.sub(r'((?:<li>.*?</li>\n?)+)', lambda m: '<ul>' + m.group(1) + '</ul>', body)
-    # внутренние ссылки на статьи
-    body = body.replace('lunarius.ru/privacy', '<a href="/privacy">lunarius.ru/privacy</a>')
-    # таблица
-    body = body.replace('<table>', '<div class="tbl"><table>').replace('</table>', '</table></div>')
-    body = re.sub(r'<table><tr>(.*?)</tr>', lambda m: '<table><tr>' + m.group(1).replace('<td>', '<th>').replace('</td>', '</th>') + '</tr>', body, count=1, flags=re.S)
+for a in A + B + C + D:
+    body = a['body'].strip()
+    if a['slug'] in EXTRA:
+        i = body.rfind('<h2>')
+        body = body[:i] + EXTRA[a['slug']].strip() + '\n' + EXTRA2.get(a['slug'], '').strip() + '\n' + EXTRA3.get(a['slug'], '').strip() + '\n' + body[i:]
+    # все блоки «Частые вопросы» сводим в один перед последним разделом и размечаем как FAQ
+    parts = re.split(r'(?=<h2>)', body)
+    faq = [x for x in parts if x.startswith('<h2>Частые вопросы</h2>')]
+    if faq:
+        rest = [x for x in parts if not x.startswith('<h2>Частые вопросы</h2>')]
+        qa = ''.join(x[len('<h2>Частые вопросы</h2>'):].strip() for x in faq)
+        block = '<h2>Частые вопросы</h2><section id="faq">' + qa + '</section>\n'
+        body = ''.join(rest[:-1]) + block + rest[-1]
+    # первая строка каждой таблицы - заголовок
+    body = re.sub(r'<table>\s*<tr>(.*?)</tr>', lambda m: '<table><tr>' + m.group(1).replace('<td>', '<th>').replace('</td>', '</th>') + '</tr>', body, flags=re.S)
     first_p = re.search(r'<p>(.*?)</p>', body, re.S)
-    articles.append({'slug': m_url.group(1), 'title': html.unescape(m_title.group(1)), 'desc': html.unescape(m_desc.group(1)), 'h1': m_h1.group(1), 'body': body.strip(),
-                     'lead': make_lead(re.sub(r'<[^>]+>', '', first_p.group(1))) if first_p else ''})
+    articles.append(dict(a, body=body, lead=make_lead(html.unescape(re.sub(r'<[^>]+>', '', first_p.group(1)))) if first_p else ''))
+TAGS = {a['slug']: a['tag'] for a in articles}
+assert len({a['slug'] for a in articles}) == len(articles)
 
 HEAD = '''<!doctype html>
 <html lang="ru">
@@ -73,7 +76,7 @@ article{{max-width:820px;margin:0 auto;padding:48px 56px}}
 article h1{{margin:0 0 20px;font-family:'Oswald',sans-serif;font-weight:600;font-size:48px;line-height:1.05;text-transform:uppercase}}
 article h2{{margin:40px 0 12px;font-family:'Oswald',sans-serif;font-weight:600;font-size:30px;line-height:1.1;text-transform:uppercase}}
 article h3{{margin:28px 0 8px;font-family:'Oswald',sans-serif;font-weight:500;font-size:21px;text-transform:uppercase;letter-spacing:.02em}}
-article p,article li{{font-size:16px}}article p{{margin:0 0 14px}}article ul{{margin:0 0 14px;padding-left:22px}}article li{{margin:0 0 6px}}
+article p,article li{{font-size:16px}}article p{{margin:0 0 14px}}article ul,article ol{{margin:0 0 14px;padding-left:22px}}article li{{margin:0 0 6px}}
 .tag{{display:inline-block;padding:4px 12px;border-radius:999px;background:#E2D5FA;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3E2C8F;margin-bottom:16px}}
 .tbl{{overflow:auto;margin:0 0 14px}}table{{border-collapse:collapse;width:100%;font-size:14px}}th,td{{padding:10px 12px;border:1px solid #D8CDEE;text-align:left;vertical-align:top}}th{{background:rgba(226,213,250,.6);font-family:'Oswald',sans-serif;text-transform:uppercase;font-weight:500}}
 .cta{{margin:40px 0 0;padding:24px 28px;border-radius:24px;background:linear-gradient(135deg,#6E56CF,#9A6BF0 60%,#F2768A);color:#fff;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}}
@@ -111,7 +114,7 @@ def card(a, i):
     return f'<a class="cardl glass" href="/blog/{a["slug"]}"><img src="/img/{IMAGES[i % 12]}.webp" alt="" loading="lazy"><div><span class="tag" style="margin:0;align-self:flex-start">{TAGS.get(a["slug"], "Статья")}</span><h3>{a["h1"]}</h3><p>{html.escape(a["lead"])}</p><span class="more">Читать статью →</span></div></a>'
 
 for i, a in enumerate(articles):
-    cta_natal = a['slug'] in ('natalnaya-karta', 'ascendent', 'doma-v-natalnoy-karte', 'aspekty-v-natalnoy-karte')
+    cta_natal = a.get('cta') == 'natal'
     cta = ('<div class="cta"><b>Рассчитать натальную карту</b><a href="/natal">Открыть</a></div>' if cta_natal else '<div class="cta"><b>Проверить совместимость пары</b><a href="/">Запустить спидометр</a></div>')
     others = [x for x in articles if x['slug'] != a['slug']]
     rel = others[i % len(others):][:3] if len(others) >= 3 else others

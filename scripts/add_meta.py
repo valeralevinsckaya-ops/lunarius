@@ -9,8 +9,8 @@ IMG = SITE + '/og-image.jpg'
 START, END = '<!--meta:start-->', '<!--meta:end-->'
 TODAY = datetime.date.today().isoformat()
 SECTIONS = {'blog': ('Блог', '/blog'), 'signs': ('Знаки зодиака', '/signs'), 'compat': ('Совместимость знаков', '/compat'),
-            'ascendant': ('Асцендент', '/ascendant'), 'elements': ('Стихии', '/elements')}
-ARTICLE_SECTIONS = ('blog', 'signs', 'compat', 'ascendant', 'elements')
+            'ascendant': ('Асцендент', '/ascendant'), 'elements': ('Стихии', '/elements'), 'doma': ('Дома', '/doma')}
+ARTICLE_SECTIONS = ('blog', 'signs', 'compat', 'ascendant', 'elements', 'doma')
 # дата изменения статьи берется из sitemap (lastmod), дата публикации - из истории git (первый коммит файла)
 import subprocess
 try:
