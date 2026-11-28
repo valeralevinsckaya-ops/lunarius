@@ -33,8 +33,8 @@
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
   var SIGN_IDX = { aries: 0, taurus: 1, gemini: 2, cancer: 3, leo: 4, virgo: 5, libra: 6, scorpio: 7, sagittarius: 8, capricorn: 9, aquarius: 10, pisces: 11 };
   function sgl(k) { return k in SIGN_IDX ? '<span class="gl">' + SIGN_GLYPH[SIGN_IDX[k]] + '\uFE0E</span>' : ''; }
-  function tablesHtml(r) {
-    var h = '<details class="ctables" open><summary><span class="hd">Скрыть таблицы</span><span class="sh">Показать таблицы: планеты, дома, аспекты</span></summary><div class="g2" style="margin-top:16px">';
+  function planetsTable(r) {
+    var h = '';
     var rows = r.planets.map(function (p) {
       return '<tr><td><span class="gl" style="color:' + PCOLOR[p.key] + '">' + GLYPH[p.key] + '</span> ' + (p.more ? '<a href="' + p.more.url + '">' + esc(p.name) + '</a>' : esc(p.name)) + (p.retro ? ' <span class="retro">R</span>' : '') + '</td><td>' + sgl(p.sign) + ' ' + esc(p.signName) + '</td><td class="num">' + esc(p.degree) + '</td><td class="num">' + (p.house || '') + '</td></tr>';
     }).join('');
@@ -43,7 +43,10 @@
       rows += '<tr><td><span class="gl">AC</span> <a href="' + r.big3.asc.url + '">Асцендент</a></td><td>' + sgl(r.big3.asc.signKey) + ' ' + esc(r.big3.asc.sign) + '</td><td class="num">' + esc(r.big3.asc.degree) + '</td><td class="num">1</td></tr>';
       rows += '<tr><td><span class="gl">MC</span> Середина неба</td><td>' + sgl(r.big3.mc.signKey) + ' ' + esc(r.big3.mc.sign) + '</td><td class="num">' + esc(r.big3.mc.degree) + '</td><td class="num">10</td></tr>';
     }
-    h += '<div class="ctbl"><table><caption>Планеты</caption><tr><th>Планета</th><th>Знак</th><th>Градус</th><th>Дом</th></tr>' + rows + '</table></div>';
+    return '<div class="ctbl"><table><caption>Планеты</caption><tr><th>Планета</th><th>Знак</th><th>Градус</th><th>Дом</th></tr>' + rows + '</table></div>';
+  }
+  function housesTable(r) {
+    var h = '';
     if (r.houses) {
       var ANG = { 1: ' (AC)', 4: ' (IC)', 7: ' (DC)', 10: ' (MC)' };
       h += '<div class="ctbl"><table><caption>Дома (Плацидус)</caption><tr><th>Дом</th><th>Куспид</th><th>Управитель</th><th>Дом упр.</th></tr>' + r.houses.map(function (x) {
@@ -52,14 +55,17 @@
     } else {
       h += '<div class="ctbl"><table><caption>Дома</caption><tr><td style="white-space:normal">Без времени рождения дома и Асцендент не рассчитываются.</td></tr></table></div>';
     }
-    h += '</div>';
+    return h;
+  }
+  function aspectsTable(r) {
+    var h = '';
     if (r.aspects.length) {
-      h += '<div class="ctbl" style="margin-top:20px"><table><caption>Аспекты</caption><tr><th>Планета</th><th>Аспект</th><th>Планета</th><th>Орбис</th></tr>' + r.aspects.map(function (a) {
+      h += '<div class="ctbl"><table><caption>Аспекты</caption><tr><th>Планета</th><th>Аспект</th><th>Планета</th><th>Орбис</th></tr>' + r.aspects.map(function (a) {
         var c = a.nature === 'harmony' ? 'is-h' : a.nature === 'tension' ? 'is-t' : 'is-c';
         return '<tr><td>' + esc(a.a) + '</td><td class="' + c + '">' + esc(a.type) + '</td><td>' + esc(a.b) + '</td><td class="num">' + a.orb.toFixed(1).replace('.', ',') + '°</td></tr>';
       }).join('') + '</table></div>';
     }
-    return h + '</details>';
+    return h;
   }
   function link(url, text) { return url && text ? '<a class="plink" href="' + url + '">' + esc(text) + '</a>' : ''; }
   function moreHtml(m) {
@@ -149,12 +155,11 @@
     var lonOf = {}; r.planets.forEach(function (p) { lonOf[p.name] = p.lon; });
     if (r.big3.asc) { lonOf['Асцендент'] = r.wheel.asc; lonOf['Середина неба'] = r.wheel.mc; }
     var aspLines = r.aspects.filter(function (a) { return a.orb <= 4; }).map(function (a) { return { la: lonOf[a.a], lb: lonOf[a.b], nature: a.nature }; });
-    html += '<div class="wheel-wrap"><div class="card wheel-card" style="padding:16px 16px 12px">' + (r.svg || wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines })) + '<p class="wheel-cap" id="wheel-cap">Наведите на знак, чтобы увидеть планеты в нем</p></div>';
-    html += '<div class="card"><span class="who">Планеты</span><div class="plist">' + r.planets.map(function (p) {
+    html += '<div class="wheel-wrap"><div class="card wheel-card" style="padding:16px 16px 12px">' + (r.svg || wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines })) + '<p class="wheel-cap" id="wheel-cap">Наведите на знак, чтобы увидеть планеты в нем</p></div>' + planetsTable(r) + '</div>';
+    html += '<div class="g2 tables2">' + housesTable(r) + aspectsTable(r) + '</div>';
+    html += '<h3 class="r-sub">Расшифровка планет</h3><div class="card"><div class="plist pgrid">' + r.planets.map(function (p) {
       return '<div class="prow"><b style="color:' + PCOLOR[p.key] + '">' + esc(p.name) + '</b><span class="pos">' + esc(p.signName) + ' ' + esc(p.degree) + (p.retro ? '<span class="retro">R</span>' : '') + '</span><span class="house">' + (p.house ? p.house + ' дом' : '') + '</span><p class="pabout">' + esc(p.about || '') + '</p><p class="ptext">' + esc(p.signText) + (p.elemText ? ' ' + esc(p.elemText) : '') + (p.dignity ? ' ' + esc(p.dignity) : '') + '</p>' + (p.houseText ? '<p class="ptext">' + esc(p.houseText) + '</p>' : '') + (p.retroText ? '<p class="ptext">' + esc(p.retroText) + '</p>' : '') + moreHtml(p.more) + '</div>';
-    }).join('') + '<div class="prow"><b>Сев. узел</b><span class="pos">' + esc(r.node.signName) + ' ' + esc(r.node.degree) + '</span><span class="house">' + (r.node.house ? r.node.house + ' дом' : '') + '</span><p class="pabout">Северный узел показывает направление развития: качества, которые нужно осваивать в течение жизни.</p><p class="ptext">' + esc(r.node.text || '') + '</p></div></div></div></div>';
-    // таблицы: планеты, дома, аспекты
-    html += tablesHtml(r);
+    }).join('') + '<div class="prow"><b>Сев. узел</b><span class="pos">' + esc(r.node.signName) + ' ' + esc(r.node.degree) + '</span><span class="house">' + (r.node.house ? r.node.house + ' дом' : '') + '</span><p class="pabout">Северный узел показывает направление развития: качества, которые нужно осваивать в течение жизни.</p><p class="ptext">' + esc(r.node.text || '') + '</p></div></div></div>';
     // стихии
     var names = { fire: 'Огонь', earth: 'Земля', air: 'Воздух', water: 'Вода' }, cols = { fire: '#F2768A', earth: '#D9A93E', air: '#5E8BF2', water: '#6E56CF' };
     html += '<div class="card"><span class="who">Баланс стихий</span><div class="bal" style="margin-top:10px">' + Object.keys(r.balance.count).map(function (k) { return '<span><i style="background:' + cols[k] + '"></i>' + names[k] + ': ' + r.balance.count[k] + '</span>'; }).join('') + '</div>' + (r.balance.notes.length ? '<p style="margin-top:12px">' + r.balance.notes.map(esc).join(' ') + '</p>' : '<p style="margin-top:12px">Стихии распределены ровно: ни одна не перевешивает.</p>') + (r.balance.modes ? '<div class="bal" style="margin-top:14px"><span>Кардинальные: ' + r.balance.modes.cardinal + '</span><span>Фиксированные: ' + r.balance.modes.fixed + '</span><span>Мутабельные: ' + r.balance.modes.mutable + '</span></div><p style="margin-top:12px">' + (r.balance.modeNotes.length ? r.balance.modeNotes.map(esc).join(' ') : 'Кресты распределены ровно: вы умеете и начинать, и удерживать, и меняться.') + '</p>' : '') + ((r.balance.hemi || []).length ? '<p style="margin-top:12px">' + r.balance.hemi.map(esc).join(' ') + '</p>' : '') + '</div>';
