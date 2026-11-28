@@ -155,11 +155,11 @@
     var lonOf = {}; r.planets.forEach(function (p) { lonOf[p.name] = p.lon; });
     if (r.big3.asc) { lonOf['Асцендент'] = r.wheel.asc; lonOf['Середина неба'] = r.wheel.mc; }
     var aspLines = r.aspects.filter(function (a) { return a.orb <= 4; }).map(function (a) { return { la: lonOf[a.a], lb: lonOf[a.b], nature: a.nature }; });
-    html += '<div class="wheel-wrap"><div class="card wheel-card" style="padding:16px 16px 12px">' + (r.svg || wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines })) + '<p class="wheel-cap" id="wheel-cap">Наведите на знак, чтобы увидеть планеты в нем</p></div>' + planetsTable(r) + '</div>';
-    html += '<div class="g2 tables2">' + housesTable(r) + aspectsTable(r) + '</div>';
-    html += '<h3 class="r-sub">Расшифровка планет</h3><div class="card"><div class="plist pgrid">' + r.planets.map(function (p) {
+    html += '<div class="wheel-wrap"><div class="card wheel-card" style="padding:16px 16px 12px">' + (r.svg || wheel({ planets: r.wheel.planets, cusps: r.wheel.cusps, asc: r.wheel.asc, mc: r.wheel.mc, aspects: aspLines })) + '<p class="wheel-cap" id="wheel-cap">Наведите на знак, чтобы увидеть планеты в нем</p></div>';
+    html += '<div class="card pscroll" id="pscroll"><span class="who">Расшифровка планет</span><div class="plist">' + r.planets.map(function (p) {
       return '<div class="prow"><b style="color:' + PCOLOR[p.key] + '">' + esc(p.name) + '</b><span class="pos">' + esc(p.signName) + ' ' + esc(p.degree) + (p.retro ? '<span class="retro">R</span>' : '') + '</span><span class="house">' + (p.house ? p.house + ' дом' : '') + '</span><p class="pabout">' + esc(p.about || '') + '</p><p class="ptext">' + esc(p.signText) + (p.elemText ? ' ' + esc(p.elemText) : '') + (p.dignity ? ' ' + esc(p.dignity) : '') + '</p>' + (p.houseText ? '<p class="ptext">' + esc(p.houseText) + '</p>' : '') + (p.retroText ? '<p class="ptext">' + esc(p.retroText) + '</p>' : '') + moreHtml(p.more) + '</div>';
-    }).join('') + '<div class="prow"><b>Сев. узел</b><span class="pos">' + esc(r.node.signName) + ' ' + esc(r.node.degree) + '</span><span class="house">' + (r.node.house ? r.node.house + ' дом' : '') + '</span><p class="pabout">Северный узел показывает направление развития: качества, которые нужно осваивать в течение жизни.</p><p class="ptext">' + esc(r.node.text || '') + '</p></div></div></div>';
+    }).join('') + '<div class="prow"><b>Сев. узел</b><span class="pos">' + esc(r.node.signName) + ' ' + esc(r.node.degree) + '</span><span class="house">' + (r.node.house ? r.node.house + ' дом' : '') + '</span><p class="pabout">Северный узел показывает направление развития: качества, которые нужно осваивать в течение жизни.</p><p class="ptext">' + esc(r.node.text || '') + '</p></div></div></div></div>';
+    html += '<div class="g2 tables2">' + planetsTable(r) + housesTable(r) + '</div>' + (r.aspects.length ? '<div class="tables2">' + aspectsTable(r) + '</div>' : '');
     // стихии
     var names = { fire: 'Огонь', earth: 'Земля', air: 'Воздух', water: 'Вода' }, cols = { fire: '#F2768A', earth: '#D9A93E', air: '#5E8BF2', water: '#6E56CF' };
     html += '<div class="card"><span class="who">Баланс стихий</span><div class="bal" style="margin-top:10px">' + Object.keys(r.balance.count).map(function (k) { return '<span><i style="background:' + cols[k] + '"></i>' + names[k] + ': ' + r.balance.count[k] + '</span>'; }).join('') + '</div>' + (r.balance.notes.length ? '<p style="margin-top:12px">' + r.balance.notes.map(esc).join(' ') + '</p>' : '<p style="margin-top:12px">Стихии распределены ровно: ни одна не перевешивает.</p>') + (r.balance.modes ? '<div class="bal" style="margin-top:14px"><span>Кардинальные: ' + r.balance.modes.cardinal + '</span><span>Фиксированные: ' + r.balance.modes.fixed + '</span><span>Мутабельные: ' + r.balance.modes.mutable + '</span></div><p style="margin-top:12px">' + (r.balance.modeNotes.length ? r.balance.modeNotes.map(esc).join(' ') : 'Кресты распределены ровно: вы умеете и начинать, и удерживать, и меняться.') + '</p>' : '') + ((r.balance.hemi || []).length ? '<p style="margin-top:12px">' + r.balance.hemi.map(esc).join(' ') + '</p>' : '') + '</div>';
@@ -176,6 +176,10 @@
     html += '<p class="note">' + esc(r.note) + ' Орбисы: соединение 8°, трин и оппозиция 7°, квадрат 6°, секстиль 5°, для Солнца и Луны на 1,5° шире. Чем меньше орбис, тем сильнее аспект.</p>';
     var box = $('result'); box.innerHTML = html; box.hidden = false;
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // блок расшифровки рядом с колесом: высота как у колеса, прокручивается отдельно
+    var ps = $('pscroll'), wc = box.querySelector('.wheel-card');
+    function fitPs() { if (!ps || !wc) return; ps.style.maxHeight = window.innerWidth > 1100 ? wc.offsetHeight + 'px' : ''; }
+    fitPs(); window.addEventListener('resize', fitPs);
     // наведение на знак: увеличение сектора и подпись
     var cap = $('wheel-cap'), groups = box.querySelectorAll('.sg');
     function on(g) { groups.forEach(function (x) { x.classList.remove('on'); }); g.parentNode.appendChild(g); g.classList.add('on'); if (cap) cap.textContent = g.getAttribute('data-title'); }
