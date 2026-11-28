@@ -184,7 +184,26 @@ def structure(path):
 
 _pages = glob.glob(os.path.join(PUB, '**', '*.html'), recursive=True)
 n = sum(process(p) for p in _pages)
+
+
+def asset_version(path):
+    # Версия к локальным скриптам (/natal.js?v=хеш): после деплоя браузер берет новый файл,
+    # а не копию из кэша (Cache-Control: max-age=3600).
+    import hashlib
+    s = open(path, encoding='utf-8').read()
+    def ver(m):
+        f = os.path.join(PUB, m.group(1))
+        if not os.path.exists(f):
+            return m.group(0)
+        h = hashlib.md5(open(f, 'rb').read()).hexdigest()[:8]
+        return 'src="/' + m.group(1) + '?v=' + h + '"'
+    new = re.sub(r'src="/([a-z0-9_-]+\.js)(?:\?v=[0-9a-f]+)?"', ver, s)
+    if new != s:
+        open(path, 'w', encoding='utf-8').write(new)
+
+
 for _p in _pages:
     font_fallback(_p)
     structure(_p)
+    asset_version(_p)
 print('meta:', n, 'pages')
